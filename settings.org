@@ -68,7 +68,8 @@ Color-theme-modern has many different themes.
   (use-package color-theme-modern :ensure t
     :config
     (load-theme 'goldenrod t t)
-    (enable-theme 'goldenrod))
+    (load-theme 'cobalt t t)
+    (enable-theme 'cobalt))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -222,7 +223,7 @@ Code completion has two main alternatives, company and corfu, trying both.
 Let;s start using eglot [2025-01-03 Fri]
 
 #+begin_src emacs-lisp
-  (use-package project) ; Workaround
+  (use-package project) ; Workaround - eglot needs?
   (use-package eglot)
 
 #+end_src
@@ -247,36 +248,56 @@ nil in :init
 Avy mode has some other options, like char-1
 
 #+begin_src emacs-lisp
-  (use-package helm
-    :init (setq tab-bar-tab-name-function nil)
-    :bind
-    (("M-x"     . helm-M-x)
-     ("M-y"     . helm-show-kill-ring)
-     ("C-x C-b" . helm-mini)
-                                          ;("C-x C-f" . helm-find-files)
-     ("M-i"     . helm-swoop)
-     ("M-s o"   . helm-occur)))
+      (use-package helm
+        :disabled
+        :init (setq tab-bar-tab-name-function nil)
+        :bind
+        (("M-x"     . helm-M-x)
+         ("M-y"     . helm-show-kill-ring)
+         ("C-x C-b" . helm-mini)
+                                              ;("C-x C-f" . helm-find-files)
+                 ("M-s o"   . helm-occur)))
+      (use-package helm-swoop
+        :disabled
+        :bind
+         ("M-i"     . helm-swoop))
 
-  (use-package ido
-    :config
-    (ido-mode t)
-    (setq ido-use-filename-at-point 'guess)
-    (setq ido-create-new-buffer 'always)
-    (if (< emacs-major-version 25)
-        (setq ido-separator "\n")
-      (setf (nth 2 ido-decorations) "\n"))
-    (setq ido-max-window-height 0.5)
-    (setq ido-enable-flext-matching t)
-    (setq ido-everywhere t)
-    (setq ido-file-extension-order '(".tcl" ".org" ".el"))
-    (setq ido-ignore-directories '(".git"))
-    :bind
-    (("C-x C-f" . 'ido-find-file)
-     ("C-x d"   . 'ido-dired)))
+      (use-package ido
+        :disabled
+        :config
+        (ido-mode t)
+        (setq ido-use-filename-at-point 'guess)
+        (setq ido-create-new-buffer 'always)
+        (if (< emacs-major-version 25)
+            (setq ido-separator "\n")
+          (setf (nth 2 ido-decorations) "\n"))
+        (setq ido-max-window-height 0.5)
+        (setq ido-enable-flext-matching t)
+        (setq ido-everywhere t)
+        (setq ido-file-extension-order '(".tcl" ".org" ".el"))
+        (setq ido-ignore-directories '(".git"))
+        :bind
+        (("C-x C-f" . 'ido-find-file)
+         ("C-x d"   . 'ido-dired)))
 
-  (use-package avy
-    :bind
-    (("C-:" . 'avy-goto-char-2)))
+      (use-package vertico
+        :custom
+        (vertico-cycle t)
+        :init
+        (vertico-mode))
+      (use-package marginalia
+        :after vertico
+        :ensure t
+        :custom (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+        :init
+        (marginalia-mode))
+      (use-package savehist
+        :init
+        (savehist-mode))
+
+      (use-package avy
+        :bind
+        (("C-:" . 'avy-goto-char-2)))
 #+end_src
 
 ** Coloring of keywords and marking random text + fic
@@ -467,11 +488,13 @@ The helm-org below I've not got to work yet, not sure what it does !
 *** Org roam for "brain" functionality
 
 This peackage seems to need some SQL functionality compiled with
-emacs, or installed in unix.
+emacs, or installed in unix. 
 
 #+begin_src emacs-lisp
   (when (> emacs-major-version 28)
     ;(require 'emacsql nil :noerror)
+    (use-package emacsql :ensure t)
+    ;(use-package emacsql-sqlite)
     (use-package org-roam
       :init
       (setq org-roam-v2-ack t)
@@ -714,4 +737,10 @@ Candidates for keys are
   (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
 #+end_src
 
+** Move all customizations to local file, leaving init.el untouched
+
+#+begin_src emacs-lisp
+  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+  (load custom-file 'noerror 'nomessage)
+#+end_src
 * End of file

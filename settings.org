@@ -509,6 +509,41 @@ emacs, or installed in unix.
       :config
       (org-roam-setup)))
 #+end_src
+*** Journal setup - one per month
+
+Try to be more active with journals, fast key, and one per month (week?)
+
+#+begin_src emacs-lisp
+  (defun open-journal-file ()
+    (let* ((today (format-time-string "%Y-%m"))
+           (path (concat (getenv "HOME") "/path/to/my/journal/" today ".org"))
+           (hdr-list (list (concat "#+TITLE: [" today "]")
+                           "#+OPTIONS: toc:nil num:nil author:nil date:nil"
+                           "#+STARTUP: align"
+                           "#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" />"
+                           "#+LaTeX_CLASS: article"
+                           "#+LaTeX_CLASS_OPTIONS: [9pt,twocolumn,portrait]"
+                           "#+LATEX_HEADER: \\usepackage[margin=0.5in]{geometry}"
+                           "#+LATEX_HEADER: \\usepackage{enumitem}"))
+           (hdr (apply 'concat
+                       (mapcar (lambda (s) (concat s "\n"))
+                               hdr-list)))
+           (has-hdr (lambda ()
+                      (save-excursion
+                        (goto-char (point-min))
+                        (search-forward "#+TITLE" nil t)))))
+      (message (concat "opening " path " ..."))
+      (find-file path)
+      (unless (funcall has-hdr)
+        (save-excursion
+          (goto-char (point-min))
+          (insert hdr)))
+      (message "Enjoy your journaling!")))
+  (global-set-key "\C-o"
+                  (lambda ()
+                    (interactive)
+                    (open-journal-file)))
+#+end_src
 ** Hydra mode setup for keybinding selections
 
 Hydra allows a menu for a key or keyseq. bind-key has not really been used yet.

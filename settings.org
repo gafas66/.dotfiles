@@ -56,6 +56,9 @@ Will use use-package, apparently "straight" is an alternative to this.
 #+end_src
 
 * Installing packages
+#+begin_example
+(use-package eglot)
+#+end_example
 ** Presentation fonts/colors/tabs/themes
 *** Installing a theme collection
 
@@ -223,8 +226,9 @@ Code completion has two main alternatives, company and corfu, trying both.
 Let;s start using eglot [2025-01-03 Fri]
 
 #+begin_src emacs-lisp
-  (use-package project) ; Workaround - eglot needs?
-  (use-package eglot)
+  ;(use-package project) ; Workaround - eglot needs?
+  ;(require 'project)
+  ;(use-package eglot)
 
 #+end_src
 ** Project management
@@ -387,23 +391,23 @@ Here follows setup with coloring and bullets for orgmode. Not sure yet about the
        (font-lock-add-keywords 'org-mode
                                '(("^ +\\([-*]\\) "
                                   (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-     (defcustom org-bullets-bullet-list
-       '(;;; Large
-         ;; "◉"
-         ;; "○"
-         ;; "✸"
-         ;; "✿"
-         ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
-         ;;; Small
-         "►"
-         "•"
-         "★"
-         "▸"
-         )
-       "List of bullets used in Org headings.
-     It can contain any number of symbols, which will be repeated."
-       :group 'org-bullets
-       :type '(repeat (string :tag "Bullet character")))
+;     (defcustom org-bullets-bullet-list
+;       '(;;; Large
+;         ;; "◉"
+;         ;; "○"
+;         ;; "✸"
+;         ;; "✿"
+;         ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
+;         ;;; Small
+;         "►"
+;         "•"
+;         "★"
+;         "▸"
+;         )
+;       "List of bullets used in Org headings.
+;     It can contain any number of symbols, which will be repeated."
+;       :group 'org-bullets
+;       :type '(repeat (string :tag "Bullet character")))
 
        (when window-system
          (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
@@ -762,7 +766,7 @@ Setup text resolution based on what we can figure out about the current system.
 
                                           ; Set according to screen resolution
   (cond ((> height 1590) (set-face-attribute 'default nil :height 110))
-        ((= height 1080) (set-face-attribute 'default nil :height 60))
+        ((= height 1080) (set-face-attribute 'default nil :height 80))
         (t nil))
 #+end_src
 

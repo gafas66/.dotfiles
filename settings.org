@@ -700,6 +700,10 @@ Connect buffer to server is for example for bb --nrepl-server
   (show-paren-mode t)
   (put 'erase-buffer 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
+  ;; Stop any ui dialogs
+  (setq use-dialog-box nil)
+  (global-auto-revert-mode 1)
+  (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 ** Emacs shell setup

@@ -19,12 +19,12 @@ needed for downloading packages, and have recently (3-4 years)
 expired, so recent emacs versions may not have the most recent keys.
 
 The algorithm priority is a workaround.
-
+                        
 For package-check-signature, 'allow-unsigned is the default, but this
 does not always work.
 
 #+begin_src emacs-lisp
-  (add-to-list 'load-path "~/init/lisp") ; NOTE My local lisps
+  (add-to-list 'load-path "~/init/.emacs.d/lisp") ; NOTE My local lisps
 
   (require 'package)
 
@@ -68,11 +68,16 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
+  ;(set-frame-font "Sans Serif" nil t)
   (use-package color-theme-modern :ensure t
     :config
     (load-theme 'goldenrod t t)
-    (load-theme 'cobalt t t)
-    (enable-theme 'cobalt))
+    ;(load-theme 'cobalt t t)
+    (enable-theme 'goldenrod)
+    )
+  ;(add-to-list 'default-frame-alist '(foreground-color . "#E0DFDB"))
+  ;(add-to-list 'default-frame-alist '(background-color . "#102372"))
+  ;(add-to-list 'default-frame-alist '(background-color . "SandyBrown"))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -252,56 +257,59 @@ nil in :init
 Avy mode has some other options, like char-1
 
 #+begin_src emacs-lisp
-      (use-package helm
-        :disabled
-        :init (setq tab-bar-tab-name-function nil)
-        :bind
-        (("M-x"     . helm-M-x)
-         ("M-y"     . helm-show-kill-ring)
-         ("C-x C-b" . helm-mini)
-                                              ;("C-x C-f" . helm-find-files)
-                 ("M-s o"   . helm-occur)))
-      (use-package helm-swoop
-        :disabled
-        :bind
-         ("M-i"     . helm-swoop))
+  (use-package helm
+    ;:disabled
+    :init (setq tab-bar-tab-name-function nil)
+    :bind
+    (
+     ;("M-x"     . helm-M-x)
+     ("M-y"     . helm-show-kill-ring)
+     ("C-x C-b" . helm-mini)
+     ;("C-x C-f" . helm-find-files) ; using vertico
+     ("M-s o"   . helm-occur)
+     ))
+  (use-package helm-swoop
+    ;:disabled
+    :bind
+     ("M-i"     . helm-swoop))
 
-      (use-package ido
-        :disabled
-        :config
-        (ido-mode t)
-        (setq ido-use-filename-at-point 'guess)
-        (setq ido-create-new-buffer 'always)
-        (if (< emacs-major-version 25)
-            (setq ido-separator "\n")
-          (setf (nth 2 ido-decorations) "\n"))
-        (setq ido-max-window-height 0.5)
-        (setq ido-enable-flext-matching t)
-        (setq ido-everywhere t)
-        (setq ido-file-extension-order '(".tcl" ".org" ".el"))
-        (setq ido-ignore-directories '(".git"))
-        :bind
-        (("C-x C-f" . 'ido-find-file)
-         ("C-x d"   . 'ido-dired)))
+  (use-package ido
+    :disabled
+    :config
+    (ido-mode t)
+    (setq ido-use-filename-at-point 'guess)
+    (setq ido-create-new-buffer 'always)
+    (if (< emacs-major-version 25)
+        (setq ido-separator "\n")
+      (setf (nth 2 ido-decorations) "\n"))
+    (setq ido-max-window-height 0.5)
+    (setq ido-enable-flext-matching t)
+    (setq ido-everywhere t)
+    (setq ido-file-extension-order '(".tcl" ".org" ".el"))
+    (setq ido-ignore-directories '(".git"))
+    :bind
+    (("C-x C-f" . 'ido-find-file)
+     ("C-x d"   . 'ido-dired)))
 
-      (use-package vertico
-        :custom
-        (vertico-cycle t)
-        :init
-        (vertico-mode))
-      (use-package marginalia
-        :after vertico
-        :ensure t
-        :custom (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-        :init
-        (marginalia-mode))
-      (use-package savehist
-        :init
-        (savehist-mode))
+  (use-package vertico
+    :custom
+    (vertico-cycle t)
+    :init
+    (vertico-mode))
+  (use-package marginalia
+    :after vertico
+    :ensure t
+    :custom (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+    :init
+    (marginalia-mode))
+  (use-package savehist
+    :init
+    (savehist-mode))
 
-      (use-package avy
-        :bind
-        (("C-:" . 'avy-goto-char-2)))
+  ; Fast jump to any character in any window
+  (use-package avy
+    :bind
+    (("C-:" . 'avy-goto-char-2)))
 #+end_src
 
 ** Coloring of keywords and marking random text + fic
@@ -334,6 +342,7 @@ Perhaps use :bind to improve readability below?
     (add-hook 'org-agenda-mode-hook 'hl-line-mode)
     (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
     (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
+    (define-key org-mode-map (kbd "C-,") 'hydra-comma/body)
     (define-key global-map "\C-cl" 'org-store-link)
     (define-key global-map "\C-ca" 'org-agenda)
     (define-key global-map "\C-cc" 'org-capture)
@@ -385,48 +394,48 @@ It seems the ob-tcl does not exist, as it should?
 Here follows setup with coloring and bullets for orgmode. Not sure yet about the fonts and their sizes.
 
 #+begin_src emacs-lisp
-     (use-package org-bullets
-         :config
-         (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-       (font-lock-add-keywords 'org-mode
-                               '(("^ +\\([-*]\\) "
-                                  (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-;     (defcustom org-bullets-bullet-list
-;       '(;;; Large
-;         ;; "◉"
-;         ;; "○"
-;         ;; "✸"
-;         ;; "✿"
-;         ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
-;         ;;; Small
-;         "►"
-;         "•"
-;         "★"
-;         "▸"
-;         )
-;       "List of bullets used in Org headings.
-;     It can contain any number of symbols, which will be repeated."
-;       :group 'org-bullets
-;       :type '(repeat (string :tag "Bullet character")))
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (font-lock-add-keywords 'org-mode
+                          '(("^ +\\([-*]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+  (defcustom org-bullets-bullet-list
+    '(;;; Large
+      ;; "◉"
+      ;; "○"
+      ;; "✸"
+      ;; "✿"
+      ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
+             ;;; Small
+      "►"
+      "•"
+      "★"
+      "▸"
+      )
+    "List of bullets used in Org headings.
+         It can contain any number of symbols, which will be repeated."
+    :group 'org-bullets
+    :type '(repeat (string :tag "Bullet character")))
 
-       (when window-system
-         (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-                                      ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-                                      ((x-list-fonts "Verdana")         '(:font "Verdana"))
-                                      ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-                                      (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-                (base-font-color     (face-foreground 'default nil 'default))
-                (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
-           (custom-theme-set-faces 'user
-                                   `(org-level-8 ((t (,@headline ,@variable-tuple))))
-                                   `(org-level-7 ((t (,@headline ,@variable-tuple))))
-                                   `(org-level-6 ((t (,@headline ,@variable-tuple))))
-                                   `(org-level-5 ((t (,@headline ,@variable-tuple))))
-                                   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-                                   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.2))))
-                                   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.3))))
-                                   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.4))))
-                                   `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil)))))))
+  ;  (if nil (when window-system
+  ;            (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+  ;                                         ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+  ;                                        ((x-list-fonts "Verdana")         '(:font "Verdana"))
+  ;                                        ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+  ;                                        (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+  ;                   (base-font-color     (face-foreground 'default nil 'default))
+  ;                   (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+  ;              (custom-theme-set-faces 'user
+  ;                                      `(org-level-8 ((t (,@headline ,@variable-tuple))))
+  ;                                      `(org-level-7 ((t (,@headline ,@variable-tuple))))
+  ;                                      `(org-level-6 ((t (,@headline ,@variable-tuple))))
+  ;                                      `(org-level-5 ((t (,@headline ,@variable-tuple))))
+  ;                                      `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+  ;                                      `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.2))))
+  ;                                      `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.3))))
+  ;                                      `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.4))))
+  ;                                     `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))))
 #+end_src
 
 *** Unicode pretty symbols

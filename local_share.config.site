@@ -1,0 +1,1 @@
+export PKG_CONFIG_PATH=/home/kofoed/.local/lib/pkgconfig:/home/kofoed/.local/lib64/pkgconfig

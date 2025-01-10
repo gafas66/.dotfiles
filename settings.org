@@ -471,14 +471,13 @@ Here are templates for capturing tasks for December 2024, focused on VEC project
   (setq outline-minor-mode-cycle t)
 
   (setq org-capture-templates
-        '(("t" "General task"       entry (file+regexp org-default-notes-file "Tasks") "* TODO %?\n  %i\nSCHEDULED: %t  %a")
-          ("c" "C2C task"           entry (file+headline "~/init/org/vec.org.gpg" "C2C tasks" ) "* TODO %?\nSCHEDULED: %t  %i\n  %a")
-          ("p" "PCIE task"          entry (file+headline "~/init/org/vec.org.gpg" "PCIE tasks") "* TODO %?\n  %i\nSCHEDULED: %t  %a")
-          ("v" "VEC top-level task" entry (file+regexp "~/init/org/vec.org.gpg" "VEC Top.*" ) "* TODO %?\n  %i\nSCHEDULED: %t  %a")
-          ("e" "Emacs task"         entry (file+headline "~/init/org/home.org.gpg" "Emacs Tasks") "* TODO %?\nSCHEDULED: %t  %i\n  %a")
-          ("l" "Clojure task"       entry (file+headline "~/init/org/home.org.gpg" "Clojure Tasks") "* TODO %?\nSCHEDULED: %t  %i\n  %a")
-          ("j" "Journal"            entry (file+datetree "~/init/org/journal.org.gpg")
-           "* %?\nEntered on %U\n%i\n  %a")))
+        '(("t" "General task"       entry (file+regexp org-default-notes-file "Tasks")              "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("c" "C2C task"           entry (file+headline "~/init/org/vec.org.gpg" "C2C tasks" )     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("p" "PCIE task"          entry (file+headline "~/init/org/vec.org.gpg" "PCIE tasks")     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("v" "VEC top-level task" entry (file+regexp "~/init/org/vec.org.gpg" "VEC Top.*" )       "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("e" "Emacs task"         entry (file+headline "~/init/org/home.org.gpg" "Emacs Tasks")   "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("l" "Clojure task"       entry (file+headline "~/init/org/home.org.gpg" "Clojure Tasks") "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("j" "Journal"            entry (file+datetree "~/init/org/journal.org.gpg")             "* %?\nEntered on %U\n%i\n  %a")))
 
   (setq org-agenda-custom-commands
         '(("u" "Untagged tasks" tags-todo "-{.*}")))
@@ -774,7 +773,7 @@ Setup text resolution based on what we can figure out about the current system.
       (setq height 1080)))
 
                                           ; Set according to screen resolution
-  (cond ((> height 1590) (set-face-attribute 'default nil :height 110))
+  (cond ((> height 1590) (set-face-attribute 'default nil :height 120))
         ((= height 1080) (set-face-attribute 'default nil :height 80))
         (t nil))
 #+end_src

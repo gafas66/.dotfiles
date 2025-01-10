@@ -14,8 +14,6 @@ alias l="ls -lh $COLOR"
 alias ll="ls -lha $COLOR"
 alias lt="ls -lhat $COLOR | head -40"
 
-alias emacs=/usr/bin/emacs # NOTE Override local version for now
-
 alias g="ps axf | grep -v grep | grep $1"
 
 alias pd=pushd

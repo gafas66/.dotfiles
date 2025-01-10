@@ -4,7 +4,7 @@
 source $HOME/.alias
 source $HOME/.alias_local
 
-export PATH=${HOME}/bin:${HOME}/usr/local/bin:${PATH}
+export PATH=${HOME}/bin:${HOME}/.local/bin:${PATH}
 
 export CDPATH=
 export CDPATH="$CDPATH:/home/EPI/project/EUPILOT/VEC/usr/esk"

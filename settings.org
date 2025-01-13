@@ -138,7 +138,7 @@ Use centaur tabs when version is 27 or newer
 *** install icons for use in org, modelines, and tabs
 
 Download nerd-icons package, this requires to run
-nerd-icons-install-fonts is required. [[id:b7c9ceed-d471-441e-a0d4-9be860760441][Icons]]
+nerd-icons-install-fonts is required.
 
 #+begin_src emacs-lisp
   (use-package nerd-icons

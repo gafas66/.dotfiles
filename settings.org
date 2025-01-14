@@ -171,7 +171,7 @@ spacemacs.
     :init (doom-modeline-mode 1))
 #+end_src
 
-** Shell and programming
+** Shell inside emacs and programming
 
 Using *eat* as main shell for now, works reasonably well, and seems to
 be a better term emulator than ansi-term. Treemacs makes projects
@@ -720,6 +720,8 @@ Connect buffer to server is for example for bb --nrepl-server
 
 ** Emacs shell setup
 
+Normal (non-eat) emacs shell (not eshell)
+
 #+begin_src emacs-lisp
   (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -735,6 +737,26 @@ Connect buffer to server is for example for bb --nrepl-server
   (add-hook 'term-mode-hook (lambda () (define-key term-raw-map (kbd "M-0") 'treemacs-select-window)))
   (add-hook 'term-mode-hook (lambda () (define-key term-raw-map (kbd "M-x") 'helm-M-x)))
   (add-hook 'term-mode-hook (lambda () (define-key term-raw-map (kbd "M-RET") 'shell-resync-dirs)))
+#+end_src
+
+** Dumb terminals
+
+This is for putty on windows 10
+putty: "dumb"
+debian, rocky,xterm: "eterm-color"
+
+#+begin_src emacs-lisp
+  
+  (unless (and (window-system) (string= "dumb" (getenv "TERM")))
+    (bind-key "M-[ B"   'next-line)
+    (bind-key "M-[ A"   'previous-line)
+    (bind-key "M-[ C"   'right-char)
+    (bind-key "M-[ D"   'left-char)
+    (bind-key "<right>" 'centaur-tabs-forward)
+    (bind-key "<left>"  'centaur-tabs-backward)
+    (bind-key "M-[ z"   'backtab)
+    (bind-key "M-[ z"   'org-shifttab org-mode-map)
+    )
 #+end_src
 
 ** Other functions like ek-set mode and inital text size

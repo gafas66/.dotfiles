@@ -2,7 +2,7 @@
 ; Emacs init file
 ;--------------------------------------------------------------------------------
 
-(org-babel-load-file "~/init/settings.org")
+(org-babel-load-file "~/.dotfiles/settings.org")
 
 ; End of file
 ;--------------------------------------------------------------------------------

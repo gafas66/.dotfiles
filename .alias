@@ -27,7 +27,7 @@ alias d="dirs -v"
 
 # Git shorts
 alias gs='git status'
-alias gc='git commit -a -m "General Update"'
+alias gc='git commit -a -m "todo;general"'
 #alias gpl='git pull'
 #alias gph='git push'
 alias gpr='git config --get remote.origin.url'

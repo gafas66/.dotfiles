@@ -23,21 +23,11 @@ then
 fi
 [[ -z ${INSIDE_EMACS+x} ]] || export TERM=$x && unset x
 
-export __RED="\[\033[0;31m\]"
-export __GREEN="\[\033[0;32m\]"
-export __BROWN="\[\033[0;33m\]"
-export __BLUE="\[\033[0;34m\]"
-export __PURPLE="\[\033[0;35m\]"
-export __CYAN="\[\033[0;36m\]"
-export __LIGHT_GRAY="\[\033[0;37m\]"
-export __LIGHT_BLUE="\[\033[1;34m\]"
-export __LIGHT_GREEN="\[\033[1;32m\]"
-export __LIGHT_CYAN="\[\033[1;36m\]"
-export __LIGHT_RED="\[\033[1;31m\]"
-export __LIGHT_PURPLE="\[\033[1;35m\]"
-export __YELLOW="\[\033[1;33m\]"
-export __WHITE="\[\033[1;37m\]"
-export __RESTORE="\[\033[0m\]" #0m restores to the terminal's default colour
+# EAT SHELL INTEGRATION
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
+# Use dsc009 as main machine over dsc005 - alternative should be dsc001 or so
+[[ -z ${INSIDE_EMACS+x} ]] && [[ \"$(hostname)\" == \"dsc005\" ]] && ssh dsc009
 
 #PROMPT_DIRTRIM=1
 PROMPT_COMMAND='\
@@ -45,11 +35,7 @@ BRANCH="";\
 if git branch &> /dev/null; then \
     BRANCH="git:$(git branch 2> /dev/null | grep \* | cut -d " " -f 2)";\
 fi;\
-PS1="\h\s ${__YELLOW}${BRANCH}${__RESTORE} \w\n$ ";'
-
-# EAT mode shell directory tracking?
-#[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
-#    source "$EAT_SHELL_INTEGRATION_DIR/bash"
+PS1="\h\s \[\033[0;32m\]${BRANCH}\[\033[0m\] \w\n$ ";'
 
 # End
 ################################################################################

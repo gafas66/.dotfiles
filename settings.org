@@ -171,7 +171,7 @@ spacemacs.
     :init (doom-modeline-mode 1))
 #+end_src
 
-** Shell inside emacs and programming
+** EAT Shell inside emacs and cider programming
 
 Using *eat* as main shell for now, works reasonably well, and seems to
 be a better term emulator than ansi-term. Treemacs makes projects
@@ -181,28 +181,11 @@ easier.
   (use-package cider)
   (use-package eat
     :config
+    (setq eat-enable-directory-tracking t)
     (define-key eat-semi-char-mode-map (kbd "M-o") 'ace-window)
     (define-key eat-semi-char-mode-map (kbd "M-0") 'treemacs-select-window)
     (define-key eat-semi-char-mode-map (kbd "M-a")
-      (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
-    (define-key eat-semi-char-mode-map (kbd "M-RET")
-      (lambda ()
-        (interactive)
-        (setq tmp "~/.tmp_emcs_dir")
-        (eat-term-send-string eat-terminal (concat "pwd > " tmp))
-        (eat-self-input 1 'return)
-        (message (concat "TMP -> " tmp))
-        (setq ek/dir (string-trim (with-temp-buffer (insert-file-contents tmp) (buffer-string))))
-        (cd ek/dir)
-        (delete-file tmp)))
-    (add-hook 'window-configuration-change-hook
-              (lambda ()
-                (when (string-equal major-mode "eat-mode")
-                  (unless (bound-and-true-p called-once)
-                                          ;(eat-term-send-string eat-terminal "exec $SHELL -l")
-                    (eat-term-send-string eat-terminal "if [[ \"$(hostname)\" == \"dsc005\" ]];then ssh dsc009;fi")
-                    (eat-self-input 1 'return))
-                  (setq-local called-once t)))))
+      (lambda () (interactive) (switch-to-buffer "*Org Agenda*"))))
 #+end_src
 
 ** Code completion

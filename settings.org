@@ -158,7 +158,7 @@ Dimming the non-active windows may be useful, 20% is default
   (use-package dimmer
     :config
     (dimmer-configure-which-key)
-    (dimmer-configure-helm)
+    ;(dimmer-configure-helm)
     (setq dimmer-fraction 0.3)
     (dimmer-mode t))
 #+end_src
@@ -248,6 +248,8 @@ Using treemacs for now. Apparently a package called projectile might be useful.
 
 ** Movement and selection - helm and ido
 
+*** Helm and ido - disabled
+
 Using helm to select commands and buffers etc.Can't get helm
 find-files to work properly, so back to normal for that.
 
@@ -257,40 +259,46 @@ nil in :init
 Avy mode has some other options, like char-1
 
 #+begin_src emacs-lisp
-  (use-package helm
-    ;:disabled
-    :init (setq tab-bar-tab-name-function nil)
-    :bind
-    (
-     ;("M-x"     . helm-M-x)
-     ("M-y"     . helm-show-kill-ring)
-     ("C-x C-b" . helm-mini)
-     ;("C-x C-f" . helm-find-files) ; using vertico
-     ("M-s o"   . helm-occur)
-     ))
-  (use-package helm-swoop
-    ;:disabled
-    :bind
-     ("M-i"     . helm-swoop))
+;  (use-package helm
+;    :disabled
+;    :init (setq tab-bar-tab-name-function nil)
+;    :bind
+;    (
+;     ;("M-x"     . helm-M-x)
+;     ("M-y"     . helm-show-kill-ring)
+;     ("C-x C-b" . helm-mini)
+;     ;("C-x C-f" . helm-find-files) ; using vertico
+;     ("M-s o"   . helm-occur)
+;     ))
+;  (use-package helm-swoop
+;    :disabled
+;    :bind
+;     ("M-i"     . helm-swoop))
+;
+;  (use-package ido
+;    :disabled
+;    :config
+;    (ido-mode t)
+;    (setq ido-use-filename-at-point 'guess)
+;    (setq ido-create-new-buffer 'always)
+;    (if (< emacs-major-version 25)
+;        (setq ido-separator "\n")
+;      (setf (nth 2 ido-decorations) "\n"))
+;    (setq ido-max-window-height 0.5)
+;    (setq ido-enable-flext-matching t)
+;    (setq ido-everywhere t)
+;    (setq ido-file-extension-order '(".tcl" ".org" ".el"))
+;    (setq ido-ignore-directories '(".git"))
+;    :bind
+;    (("C-x C-f" . 'ido-find-file)
+;     ("C-x d"   . 'ido-dired)))
+#+end_src
 
-  (use-package ido
-    :disabled
-    :config
-    (ido-mode t)
-    (setq ido-use-filename-at-point 'guess)
-    (setq ido-create-new-buffer 'always)
-    (if (< emacs-major-version 25)
-        (setq ido-separator "\n")
-      (setf (nth 2 ido-decorations) "\n"))
-    (setq ido-max-window-height 0.5)
-    (setq ido-enable-flext-matching t)
-    (setq ido-everywhere t)
-    (setq ido-file-extension-order '(".tcl" ".org" ".el"))
-    (setq ido-ignore-directories '(".git"))
-    :bind
-    (("C-x C-f" . 'ido-find-file)
-     ("C-x d"   . 'ido-dired)))
+*** Vertico for completion, avy for jump
 
+Using only vertico for completion - simpler than the above
+
+#+begin_src emacs-lisp
   (use-package vertico
     :custom
     (vertico-cycle t)
@@ -302,10 +310,12 @@ Avy mode has some other options, like char-1
     :custom (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
     :init
     (marginalia-mode))
+  (vertico-reverse-mode)
+  ;(use-package vertico-reverse :after vertico :ensure nil)
+  ;(use-package vertico-multiform-commands)
   (use-package savehist
     :init
     (savehist-mode))
-
   ; Fast jump to any character in any window
   (use-package avy
     :bind

@@ -1,0 +1,57 @@
+#!/usr/bin/env bash -f
+################################################################################
+# Alias for Erik Kofoed
+
+#echo "# Reading .alias file for erik"
+
+unalias -a
+
+alias h='history'
+
+COLOR=--color
+
+alias l="ls -lh $COLOR"
+alias ll="ls -lha $COLOR"
+alias lt="ls -lhat $COLOR | head -40"
+
+alias g="ps axf | grep -v grep | grep $1"
+
+alias pd=pushd
+alias pp=popd
+
+# Find help stxmod
+stx() { cat ~/.stxmod | xargs egrep "$1" 2>/dev/null ; }
+
+alias mt="find . -newermt"
+alias d="dirs -v"
+
+# Git shorts
+alias gs='git status'
+alias gc='git commit -a -m "General Update"'
+#alias gpl='git pull'
+#alias gph='git push'
+alias gpr='git config --get remote.origin.url'
+alias gu='cd ../c2*;git pull;cd -;cd ../vec*;git pull;cd -;cd ../pci*;git pull ;cd -'
+
+# Fraunhofer
+#alias cadence="/home/bur/bin/cds/cadence"
+alias lic_in_use="/home/bur/bin/cds/cadence lic_in_use"
+alias lic_available="/home/bur/bin/cds/cadence lic_available"
+alias lic_expire="/home/bur/bin/cds/cadence lic_expire"
+
+# Current project
+alias vnc='vncserver -nolisten local -geometry 3840x2160'
+#alias  w='cd /home/EPI/project/EUPILOT/VEC/usr/esk/pnr_innovus/micro_tile_pcie_7p5T_r06_v2'
+alias  w='source /home/kofoed/bin/w'
+
+# Filter verilog files to single lines to easily grep
+fver="sed 's^//.*^&;^'"              # ';' at end of comments (remove instead?)
+fver="$fver | sed 's/^module/;&/'"   # Create newlnes for modules
+fver="$fver | tr '\n' ' '"           # into 1-line
+fver="$fver | tr ';' '\n'"           # split into lines on ';'
+fver="$fver | sed 's/$/;/'"          # re-insert ';' at end
+fver="$fver | sed 's/^ *//'"         # Remove leading space on lines
+alias fver=$fver
+
+# End of file
+################################################################################

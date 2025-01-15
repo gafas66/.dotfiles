@@ -746,8 +746,7 @@ putty: "dumb"
 debian, rocky,xterm: "eterm-color"
 
 #+begin_src emacs-lisp
-  
-  (unless (and (window-system) (string= "dumb" (getenv "TERM")))
+    (unless (window-system)
     (bind-key "M-[ B"   'next-line)
     (bind-key "M-[ A"   'previous-line)
     (bind-key "M-[ C"   'right-char)

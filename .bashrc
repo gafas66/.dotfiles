@@ -1,6 +1,18 @@
 # .bashrc
 ################################################################################
 
+# Use dsc009 as main machine over dsc005 - alternative should be dsc001 or so
+# NOTE Be very careful with the sequence of || and && here !
+if [[ $(uname -n) == "dsc005" ]] && [[ ! -z ${INSIDE_EMACS+x} ]] ;then
+#   tmp=$(mktemp)
+#   echo <<EOF > $tmp
+#Host dsc009
+#   SendEnv INSIDE_EMACS"
+#EOF
+   #   ssh -F $tmp dsc009
+   ssh dsc009
+fi
+    
 source $HOME/.alias
 source $HOME/.alias_local
 
@@ -25,9 +37,6 @@ fi
 
 # EAT SHELL INTEGRATION
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
-
-# Use dsc009 as main machine over dsc005 - alternative should be dsc001 or so
-[[ -z ${INSIDE_EMACS+x} ]] && [[ \"$(hostname)\" == \"dsc005\" ]] && ssh dsc009
 
 #PROMPT_DIRTRIM=1
 PROMPT_COMMAND='\

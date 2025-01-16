@@ -1,6 +1,6 @@
 #+PROPERTY: header-args :tangle yes :results silent
 
-* Figure out if we're at work or home
+* Figure out if we're at work or home and term/not
 
 #+begin_src emacs-lisp
   (message "Starting up org-mode init file")
@@ -8,6 +8,34 @@
   (setq my-org-files (list "~/init/org/Capture.org.gpg" "~/init/org/other.org.gpg" "~/init/org/home.org.gpg" "~/init/org/vec.org.gpg" "~/init/org/journal.org.gpg"))
   ;; Exclude if at work
   (setq my-org-files (if (file-directory-p "/home/kofoed") (remove "~/init/org/other.org.gpg" my-org-files) my-org-files))
+#+end_src
+
+Check what kind of system we have, window, term, xterm
+Initial version checks for window-system and debian xterm.
+
+#+begin_src emacs-lisp
+  (setq ek/simple
+        (if (window-system) nil
+          (progn
+            (if (getenv "XTERM_VERSION")
+                ; xterm/uxterm on debian
+                (progn
+                  (when (string= (getenv "XTERM_VERSION") "XTerm(379)")
+                    (global-set-key (kbd "ø") #'execute-extended-command)
+                    (global-set-key (kbd "÷") #'kill-ring-save)
+                    (global-set-key (kbd "ø") #'yank-pop)
+                    (global-set-key (kbd "¼") #'beginning-of-buffer)
+                    (global-set-key (kbd "¾") #'end-of-buffer)
+                    (global-set-key (kbd "ä") #'kill-word)
+                    (global-set-key (kbd "í") #'back-to-indentation)
+                    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body)
+                    (set-face-attribute 'default  nil :background "#000")
+                    (set-face-attribute 'mode-line-buffer-id nil :background "#222")
+                )
+                  t)
+              (progn
+                (global-set-key (kbd "M-O Q") 'hydra-shell-stuff/body)
+                nil)))))
 #+end_src
 
 * Setting up ELPA package system
@@ -100,35 +128,36 @@ Choose tabbar (built-in) or centaur tab, dependent on emacs version.
 Use centaur tabs when version is 27 or newer
 
 #+begin_src emacs-lisp
-  (if (> emacs-major-version 26)
-      (use-package centaur-tabs
-        :demand
-        :config
-        (centaur-tabs-mode t)
+  (unless ek/simple
+    (if (> emacs-major-version 26)
+        (use-package centaur-tabs
+          :demand
+          :config
+          (centaur-tabs-mode t)
                                           ;(setq centaur-tabs-height 32) ; Does not affect font or icon
                                           ;(centaur-tabs-headline-match)
                                           ;(setq centaur-tabs-style "bar")
-        (setq centaur-tabs-set-bar 'over)
+          (setq centaur-tabs-set-bar 'over)
                                           ;(centaur-tabs-change-fonts "arial" 160) 
-        (setq centaur-tabs-set-icons t)
-        (setq centaur-tabs-icon-type 'nerd-icons)
+          (setq centaur-tabs-set-icons t)
+          (setq centaur-tabs-icon-type 'nerd-icons)
                                           ;(setq centaur-tabs-plain-icons t) ; Replacing icons!
                                           ;(setq centaur-tabs-modified-marker t)
-        (defun centaur-tabs-buffer-groups ()
-          "Use as few groups as possible."
-          (list (cond ((string-equal "*" (substring (buffer-name) 0 1))
-                       (cond ((string-equal "eglot" (downcase (substring (buffer-name) 1 6)))
-                              "Eglot")
-                             (t
-                              "Tools")))
-                      ((string-equal "magit" (downcase (substring (buffer-name) 0 5)))
-                       "Magit")
-                      (t
-                       "Default"))))
-        (centaur-tabs-group-by-projectile-project);KLUDGE This is actually a bugfix
-        :bind
-        ("C-<left>" . centaur-tabs-backward)
-        ("C-<right>" . centaur-tabs-forward)))
+          (defun centaur-tabs-buffer-groups ()
+            "Use as few groups as possible."
+            (list (cond ((string-equal "*" (substring (buffer-name) 0 1))
+                         (cond ((string-equal "eglot" (downcase (substring (buffer-name) 1 6)))
+                                "Eglot")
+                               (t
+                                "Tools")))
+                        ((string-equal "magit" (downcase (substring (buffer-name) 0 5)))
+                         "Magit")
+                        (t
+                         "Default"))))
+          (centaur-tabs-group-by-projectile-project);KLUDGE This is actually a bugfix
+          :bind
+          ("C-<left>" . centaur-tabs-backward)
+          ("C-<right>" . centaur-tabs-forward))))
 #+end_src
 
 *** install icons for use in org, modelines, and tabs
@@ -137,13 +166,14 @@ Download nerd-icons package, this requires to run
 nerd-icons-install-fonts is required.
 
 #+begin_src emacs-lisp
-  (use-package nerd-icons
-    :config
-    (unless (file-exists-p "~/.local/share/fonts/NFM.ttf")
-      (nerd-icons-install-fonts t)))
-  (use-package nerd-icons-dired
-    :hook
-    (dired-mode . nerd-icons-dired-mode))
+  (unless ek/simple
+    (use-package nerd-icons
+      :config
+      (unless (file-exists-p "~/.local/share/fonts/NFM.ttf")
+        (nerd-icons-install-fonts t)))
+    (use-package nerd-icons-dired
+      :hook
+      (dired-mode . nerd-icons-dired-mode)))
 #+end_src
 
 *** Modeline selection and dimmer mode
@@ -151,26 +181,28 @@ nerd-icons-install-fonts is required.
 Dimming the non-active windows may be useful, 20% is default
 
 #+begin_src emacs-lisp
-  (use-package dimmer
-    :config
-    (dimmer-configure-which-key)
-    ;(dimmer-configure-helm)
-    (setq dimmer-fraction 0.3)
-    (dimmer-mode t))
+  (unless ek/simple
+    (use-package dimmer
+      :config
+      (dimmer-configure-which-key)
+      ;(dimmer-configure-helm)
+      (setq dimmer-fraction 0.3)
+      (dimmer-mode t)))
 #+end_src
 
 Using doom-modeline. Other modelines are available, like powerline and
 spacemacs.
 
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1)
-    :config
-    (set-face-attribute 'mode-line-inactive  nil :background "#111")
-    (set-face-attribute 'mode-line    nil :background "#232")
-    ;Below is background for settings.org on the active modeline
-    (set-face-attribute 'mode-line-buffer-id nil :background "#222")
-  )
+  (unless ek/simple
+    (use-package doom-modeline
+      :init (doom-modeline-mode 1)
+      :config
+      (set-face-attribute 'mode-line-inactive  nil :background "#111")
+      (set-face-attribute 'mode-line    nil :background "#232")
+      ;Below is background for settings.org on the active modeline
+      (set-face-attribute 'mode-line-buffer-id nil :background "#222")
+      ))
 #+end_src
 
 ** EAT Shell inside emacs and cider programming
@@ -389,29 +421,30 @@ It seems the ob-tcl does not exist, as it should?
 Here follows setup with coloring and bullets for orgmode. Not sure yet about the fonts and their sizes.
 
 #+begin_src emacs-lisp
-  (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-  (font-lock-add-keywords 'org-mode
-                          '(("^ +\\([-*]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-  (defcustom org-bullets-bullet-list
-    '(;;; Large
-      ;; "◉"
-      ;; "○"
-      ;; "✸"
-      ;; "✿"
-      ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
+  (unless ek/simple
+    (use-package org-bullets
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (font-lock-add-keywords 'org-mode
+                            '(("^ +\\([-*]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+    (defcustom org-bullets-bullet-list
+      '(;;; Large
+        ;; "◉"
+        ;; "○"
+        ;; "✸"
+        ;; "✿"
+        ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
              ;;; Small
-      "►"
-      "•"
-      "★"
-      "▸"
-      )
-    "List of bullets used in Org headings.
+        "►"
+        "•"
+        "★"
+        "▸"
+        )
+      "List of bullets used in Org headings.
          It can contain any number of symbols, which will be repeated."
-    :group 'org-bullets
-    :type '(repeat (string :tag "Bullet character")))
+      :group 'org-bullets
+      :type '(repeat (string :tag "Bullet character"))))
 
   ;  (if nil (when window-system
   ;            (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
@@ -441,21 +474,22 @@ Apparently built-in, but need some settings, taken from above.
 This is lambda - a greek symbol.
 
 #+begin_src emacs-lisp
-  (global-prettify-symbols-mode t)
-  (defvar emagician/prettify-list
-    '(("lambda" . 955)
-      ("<=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≤))
-      (">=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≥))
-      ("->" . ?⟶)
-      ("=>" . ?⟹)
-      ("==" . ?⩵)
-      ("//" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?⫽))
-      ("!=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≠))
-      ("->>" .  (?\s (Br . Bl) ?\s (Br . Bl) ?\s
-                     (Bl . Bl) ?- (Bc . Br) ?- (Bc . Bc) ?>
-                     (Bc . Bl) ?- (Br . Br) ?>))))
-  (setq prettify-symbols-unprettify-at-point 'right-edge)
-  (setq prettify-symbols-alist emagician/prettify-list)
+  (unless ek/simple
+    (global-prettify-symbols-mode t)
+    (defvar emagician/prettify-list
+      '(("lambda" . 955)
+        ("<=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≤))
+        (">=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≥))
+        ("->" . ?⟶)
+        ("=>" . ?⟹)
+        ("==" . ?⩵)
+        ("//" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?⫽))
+        ("!=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≠))
+        ("->>" .  (?\s (Br . Bl) ?\s (Br . Bl) ?\s
+                       (Bl . Bl) ?- (Bc . Br) ?- (Bc . Bc) ?>
+                       (Bc . Bl) ?- (Br . Br) ?>))))
+    (setq prettify-symbols-unprettify-at-point 'right-edge)
+    (setq prettify-symbols-alist emagician/prettify-list))
 #+end_src
 
 *** Setup of org templates (C-c c), creating actions distributed across multiple files
@@ -823,10 +857,8 @@ Candidates for keys are
   (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
 #+end_src
 
-** Move all customizations to local file, leaving init.el untouched
-
-#+begin_src emacs-lisp
-  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
-  (load custom-file 'noerror 'nomessage)
-#+end_src
 * End of file
+
+# Local Variables:
+# eval: (org-content 3)
+# End:

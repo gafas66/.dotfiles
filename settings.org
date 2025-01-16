@@ -68,16 +68,12 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
-  ;(set-frame-font "Sans Serif" nil t)
   (use-package color-theme-modern :ensure t
     :config
     (load-theme 'goldenrod t t)
-    ;(load-theme 'cobalt t t)
     (enable-theme 'goldenrod)
+    (set-face-attribute 'default  nil :background "#001")
     )
-  ;(add-to-list 'default-frame-alist '(foreground-color . "#E0DFDB"))
-  ;(add-to-list 'default-frame-alist '(background-color . "#102372"))
-  ;(add-to-list 'default-frame-alist '(background-color . "SandyBrown"))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -168,7 +164,12 @@ spacemacs.
 
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :init (doom-modeline-mode 1))
+    :init (doom-modeline-mode 1)
+    :config
+    (set-face-attribute 'mode-line-inactive  nil :background "#111")
+    (set-face-attribute 'mode-line-active    nil :background "#111")
+    (set-face-attribute 'mode-line-buffer-id nil :background "#333")
+  )
 #+end_src
 
 ** EAT Shell inside emacs and cider programming
@@ -797,6 +798,7 @@ Setup text resolution based on what we can figure out about the current system.
 Candidates for keys are
 
 | Key | Default            |
+|-----+--------------------|
 | M-t | transpose words    |
 | M-a | backward sentrence |
 | M-p | undefined          |

@@ -29,6 +29,7 @@ Initial version checks for window-system and debian xterm.
                     (global-set-key (kbd "¾") #'end-of-buffer)              ; M->
                     (global-set-key (kbd "ä") #'kill-word)                  ; M-d
                     (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
+                    (global-set-key (kbd "ï") #'ace-window)                 ; M-o
                     (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; C-,
                     ;(set-face-attribute 'default  nil :background "#000")
                     ;(set-face-attribute 'mode-line-buffer-id nil :background "#222")
@@ -37,6 +38,7 @@ Initial version checks for window-system and debian xterm.
               (progn
                 (global-set-key (kbd "M-O Q") 'hydra-shell-stuff/body) ; C-,
                 nil)))))
+  ;(setq ek/simple nil) ; Uncomment for debug
 #+end_src
 
 * Setting up ELPA package system
@@ -89,7 +91,7 @@ Will use use-package, apparently "straight" is an alternative to this.
 (use-package eglot)
 #+end_example
 ** Presentation fonts/colors/tabs/themes
-*** Installing a theme collection
+*** Iïnstalling a theme collection
 
 Using goldenrod as default for now, selecting some with C-c h via
 hydra. other collections seem to be available.
@@ -97,13 +99,14 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
-  (unless ek/simple
-    (use-package color-theme-modern :ensure t
-      :config
-      (load-theme 'goldenrod t t)
-      (enable-theme 'goldenrod)
+  (use-package color-theme-modern :ensure t
+    :config
+    (load-theme 'goldenrod t t)
+    (load-theme 'light-blue t t)
+    (enable-theme 'goldenrod)
+    (unless ek/simple
       (set-face-attribute 'default  nil :background "#001")
-    ))
+      ))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -130,7 +133,6 @@ Choose tabbar (built-in) or centaur tab, dependent on emacs version.
 Use centaur tabs when version is 27 or newer
 
 #+begin_src emacs-lisp
-  (unless ek/simple
     (if (> emacs-major-version 26)
         (use-package centaur-tabs
           :demand
@@ -159,7 +161,7 @@ Use centaur tabs when version is 27 or newer
           (centaur-tabs-group-by-projectile-project);KLUDGE This is actually a bugfix
           :bind
           ("C-<left>" . centaur-tabs-backward)
-          ("C-<right>" . centaur-tabs-forward))))
+          ("C-<right>" . centaur-tabs-forward)))
 #+end_src
 
 *** install icons for use in org, modelines, and tabs
@@ -168,43 +170,40 @@ Download nerd-icons package, this requires to run
 nerd-icons-install-fonts is required.
 
 #+begin_src emacs-lisp
-  (unless ek/simple
-    (use-package nerd-icons
-      :config
-      (unless (file-exists-p "~/.local/share/fonts/NFM.ttf")
-        (nerd-icons-install-fonts t)))
-    (use-package nerd-icons-dired
-      :hook
-      (dired-mode . nerd-icons-dired-mode)))
+  (use-package nerd-icons
+    :config
+    (unless (file-exists-p "~/.local/share/fonts/NFM.ttf")
+      (nerd-icons-install-fonts t)))
+  (use-package nerd-icons-dired
+    :hook
+    (dired-mode . nerd-icons-dired-mode))
 #+end_src
 
-*** Modeline selection and dimmer mode
+*** Moïïïïïdeline selection and dimmer mode
 
 Dimming the non-active windows may be useful, 20% is default
 
 #+begin_src emacs-lisp
-  (unless ek/simple
     (use-package dimmer
       :config
       (dimmer-configure-which-key)
       ;(dimmer-configure-helm)
       (setq dimmer-fraction 0.3)
-      (dimmer-mode t)))
+      (dimmer-mode t))
 #+end_src
 
 Using doom-modeline. Other modelines are available, like powerline and
 spacemacs.
 
 #+begin_src emacs-lisp
-  (unless ek/simple
-    (use-package doom-modeline
-      :init (doom-modeline-mode 1)
-      :config
-      (set-face-attribute 'mode-line-inactive  nil :background "#111")
-      (set-face-attribute 'mode-line    nil :background "#232")
-      ;Below is background for settings.org on the active modeline
-      (set-face-attribute 'mode-line-buffer-id nil :background "#222")
-      ))
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :config
+    (set-face-attribute 'mode-line-inactive  nil :background "#111")
+    (set-face-attribute 'mode-line    nil :background "#232")
+    ;Below is background for settings.org on the active modeline
+    (set-face-attribute 'mode-line-buffer-id nil :background "#222")
+    )
 #+end_src
 
 ** EAT Shell inside emacs and cider programming
@@ -476,22 +475,21 @@ Apparently built-in, but need some settings, taken from above.
 This is lambda - a greek symbol.
 
 #+begin_src emacs-lisp
-  (unless ek/simple
-    (global-prettify-symbols-mode t)
-    (defvar emagician/prettify-list
-      '(("lambda" . 955)
-        ("<=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≤))
-        (">=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≥))
-        ("->" . ?⟶)
-        ("=>" . ?⟹)
-        ("==" . ?⩵)
-        ("//" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?⫽))
-        ("!=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≠))
-        ("->>" .  (?\s (Br . Bl) ?\s (Br . Bl) ?\s
-                       (Bl . Bl) ?- (Bc . Br) ?- (Bc . Bc) ?>
-                       (Bc . Bl) ?- (Br . Br) ?>))))
-    (setq prettify-symbols-unprettify-at-point 'right-edge)
-    (setq prettify-symbols-alist emagician/prettify-list))
+  (global-prettify-symbols-mode t)
+  (defvar emagician/prettify-list
+    '(("lambda" . 955)
+      ("<=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≤))
+      (">=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≥))
+      ("->" . ?⟶)
+      ("=>" . ?⟹)
+      ("==" . ?⩵)
+      ("//" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?⫽))
+      ("!=" . (?\s  (Br . Bl) ?\s (Bc . Bc) ?≠))
+      ("->>" .  (?\s (Br . Bl) ?\s (Br . Bl) ?\s
+                     (Bl . Bl) ?- (Bc . Br) ?- (Bc . Bc) ?>
+                     (Bc . Bl) ?- (Br . Br) ?>))))
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
+  (setq prettify-symbols-alist emagician/prettify-list)
 #+end_src
 
 *** Setup of org templates (C-c c), creating actions distributed across multiple files

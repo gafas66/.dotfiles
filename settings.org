@@ -21,20 +21,21 @@ Initial version checks for window-system and debian xterm.
                 ; xterm/uxterm on debian
                 (progn
                   (when (string= (getenv "XTERM_VERSION") "XTerm(379)")
-                    (global-set-key (kbd "ø") #'execute-extended-command)
-                    (global-set-key (kbd "÷") #'kill-ring-save)
-                    (global-set-key (kbd "ø") #'yank-pop)
-                    (global-set-key (kbd "¼") #'beginning-of-buffer)
-                    (global-set-key (kbd "¾") #'end-of-buffer)
-                    (global-set-key (kbd "ä") #'kill-word)
-                    (global-set-key (kbd "í") #'back-to-indentation)
-                    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body)
-                    (set-face-attribute 'default  nil :background "#000")
-                    (set-face-attribute 'mode-line-buffer-id nil :background "#222")
+                    (message "Setting keys and background for xterm")
+                    (global-set-key (kbd "ø") #'execute-extended-command)   ; M-x
+                    (global-set-key (kbd "÷") #'kill-ring-save)             ; M-w
+                    (global-set-key (kbd "ù") #'yank-pop)                   ; M-y
+                    (global-set-key (kbd "¼") #'beginning-of-buffer)        ; M-<
+                    (global-set-key (kbd "¾") #'end-of-buffer)              ; M->
+                    (global-set-key (kbd "ä") #'kill-word)                  ; M-d
+                    (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
+                    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; C-,
+                    ;(set-face-attribute 'default  nil :background "#000")
+                    ;(set-face-attribute 'mode-line-buffer-id nil :background "#222")
                 )
                   t)
               (progn
-                (global-set-key (kbd "M-O Q") 'hydra-shell-stuff/body)
+                (global-set-key (kbd "M-O Q") 'hydra-shell-stuff/body) ; C-,
                 nil)))))
 #+end_src
 
@@ -96,12 +97,13 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
-  (use-package color-theme-modern :ensure t
-    :config
-    (load-theme 'goldenrod t t)
-    (enable-theme 'goldenrod)
-    (set-face-attribute 'default  nil :background "#001")
-    )
+  (unless ek/simple
+    (use-package color-theme-modern :ensure t
+      :config
+      (load-theme 'goldenrod t t)
+      (enable-theme 'goldenrod)
+      (set-face-attribute 'default  nil :background "#001")
+    ))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -263,7 +265,7 @@ Using treemacs for now. Apparently a package called projectile might be useful.
            ("M-o" . ace-window)))
 #+end_src
 
-** Movement and selection - helm and ido
+** Movement and selection - vertico, helm and ido
 
 *** Helm and ido - disabled
 

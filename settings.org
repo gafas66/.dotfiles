@@ -179,7 +179,7 @@ nerd-icons-install-fonts is required.
     (dired-mode . nerd-icons-dired-mode))
 #+end_src
 
-*** Moïïïïïdeline selection and dimmer mode
+*** Modeline selection and dimmer mode
 
 Dimming the non-active windows may be useful, 20% is default
 
@@ -206,6 +206,28 @@ spacemacs.
     )
 #+end_src
 
+*** Coloring of keywords and marking random text + fic
+
+Fic-mode should work everywhere, hightlight actions and FIXME
+etc. Markerpen is manually downloaded.
+
+#+begin_src emacs-lisp
+  (require 'markerpen nil :noerror)
+
+  (use-package fic-mode :ensure t)
+  (setq p-modes '(tcl-mode-hook ruby-mode-hook perl-mode-hook cperl-mode-hook emacs-lisp-mode-hook python-mode-hook))
+  (mapcar (lambda (mode) (add-hook mode 'fic-mode)) p-modes)
+  (setq fic-highlighted-words '("FIXME" "TODO" "NOTE" "KLUDGE" "BUG"))
+#+end_src
+
+Testing out line-reminder package - test at work failed!
+
+#+begin_src emacs-lisp
+  ;(use-package line-reminder
+  ;  :config
+  ;  (global-line-reminder-mode t))
+#+end_src
+
 ** EAT Shell inside emacs and cider programming
 
 Using *eat* as main shell for now, works reasonably well, and seems to
@@ -223,10 +245,10 @@ easier.
       (lambda () (interactive) (switch-to-buffer "*Org Agenda*"))))
 #+end_src
 
-** Code completion
+** Code completion w/company (corfu?)
 
 Code completion has two main alternatives, company and corfu, trying both.
-(if t ... means company
+Even disabled corfu causes issues, dont trust :disabled
 
 #+begin_src emacs-lisp
   (use-package company
@@ -235,15 +257,15 @@ Code completion has two main alternatives, company and corfu, trying both.
         ;(global-set-key (kbd "<tab>") #'indent)
         (setq company-tooltip-align-annotations t)
         (add-hook 'after-init-hook 'global-company-mode))
-  (use-package corfu
-    :disabled
-    :init
-    (global-corfu-mode))
-  (add-hook 'minibuffer-setup-hook (lambda ()
-                                     (when (memq #'completion-at-point
-                                                 (flatten-tree
-                                                  (current-local-map)))
-                                       (corfu-mode))))
+;  (use-package corfu
+;    :disabled
+;    :init
+;    (global-corfu-mode))
+;  (add-hook 'minibuffer-setup-hook (lambda ()
+;                                     (when (memq #'completion-at-point
+;                                                 (flatten-tree
+;                                                  (current-local-map)))
+;                                       (corfu-mode))))
 #+end_src
 
 Let;s start using eglot [2025-01-03 Fri]
@@ -338,20 +360,6 @@ Using only vertico for completion - simpler than the above
   (use-package avy
     :bind
     (("C-:" . 'avy-goto-char-2)))
-#+end_src
-
-** Coloring of keywords and marking random text + fic
-
-Fic-mode should work everywhere, hightlight actions and FIXME
-etc. Markerpen is manually downloaded.
-
-#+begin_src emacs-lisp
-  (require 'markerpen nil :noerror)
-
-  (use-package fic-mode :ensure t)
-  (setq p-modes '(tcl-mode-hook ruby-mode-hook perl-mode-hook cperl-mode-hook emacs-lisp-mode-hook python-mode-hook))
-  (mapcar (lambda (mode) (add-hook mode 'fic-mode)) p-modes)
-  (setq fic-highlighted-words '("FIXME" "TODO" "NOTE" "KLUDGE" "BUG"))
 #+end_src
 
 ** Org mode setup (and org-babel)

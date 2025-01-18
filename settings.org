@@ -10,36 +10,16 @@
   (setq my-org-files (if (file-directory-p "/home/kofoed") (remove "~/init/org/other.org.gpg" my-org-files) my-org-files))
 #+end_src
 
+Startup sensible
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t) 
+  ;(setq initial-scratch-message nil)
+#+end_src
+
 Check what kind of system we have, window, term, xterm
 Initial version checks for window-system and debian xterm.
 
-#+begin_src emacs-lisp
-  (setq ek/simple
-        (if (window-system) nil
-          (progn
-            (if (getenv "XTERM_VERSION")
-                ; xterm/uxterm on debian
-                (progn
-                  (when (string= (getenv "XTERM_VERSION") "XTerm(379)")
-                    (message "Setting keys and background for xterm")
-                    (global-set-key (kbd "ø") #'execute-extended-command)   ; M-x
-                    (global-set-key (kbd "÷") #'kill-ring-save)             ; M-w
-                    (global-set-key (kbd "ù") #'yank-pop)                   ; M-y
-                    (global-set-key (kbd "¼") #'beginning-of-buffer)        ; M-<
-                    (global-set-key (kbd "¾") #'end-of-buffer)              ; M->
-                    (global-set-key (kbd "ä") #'kill-word)                  ; M-d
-                    (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
-                    (global-set-key (kbd "ï") #'ace-window)                 ; M-o
-                    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; C-,
-                    ;(set-face-attribute 'default  nil :background "#000")
-                    ;(set-face-attribute 'mode-line-buffer-id nil :background "#222")
-                )
-                  t)
-              (progn
-                (global-set-key (kbd "M-O Q") 'hydra-shell-stuff/body) ; C-,
-                nil)))))
-  ;(setq ek/simple nil) ; Uncomment for debug
-#+end_src
 
 * Setting up ELPA package system
 
@@ -74,7 +54,7 @@ Find a way to refresh only when its a week since last time
 How about creating a file inside elpa, and do (f-touch) on this every refresh?
 
 #+begin_src emacs-lisp
-  (package-refresh-contents)
+  ;(package-refresh-contents)
 #+end_src
 
 Will use use-package, apparently "straight" is an alternative to this.
@@ -102,11 +82,9 @@ Color-theme-modern has many different themes.
   (use-package color-theme-modern :ensure t
     :config
     (load-theme 'goldenrod t t)
-    (load-theme 'light-blue t t)
     (enable-theme 'goldenrod)
-    (unless ek/simple
-      (set-face-attribute 'default  nil :background "#001")
-      ))
+    (set-face-attribute 'default  nil :background "#001")
+    )
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -430,13 +408,12 @@ It seems the ob-tcl does not exist, as it should?
 Here follows setup with coloring and bullets for orgmode. Not sure yet about the fonts and their sizes.
 
 #+begin_src emacs-lisp
-  (unless ek/simple
-    (use-package org-bullets
-      :config
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
     (font-lock-add-keywords 'org-mode
                             '(("^ +\\([-*]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
     (defcustom org-bullets-bullet-list
       '(;;; Large
         ;; "◉"
@@ -453,7 +430,7 @@ Here follows setup with coloring and bullets for orgmode. Not sure yet about the
       "List of bullets used in Org headings.
          It can contain any number of symbols, which will be repeated."
       :group 'org-bullets
-      :type '(repeat (string :tag "Bullet character"))))
+      :type '(repeat (string :tag "Bullet character")))
 
   ;  (if nil (when window-system
   ;            (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
@@ -656,10 +633,15 @@ Hydra allows a menu for a key or keyseq. bind-key has not really been used yet.
     ("v" visual-line-mode          "visual-line"    :column "Toggle")
     ("w" whitespace-mode           "whitespace"     :column "Toggle")
 
-    ("m" helm-all-mark-rings       "mark-rings"     :column "Helm")
-    ("r" helm-register             "registers"      :column "Helm")
-    ("p" helm-top                  "top"            :column "Helm")
-    ("o" helm-colors               "Pick color"     :column "Helm")
+    ;("m" helm-all-mark-rings       "mark-rings"     :column "Helm")
+    ;("r" helm-register             "registers"      :column "Helm")
+    ;("p" helm-top                  "top"            :column "Helm")
+    ;("o" helm-colors               "Pick color"     :column "Helm")
+
+    ("m" elfeed                     "ELFEED rss"     :column "Various")
+    ;("r" helm-register             "registers"      :column "Helm")
+    ;("p" helm-top                  "top"            :column "Helm")
+    ;("o" helm-colors               "Pick color"     :column "Helm")
 
     ("q" nil                       "Quit menu" :color red :column nil))
   (global-set-key (kbd "C-c h") 'hydra-appearance/body)
@@ -732,6 +714,20 @@ Connect buffer to server is for example for bb --nrepl-server
   (global-set-key (kbd "C-,") 'hydra-comma/body)
 #+end_src
 
+** Elfeed for reading rss (test)
+
+Lets check this out ...
+
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :config
+    (setq elfeed-feeds
+          '(
+            "https://www.document.no/feed/atom/"
+            ;"http://nullprogram.com/feed/"
+            ;"https://planet.emacslife.com/atom.xml"
+            )))
+#+end_src
 * Other settings
 ** Various toggle settings
 
@@ -782,16 +778,33 @@ This is for putty on windows 10
 putty: "dumb"
 debian, rocky,xterm: "eterm-color"
 
+Testing:
+
 #+begin_src emacs-lisp
+  (when nil
     (unless (window-system)
-    (bind-key "M-[ B"   'next-line)
-    (bind-key "M-[ A"   'previous-line)
-    (bind-key "M-[ C"   'right-char)
-    (bind-key "M-[ D"   'left-char)
-    (bind-key "<right>" 'centaur-tabs-forward)
-    (bind-key "<left>"  'centaur-tabs-backward)
-    (bind-key "M-[ z"   'backtab)
-    (bind-key "M-[ z"   'org-shifttab org-mode-map)
+      (bind-key "M-[ B"   'next-line)
+      (bind-key "M-[ A"   'previous-line)
+      (bind-key "M-[ C"   'right-char)
+      (bind-key "M-[ D"   'left-char)
+      (bind-key "<right>" 'centaur-tabs-forward)
+      (bind-key "<left>"  'centaur-tabs-backward)
+      (bind-key "M-[ z"   'backtab)
+      (bind-key "M-[ z"   'org-shifttab org-mode-map)
+      ))
+  (when nil
+    (message "Setting keys and background for xterm")
+    (global-set-key (kbd "ø") #'execute-extended-command)   ; M-x
+    (global-set-key (kbd "÷") #'kill-ring-save)             ; M-w
+    (global-set-key (kbd "ù") #'yank-pop)                   ; M-y
+    (global-set-key (kbd "¼") #'beginning-of-buffer)        ; M-<
+    (global-set-key (kbd "¾") #'end-of-buffer)              ; M->
+    (global-set-key (kbd "ä") #'kill-word)                  ; M-d
+    (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
+    (global-set-key (kbd "ï") #'ace-window)                 ; M-o
+    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; C-,
+                                          ;(set-face-attribute 'default  nil :background "#000")
+                                          ;(set-face-attribute 'mode-line-buffer-id nil :background "#222")
     )
 #+end_src
 

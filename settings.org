@@ -814,8 +814,9 @@ Testing:
       (global-set-key (kbd "ä") #'kill-word)                  ; M-d
       (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
       (global-set-key (kbd "ï") #'ace-window)                 ; M-o
-      ;(global-set-key (kbd "5D") #'centaur-tabs-backward)     ; C- <left>
-      ;(global-set-key (kbd "5C") #'centaur-tabs-forward)      ; C- <right>
+      (global-set-key (kbd "[1;5D") #'centaur-tabs-backward)     ; C- <left>
+      (global-set-key (kbd "[1;5C") #'centaur-tabs-forward)      ; C- <right>
+      (set-face-attribute 'help-key-binding nil :background "#000")
       ;;(set-face-attribute 'default  nil :background "#000")
       ))
 #+end_src

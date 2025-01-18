@@ -10,13 +10,6 @@
   (setq my-org-files (if (file-directory-p "/home/kofoed") (remove "~/init/org/other.org.gpg" my-org-files) my-org-files))
 #+end_src
 
-Startup sensible
-
-#+begin_src emacs-lisp
-  (setq inhibit-startup-message t) 
-  ;(setq initial-scratch-message nil)
-#+end_src
-
 Check what kind of system we have, window, term, xterm
 Initial version checks for window-system and debian xterm.
 
@@ -71,7 +64,7 @@ Will use use-package, apparently "straight" is an alternative to this.
 (use-package eglot)
 #+end_example
 ** Presentation fonts/colors/tabs/themes
-*** Iïnstalling a theme collection
+*** Installing a theme collection
 
 Using goldenrod as default for now, selecting some with C-c h via
 hydra. other collections seem to be available.
@@ -79,12 +72,13 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
-  (use-package color-theme-modern :ensure t
-    :config
-    (load-theme 'goldenrod t t)
-    (enable-theme 'goldenrod)
-    (set-face-attribute 'default  nil :background "#001")
-    )
+  (when (window-system)
+    (use-package color-theme-modern :ensure t
+      :config
+      (load-theme 'goldenrod t t)
+      (enable-theme 'goldenrod)
+      (set-face-attribute 'default  nil :background "#001")
+      ))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -174,14 +168,15 @@ Using doom-modeline. Other modelines are available, like powerline and
 spacemacs.
 
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1)
-    :config
-    (set-face-attribute 'mode-line-inactive  nil :background "#111")
-    (set-face-attribute 'mode-line    nil :background "#232")
-    ;Below is background for settings.org on the active modeline
-    (set-face-attribute 'mode-line-buffer-id nil :background "#222")
-    )
+  (when (window-system)
+    (use-package doom-modeline
+      :init (doom-modeline-mode 1)
+      :config
+      (set-face-attribute 'mode-line-inactive  nil :background "#111")
+      (set-face-attribute 'mode-line    nil :background "#232")
+                                          ;Below is background for settings.org on the active modeline
+      (set-face-attribute 'mode-line-buffer-id nil :background "#222")
+      ))
 #+end_src
 
 *** Coloring of keywords and marking random text + fic
@@ -206,14 +201,13 @@ Testing out line-reminder package - test at work failed!
   ;  (global-line-reminder-mode t))
 #+end_src
 
-** EAT Shell inside emacs and cider programming
+** EAT Shell inside emacs
 
 Using *eat* as main shell for now, works reasonably well, and seems to
 be a better term emulator than ansi-term. Treemacs makes projects
 easier.
 
 #+begin_src emacs-lisp
-  (use-package cider)
   (use-package eat
     :config
     (setq eat-enable-directory-tracking t)
@@ -223,12 +217,13 @@ easier.
       (lambda () (interactive) (switch-to-buffer "*Org Agenda*"))))
 #+end_src
 
-** Code completion w/company (corfu?)
+** Programming and Code completion
 
 Code completion has two main alternatives, company and corfu, trying both.
 Even disabled corfu causes issues, dont trust :disabled
 
 #+begin_src emacs-lisp
+  (use-package cider)
   (use-package company
         :config
         ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
@@ -400,7 +395,6 @@ It seems the ob-tcl does not exist, as it should?
   (add-to-list 'org-structure-template-alist '("e" . "src emacs-lisp\n"))
   (add-to-list 'org-structure-template-alist '("c" . "src clojure\n"))
   (add-to-list 'org-structure-template-alist '("t" . "src tcl\n"))
-
 #+end_src
 
 *** Bullets and fonts for headlines
@@ -732,6 +726,8 @@ Lets check this out ...
 ** Various toggle settings
 
 #+begin_src emacs-lisp
+  (setq inhibit-startup-message t) 
+  ;;(setq initial-scratch-message nil)
   (setq bookmark-save-flag 1)
   (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -739,7 +735,7 @@ Lets check this out ...
   (ffap-bindings)				;ffap = fINDfILEaTPoint
   (setq visible-bell t)
   (tool-bar-mode -1)
-  ;(scroll-bar-mode -1)
+					  ;(scroll-bar-mode -1)
 
   (global-hi-lock-mode 1)
   (show-paren-mode t)
@@ -778,34 +774,50 @@ This is for putty on windows 10
 putty: "dumb"
 debian, rocky,xterm: "eterm-color"
 
+#+begin_src emacs-lisp
+    (setq TERM (getenv "TERM"))
+    (setq LANG (getenv "LANG"))
+    (setq LANGUAGE (getenv "LANGUAGE"))
+    (setq COLORTERM (getenv "COLORTERM"))
+    (setq GNOME_TERMINAL_SCREEN (getenv "GNOME_TERMINAL_SCREEN"))
+#+end_src
+
+TERM = eterm-color; Both in gui and -nw on gnome terminals + xterm
+COLORTERM = nil on xterm
+
+C- <right> = 5D
+C- <left>  = 5C
+
 Testing:
 
 #+begin_src emacs-lisp
-  (when nil
-    (unless (window-system)
-      (bind-key "M-[ B"   'next-line)
-      (bind-key "M-[ A"   'previous-line)
-      (bind-key "M-[ C"   'right-char)
-      (bind-key "M-[ D"   'left-char)
-      (bind-key "<right>" 'centaur-tabs-forward)
-      (bind-key "<left>"  'centaur-tabs-backward)
-      (bind-key "M-[ z"   'backtab)
-      (bind-key "M-[ z"   'org-shifttab org-mode-map)
+  (unless (window-system)
+    (message "Setting up terminal keys")
+    (bind-key "M-[ B"   'next-line)
+    (bind-key "M-[ A"   'previous-line)
+    (bind-key "M-[ C"   'right-char)
+    (bind-key "M-[ D"   'left-char)
+    ;(bind-key "<right>" 'centaur-tabs-forward)
+    ;(bind-key "<left>"  'centaur-tabs-backward)
+    (bind-key "M-[ z"   'backtab)
+    (bind-key "M-[ z"   'org-shifttab org-mode-map)
+    ;; NOTE Double control keys may not be available (C-c C-,)
+    (bind-key "C-c ,"   'org-insert-structure-template org-mode-map)
+    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; [f2]
+    (unless COLORTERM ;; assuming we have an xterm here
+      (message "Setting keys and background for xterm")
+      (global-set-key (kbd "ø") #'execute-extended-command)   ; M-x
+      (global-set-key (kbd "÷") #'kill-ring-save)             ; M-w
+      (global-set-key (kbd "ù") #'yank-pop)                   ; M-y
+      (global-set-key (kbd "¼") #'beginning-of-buffer)        ; M-<
+      (global-set-key (kbd "¾") #'end-of-buffer)              ; M->
+      (global-set-key (kbd "ä") #'kill-word)                  ; M-d
+      (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
+      (global-set-key (kbd "ï") #'ace-window)                 ; M-o
+      ;(global-set-key (kbd "5D") #'centaur-tabs-backward)     ; C- <left>
+      ;(global-set-key (kbd "5C") #'centaur-tabs-forward)      ; C- <right>
+      ;;(set-face-attribute 'default  nil :background "#000")
       ))
-  (when nil
-    (message "Setting keys and background for xterm")
-    (global-set-key (kbd "ø") #'execute-extended-command)   ; M-x
-    (global-set-key (kbd "÷") #'kill-ring-save)             ; M-w
-    (global-set-key (kbd "ù") #'yank-pop)                   ; M-y
-    (global-set-key (kbd "¼") #'beginning-of-buffer)        ; M-<
-    (global-set-key (kbd "¾") #'end-of-buffer)              ; M->
-    (global-set-key (kbd "ä") #'kill-word)                  ; M-d
-    (global-set-key (kbd "í") #'back-to-indentation)        ; M-m
-    (global-set-key (kbd "ï") #'ace-window)                 ; M-o
-    (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; C-,
-                                          ;(set-face-attribute 'default  nil :background "#000")
-                                          ;(set-face-attribute 'mode-line-buffer-id nil :background "#222")
-    )
 #+end_src
 
 ** Other functions like ek-set mode and inital text size
@@ -843,10 +855,11 @@ Setup text resolution based on what we can figure out about the current system.
       (setq width  1920)
       (setq height 1080)))
 
+  (when (window-system)
                                           ; Set according to screen resolution
-  (cond ((> height 1590) (set-face-attribute 'default nil :height 120))
-        ((= height 1080) (set-face-attribute 'default nil :height 80))
-        (t nil))
+    (cond ((> height 1590) (set-face-attribute 'default nil :height 120))
+          ((= height 1080) (set-face-attribute 'default nil :height 80))
+          (t nil)))
 #+end_src
 
 * Testing stuff and temporary commands/keys

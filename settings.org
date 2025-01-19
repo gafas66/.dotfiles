@@ -12,9 +12,7 @@ need to be recompiled to be used with x-1.
 #+begin_src emacs-lisp
   (message "Starting up org-mode init file")
   (setq is-linux (and (getenv "DISPLAY") (if (string= system-type "gnu/linux") t nil)))
-  (setq my-org-files (list "~/init/org/Capture.org.gpg" "~/init/org/other.org.gpg" "~/init/org/home.org.gpg" "~/init/org/vec.org.gpg" "~/init/org/journal.org.gpg"))
-  ;; Exclude if at work
-  (setq my-org-files (if (file-directory-p "/home/kofoed") (remove "~/init/org/other.org.gpg" my-org-files) my-org-files))
+  (setq my-org-dir "~/init/org")
 #+end_src
 
 Check what kind of system we have, window, term, xterm
@@ -363,7 +361,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-cc" 'org-capture)
                                           ;(setq org-directory "~/init/org")
     (setq org-default-notes-file "~/init/org/Capture.org.gpg")
-    (setq org-agenda-files my-org-files)
+    (setq org-agenda-files (list my-org-dir))
     (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
     (setq org-hide-emphasis-markers t)
     (setq org-agenda-window-setup 'current-window)

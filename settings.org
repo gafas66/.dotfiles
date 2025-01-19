@@ -359,7 +359,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-cl" 'org-store-link)
     (define-key global-map "\C-ca" 'org-agenda)
     (define-key global-map "\C-cc" 'org-capture)
-                                          ;(setq org-directory "~/init/org")
+    ;;(setq org-directory "~/init/org")
     (setq org-default-notes-file "~/init/org/Capture.org.gpg")
     (setq org-agenda-files (list my-org-dir))
     (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
@@ -367,7 +367,7 @@ Perhaps use :bind to improve readability below?
     (setq org-agenda-window-setup 'current-window)
     (setq org-agenda-restore-windows-after-quit t)
     (setq org-agenda-skip-scheduled-if-done t)
-                                          ;(setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
+    ;;(setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
     )
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
@@ -719,9 +719,12 @@ Lets check this out ...
 #+begin_src emacs-lisp
   (use-package elfeed
     :config
+    (setq browse-url-browser-function 'eww-browse-url)
     (setq elfeed-feeds
           '(
             "https://www.document.no/feed/atom/"
+            "https://www.rights.no/feed/"
+            "https://steigan.no/feed/"
             ;"http://nullprogram.com/feed/"
             ;"https://planet.emacslife.com/atom.xml"
             )))

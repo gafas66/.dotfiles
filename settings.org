@@ -76,13 +76,24 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
-  (when (window-system)
+  (when nil (window-system)
     (use-package color-theme-modern :ensure t
       :config
       (load-theme 'goldenrod t t)
       (enable-theme 'goldenrod)
       (set-face-attribute 'default  nil :background "#001")
       ))
+  (when (window-system)
+    ;;; Themeing
+    (use-package spaceway-theme
+      :ensure nil
+      :load-path "lisp/spaceway/"
+      :config
+      ;;(set-frame-parameter nil 'cursor-color "#dc322f")
+      ;;(add-to-list 'default-frame-alist '(cursor-color . "#dc322f"))
+
+      (load-theme 'spaceway t)))
+      ;;(setenv "SCHEME" "dark"))
 #+end_src
 
 Testing out gruvbox theme - perhaps think of personal edits?
@@ -311,7 +322,7 @@ Avy mode has some other options, like char-1
 ;     ("C-x d"   . 'ido-dired)))
 #+end_src
 
-*** Vertico for completion, avy for jump
+*** Vertico for completion+consult, avy for jump
 
 Using only vertico for completion - simpler than the above
 
@@ -333,10 +344,54 @@ Using only vertico for completion - simpler than the above
   (use-package savehist
     :init
     (savehist-mode))
-  ; Fast jump to any character in any window
+  ;; Fast jump to any character in any window
   (use-package avy
     :bind
     (("C-:" . 'avy-goto-char-2)))
+#+end_src
+
+Trying consult to see how good it is ..
+
+#+begin_src emacs-lisp
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode 1)
+  ;;;; Extra Completion Functions
+  (use-package consult
+    :ensure t
+    :after vertico
+    :bind (("C-x b"       . consult-buffer)
+           ("C-x C-k C-k" . consult-kmacro)
+           ("M-y"         . consult-yank-pop)
+           ("M-g g"       . consult-goto-line)
+           ("M-g M-g"     . consult-goto-line)
+           ("M-g f"       . consult-flymake)
+           ("M-g i"       . consult-imenu)
+           ("M-s l"       . consult-line)
+           ("M-s L"       . consult-line-multi)
+           ("M-s u"       . consult-focus-lines)
+           ("M-s g"       . consult-ripgrep)
+           ("M-s M-g"     . consult-ripgrep)
+           ("M-s f"       . consult-find)
+           ("M-s M-f"     . consult-find)
+           ("C-x C-SPC"   . consult-global-mark)
+           ("C-x M-:"     . consult-complex-command)
+           ("C-c n a"     . consult-org-agenda)
+           ("M-X"         . consult-mode-command)
+           :map minibuffer-local-map
+           ("M-r" . consult-history)
+           :map Info-mode-map
+           ("M-g i" . consult-info)
+           :map org-mode-map
+           ("M-g i"  . consult-org-heading))
+    :custom
+    (completion-in-region-function #'consult-completion-in-region)
+    :config
+    (recentf-mode t))
 #+end_src
 
 ** Org mode setup (and org-babel)
@@ -360,7 +415,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-ca" 'org-agenda)
     (define-key global-map "\C-cc" 'org-capture)
     ;;(setq org-directory "~/init/org")
-    (setq org-default-notes-file "~/init/org/Capture.org.gpg")
+    (setq org-default-notes-file "~/init/org/Capture.org")
     (setq org-agenda-files (list my-org-dir))
     (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
     (setq org-hide-emphasis-markers t)
@@ -484,12 +539,12 @@ Here are templates for capturing tasks for December 2024, focused on VEC project
 
   (setq org-capture-templates
         '(("t" "General task"       entry (file+regexp org-default-notes-file "Tasks")              "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("c" "C2C task"           entry (file+headline "~/init/org/vec.org.gpg" "C2C tasks" )     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("p" "PCIE task"          entry (file+headline "~/init/org/vec.org.gpg" "PCIE tasks")     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("v" "VEC top-level task" entry (file+regexp "~/init/org/vec.org.gpg" "VEC Top.*" )       "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("e" "Emacs task"         entry (file+headline "~/init/org/home.org.gpg" "Emacs Tasks")   "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("l" "Clojure task"       entry (file+headline "~/init/org/home.org.gpg" "Clojure Tasks") "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("j" "Journal"            entry (file+datetree "~/init/org/journal.org.gpg")             "* %?\nEntered on %U\n%i\n  %a")))
+          ("c" "C2C task"           entry (file+headline "~/init/org/vec.org" "C2C tasks" )     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("p" "PCIE task"          entry (file+headline "~/init/org/vec.org" "PCIE tasks")     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("v" "VEC top-level task" entry (file+regexp "~/init/org/vec.org" "VEC Top.*" )       "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("e" "Emacs task"         entry (file+headline "~/init/org/home.org" "Emacs Tasks")   "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("l" "Clojure task"       entry (file+headline "~/init/org/home.org" "Clojure Tasks") "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("j" "Journal"            entry (file+datetree "~/init/org/journal.org")             "* %?\nEntered on %U\n%i\n  %a")))
 
   (setq org-agenda-custom-commands
         '(("u" "Untagged tasks" tags-todo "-{.*}")))
@@ -534,20 +589,23 @@ emacs, or installed in unix.
 
 #+begin_src emacs-lisp
   (when (> emacs-major-version 28)
-    ;(require 'emacsql nil :noerror)
+    ;;(require 'emacsql nil :noerror)
     (use-package emacsql :ensure t)
-    ;(use-package emacsql-sqlite)
+    ;;(use-package emacsql-sqlite)
     (use-package org-roam
       :init
       (setq org-roam-v2-ack t)
-      (setq ek/roamnotes "~/RoamNotes")
+      (setq ek/roamnotes "~/init/RoamNotes")
       (unless (file-directory-p ek/roamnotes) (make-directory ek/roamnotes))
+      ;;(setq org-roam-db-location "~/init/org-roam.db") ; Quick to rebuild on another machine
       :custom
       (org-roam-directory ek/roamnotes)
       (org-roam-completion-everywhere t)
       :bind (("C-c n l" . org-roam-buffer-toggle)
              ("C-c n f" . org-roam-node-find)
-             ("C-c n i" . org-roam-node-insert))
+             ("C-c n i" . org-roam-node-insert)
+             :map org-mode-map
+             ("C-M-i" . completion-at-point))
       :config
       (org-roam-setup)))
 #+end_src
@@ -733,16 +791,19 @@ Lets check this out ...
 ** Various toggle settings
 
 #+begin_src emacs-lisp
+  (require 'my-auto-insert)
+#+end_src
+#+begin_src emacs-lisp
   (setq inhibit-startup-message t) 
   ;;(setq initial-scratch-message nil)
   (setq bookmark-save-flag 1)
   (defalias 'yes-or-no-p 'y-or-n-p)
 
-  (winner-mode 1)				;Allows revert windows content/position history w/ C-c <|> 
-  (ffap-bindings)				;ffap = fINDfILEaTPoint
+  (winner-mode 1) ;;Allows revert windows content/position history w/ C-c <|> 
+  (ffap-bindings) ;;ffap = fINDfILEaTPoint
   (setq visible-bell t)
   (tool-bar-mode -1)
-					  ;(scroll-bar-mode -1)
+  ;;(scroll-bar-mode -1)
 
   (global-hi-lock-mode 1)
   (show-paren-mode t)
@@ -824,7 +885,7 @@ Testing:
       (global-set-key (kbd "¯") #'dabbrev-expand)             ; M-/
       (global-set-key (kbd "°") #'treemacs)                   ;M-0 (zero)
       (set-face-attribute 'help-key-binding nil :background "#000")
-      ;(set-face-attribute 'help-key-binding nil :background "#000")
+      ;;(set-face-attribute 'help-key-binding nil :background "#000")
       (set-face-attribute 'centaur-tabs-default  nil
                           :foreground "white"
                           :background "black"

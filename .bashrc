@@ -1,18 +1,26 @@
 # .bashrc
 ################################################################################
 
+# Shells are: login, interactive, and batch
+
+#[[ $- == *i* ]] && echo 'Interactive' || echo 'Not interactive'
+#shopt -q login_shell && echo 'Login shell' || echo 'Not login shell'
+
 # Use dsc009 as main machine over dsc005 - alternative should be dsc001 or so
 # NOTE Be very careful with the sequence of || and && here !
-if [[ $(uname -n) == "dsc005" ]] && [[ ! -z ${INSIDE_EMACS+x} ]] ;then
-#   tmp=$(mktemp)
-#   echo <<EOF > $tmp
-#Host dsc009
-#   SendEnv INSIDE_EMACS"
-#EOF
-   #   ssh -F $tmp dsc009
-   ssh dsc009
-fi
-    
+
+[[ $(uname -n) == "dsc005" ]] && [[ ! -z ${INSIDE_EMACS+x} ]] && ssh dsc009 # This is login shell, unlike eat-shell
+
+# Lets see if we're in SSH, coming from dsc005
+#if [[ ${SSH_CLIENT+x} ]] ;then
+#   if [[ $(echo ${SSH_CLIENT} | awk '{print $1}') == "10.54.68.150" ]] ;then
+#      echo "# SSH coming from dsc005"
+#      echo "# Setting up eat integration"
+#      export EAT_SHELL_INTEGRATION_DIR=/home/kofoed/.emacs.d/elpa/eat-0.9.4/integration
+#   fi
+#   fi
+
+
 source $HOME/.alias
 source $HOME/.alias_local
 
@@ -36,7 +44,7 @@ fi
 [[ -z ${INSIDE_EMACS+x} ]] || export TERM=$x && unset x
 
 # EAT SHELL INTEGRATION
-[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash" && echo "# EAT shell integration active"
 
 #PROMPT_DIRTRIM=1
 PROMPT_COMMAND='\

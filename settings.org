@@ -1,12 +1,28 @@
 #+PROPERTY: header-args :tangle yes :results silent
 
+* Debug hints if something goes wrong
+** External prgograms needed
+
+- ripgrep
+- clojure-lsp
+    
+** Xterm and other terminals
+
 Keep in mind:
 - .Xdefaults can set -fg white and -bg black for xterm
 - Select same for gnoterm?
 
+** When packages are not loaded or "compatible"
+
 Keep in mind - your *.elc files are made w/emacs version x, they may
 need to be recompiled to be used with x-1.
-  
+
+Package update may be needed - when packages are updated to new
+version, the old versions are no longer available.
+
+(e.g., consult was updated Sunday 20150119, when emacs looked
+for 20250117)
+
 * Figure out if we're at work or home
 
 #+begin_src emacs-lisp
@@ -67,6 +83,30 @@ Will use use-package, apparently "straight" is an alternative to this.
 #+begin_example
 (use-package eglot)
 #+end_example
+** Programming and Code completion
+
+Let;s start using eglot [2025-01-03 Fri]
+
+#+begin_src emacs-lisp
+  ;(use-package project) ; Workaround - eglot needs?
+  ;(require 'project)
+  (use-package eglot)
+
+#+end_src
+
+Code completion has two main alternatives, company and corfu, trying both.
+Even disabled corfu causes issues, dont trust :disabled
+
+#+begin_src emacs-lisp
+  (use-package cider)
+  (use-package company
+        :config
+        ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+        ;(global-set-key (kbd "<tab>") #'indent)
+        (setq company-tooltip-align-annotations t)
+        (add-hook 'after-init-hook 'global-company-mode))
+#+end_src
+
 ** Presentation fonts/colors/tabs/themes
 *** Installing a theme collection
 
@@ -76,13 +116,11 @@ Color-theme-modern has many different themes.
 :ensure t seems to be required here for some reason.
 
 #+begin_src emacs-lisp
-  (when nil (window-system)
-    (use-package color-theme-modern :ensure t
-      :config
-      (load-theme 'goldenrod t t)
-      (enable-theme 'goldenrod)
-      (set-face-attribute 'default  nil :background "#001")
-      ))
+  (when (window-system)
+    (use-package color-theme-modern :ensure t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
   (when (window-system)
     ;;; Themeing
     (use-package spaceway-theme
@@ -96,11 +134,17 @@ Color-theme-modern has many different themes.
       ;;(setenv "SCHEME" "dark"))
 #+end_src
 
-Testing out gruvbox theme - perhaps think of personal edits?
-This does not work from dsc005 for some reason (20-dec-24)
+Personal setup for the default(!) emacs colors
 
 #+begin_src emacs-lisp
-                                          ;(use-package gruvbox-theme)
+  (when (window-system)
+    (set-face-attribute 'org-block  nil :background "#14171B")
+    (set-face-attribute 'default    nil :foreground "#DAA520" :background "#001") ;; goldenrod
+    (set-face-attribute 'highlight nil :background "#033") ;; cyan - low intensity
+    (set-face-attribute 'font-lock-string-face nil :foreground "#ff0") ;; yellow
+    (set-face-attribute 'font-lock-comment-face nil :foreground  "#cd5c5c") ;; indian red
+    (set-face-attribute 'org-date nil :inherit 'help-key-binding :underline nil)
+    )
 #+end_src
 *** Select tab system - centaur on newer emacs versions
 
@@ -170,12 +214,12 @@ nerd-icons-install-fonts is required.
 
 Dimming the non-active windows may be useful, 20% is default
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
     (use-package dimmer
       :config
       (dimmer-configure-which-key)
       ;(dimmer-configure-helm)
-      (setq dimmer-fraction 0.3)
+      (setq dimmer-fraction 0.2)
       (dimmer-mode t))
 #+end_src
 
@@ -187,10 +231,11 @@ spacemacs.
     (use-package doom-modeline
       :init (doom-modeline-mode 1)
       :config
-      (set-face-attribute 'mode-line-inactive  nil :background "#111")
+      ;;(set-face-attribute 'mode-line-inactive  nil :background "#333" :foreground "#999") ;; cant change foreground?
+      (set-face-attribute 'mode-line-inactive  nil :foreground "#fff") ;; cant change foreground?
       (set-face-attribute 'mode-line    nil :background "#232")
-                                          ;Below is background for settings.org on the active modeline
-      (set-face-attribute 'mode-line-buffer-id nil :background "#222")
+      ;;Below is background for settings.org on the active modeline
+      ;;(set-face-attribute 'mode-line-buffer-id nil :background "#222")
       ))
 #+end_src
 
@@ -232,38 +277,6 @@ easier.
       (lambda () (interactive) (switch-to-buffer "*Org Agenda*"))))
 #+end_src
 
-** Programming and Code completion
-
-Code completion has two main alternatives, company and corfu, trying both.
-Even disabled corfu causes issues, dont trust :disabled
-
-#+begin_src emacs-lisp
-  (use-package cider)
-  (use-package company
-        :config
-        ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-        ;(global-set-key (kbd "<tab>") #'indent)
-        (setq company-tooltip-align-annotations t)
-        (add-hook 'after-init-hook 'global-company-mode))
-;  (use-package corfu
-;    :disabled
-;    :init
-;    (global-corfu-mode))
-;  (add-hook 'minibuffer-setup-hook (lambda ()
-;                                     (when (memq #'completion-at-point
-;                                                 (flatten-tree
-;                                                  (current-local-map)))
-;                                       (corfu-mode))))
-#+end_src
-
-Let;s start using eglot [2025-01-03 Fri]
-
-#+begin_src emacs-lisp
-  ;(use-package project) ; Workaround - eglot needs?
-  ;(require 'project)
-  ;(use-package eglot)
-
-#+end_src
 ** Project management
 
 Using treemacs for now. Apparently a package called projectile might be useful.
@@ -275,7 +288,6 @@ Using treemacs for now. Apparently a package called projectile might be useful.
 #+end_src
 
 ** Movement and selection - vertico, helm and ido
-
 *** Helm and ido - disabled
 
 Using helm to select commands and buffers etc.Can't get helm
@@ -414,6 +426,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-cl" 'org-store-link)
     (define-key global-map "\C-ca" 'org-agenda)
     (define-key global-map "\C-cc" 'org-capture)
+    (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
     ;;(setq org-directory "~/init/org")
     (setq org-default-notes-file "~/init/org/Capture.org")
     (setq org-agenda-files (list my-org-dir))
@@ -650,11 +663,14 @@ Hydra allows a menu for a key or keyseq. bind-key has not really been used yet.
 
 *** Installing hydra, M-SPC works?
 
+M-SPC works for TightVNC, but not for UltraVNC
+
 #+begin_src emacs-lisp
   (use-package bind-key)
   (use-package major-mode-hydra
     :bind
-    ("M-SPC" . major-mode-hydra)) ;Can we make this key work?
+    ("M-SPC" . major-mode-hydra) ;Can we make this key work?
+    )
 #+end_src
 
 *** Hydra selectors for themes, toggle modes, shell, cider
@@ -935,6 +951,21 @@ Setup text resolution based on what we can figure out about the current system.
           (t nil)))
 #+end_src
 
+* Setting up default windows
+
+#+begin_src emacs-lisp
+  (when (window-system)
+    (split-window-right)
+    (split-window-right)
+    (balance-windows)
+    (select-window (nth 0 (window-list)))
+    (find-file "~/.dotfiles/settings.org")
+    (select-window (nth 1 (window-list)))
+    (find-file "~/prj/cljs-world/src/cljs_world/core.cljs")
+    ;;(select-window (nth 2 (window-list)))
+    ;;(find-file "~/.dotfiles/settings.org"))
+    )
+#+end_src
 * Testing stuff and temporary commands/keys
 
 Candidates for keys are
@@ -946,8 +977,7 @@ Candidates for keys are
 | M-p | undefined          |
 | M-r | move to top/bottom |
 
-** Check centaur buffer type
-
+** Check centaur buffer type w/M-t key
 
 #+begin_src emacs-lisp
   (defun my/check-buffer-group ()
@@ -956,12 +986,6 @@ Candidates for keys are
     (message (car (centaur-tabs-buffer-groups))))
   (global-set-key (kbd "M-t") 'my/check-buffer-group)
   (define-key eat-semi-char-mode-map (kbd "M-t") 'my/check-buffer-group)
-#+end_src
-
-** Test M-a as switch to agenda
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
 #+end_src
 
 * End of file

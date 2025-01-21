@@ -90,7 +90,10 @@ Let;s start using eglot [2025-01-03 Fri]
 #+begin_src emacs-lisp
   ;(use-package project) ; Workaround - eglot needs?
   ;(require 'project)
-  (use-package eglot)
+  (use-package eglot
+    :hook
+    ((clojure-mode . eglot-ensure)
+     (lisp-mode . eglot-ensure)))
 
 #+end_src
 

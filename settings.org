@@ -685,6 +685,7 @@ M-SPC works for TightVNC, but not for UltraVNC
 
   (defun ek-theme (theme) (interactive) (mapcar #'disable-theme custom-enabled-themes) (load-theme theme t t) (enable-theme theme))
 
+  (defun ek/hcm () (interactive) (highlight-changes-mode t))
   (defhydra hydra-appearance (:color blue)
     ("1" (ek-theme 'wheat)             "wheat"             :column "Theme")
     ("2" (ek-theme 'goldenrod)         "goldenrod"         :column "Theme")
@@ -699,14 +700,15 @@ M-SPC works for TightVNC, but not for UltraVNC
     ("a" (ek-theme 'leuven)            "leuven"            :column "Theme")
     ("b" (ek-theme 'gruvbox)           "gruvbox"           :column "Theme")
 
-    ("l" display-line-numbers-mode "line-numbers"   :column "Toggle")
-    ("c" column-number-mode        "columns"        :column "Toggle")
-    ("g" hl-line-mode              "hl-line"        :column "Toggle")
-    ("G" global-hl-line-mode       "hl-line GLOBAL" :column "Toggle")
-    ("t" toggle-truncate-lines     "truncate"       :column "Toggle")
-    ("f" follow-mode               "follow"         :column "Toggle")
-    ("v" visual-line-mode          "visual-line"    :column "Toggle")
-    ("w" whitespace-mode           "whitespace"     :column "Toggle")
+    ("l" display-line-numbers-mode "line-numbers"       :column "Toggle")
+    ("c" column-number-mode        "columns"            :column "Toggle")
+    ("g" hl-line-mode              "hl-line"            :column "Toggle")
+    ("G" global-hl-line-mode       "hl-line GLOBAL"     :column "Toggle")
+    ("t" toggle-truncate-lines     "truncate"           :column "Toggle")
+    ("h" ek/hcm                    "highlight changes"  :column "Toggle")
+    ("f" follow-mode               "follow"             :column "Toggle")
+    ("v" visual-line-mode          "visual-line"        :column "Toggle")
+    ("w" whitespace-mode           "whitespace"         :column "Toggle")
 
     ;("m" helm-all-mark-rings       "mark-rings"     :column "Helm")
     ;("r" helm-register             "registers"      :column "Helm")

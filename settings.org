@@ -571,6 +571,8 @@ Here are templates for capturing tasks for December 2024, focused on VEC project
           ("l" "Clojure task"       entry (file+headline "~/init/org/home.org" "Clojure Tasks") "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
           ("j" "Journal"            entry (file+datetree "~/init/org/journal.org")             "* %?\nEntered on %U\n%i\n  %a")))
 
+  (global-set-key "\C-o" (lambda () (interactive) (execute-kbd-macro (read-kbd-macro "C-c c j"))))
+
   (setq org-agenda-custom-commands
         '(("u" "Untagged tasks" tags-todo "-{.*}")))
                                           ;	("d" "Daily Agenda"
@@ -664,10 +666,7 @@ Try to be more active with journals, fast key, and one per month (week?)
           (goto-char (point-min))
           (insert hdr)))
       (message "Enjoy your journaling!")))
-  (global-set-key "\C-o"
-                  (lambda ()
-                    (interactive)
-                    (open-journal-file)))
+  ;;(global-set-key "\C-o" (lambda () (interactive) (find-file "~/init/org/journal.org"))) ;;(open-journal-file)))
 #+end_src
 ** Hydra mode setup for keybinding selections
 

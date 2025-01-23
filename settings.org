@@ -168,35 +168,46 @@ Choose tabbar (built-in) or centaur tab, dependent on emacs version.
 Use centaur tabs when version is 27 or newer
 
 #+begin_src emacs-lisp
-    (if (> emacs-major-version 26)
-        (use-package centaur-tabs
-          :demand
-          :config
-          (centaur-tabs-mode t)
-                                          ;(setq centaur-tabs-height 32) ; Does not affect font or icon
-                                          ;(centaur-tabs-headline-match)
-                                          ;(setq centaur-tabs-style "bar")
-          (setq centaur-tabs-set-bar 'over)
-                                          ;(centaur-tabs-change-fonts "arial" 160) 
-          (setq centaur-tabs-set-icons t)
-          (setq centaur-tabs-icon-type 'nerd-icons)
-                                          ;(setq centaur-tabs-plain-icons t) ; Replacing icons!
-                                          ;(setq centaur-tabs-modified-marker t)
-          (defun centaur-tabs-buffer-groups ()
-            "Use as few groups as possible."
-            (list (cond ((string-equal "*" (substring (buffer-name) 0 1))
-                         (cond ((string-equal "eglot" (downcase (substring (buffer-name) 1 6)))
-                                "Eglot")
-                               (t
-                                "Tools")))
-                        ((string-equal "magit" (downcase (substring (buffer-name) 0 5)))
-                         "Magit")
-                        (t
-                         "Default"))))
-          (centaur-tabs-group-by-projectile-project);KLUDGE This is actually a bugfix
-          :bind
-          ("C-<left>" . centaur-tabs-backward)
-          ("C-<right>" . centaur-tabs-forward)))
+  (if (> emacs-major-version 26)
+      (use-package centaur-tabs
+        :after (org)
+        :demand
+        :config
+        (centaur-tabs-mode t)
+
+        (centaur-tabs-change-fonts "arial" 140)
+        (setq c/s/bg "#f4a460" c/u/bg "#696969")
+        (set-face-attribute 'centaur-tabs-selected nil :foreground "#000" :background c/s/bg)
+        (set-face-attribute 'centaur-tabs-selected-modified nil :foreground "#000" :background c/s/bg)
+        ;;(setq centaur-tabs-set-modified-marker t) ;; Colors will indicate
+        (set-face-attribute 'centaur-tabs-unselected nil :foreground "#fff" :background c/u/bg)
+        ;;(set-face-attribute 'centaur-tabs-unselected-modified nil :foreground "#322")
+        (setq centaur-tabs-set-modified-marker t)
+        
+        (centaur-tabs-enable-buffer-reordering)
+        (setq centaur-tabs-adjust-buffer-order 'right)
+
+        (setq centaur-tabs-set-icons t) ;; Show icons
+        (setq centaur-tabs-icon-type 'nerd-icons) ;; or all-the-icons (deprecated)
+
+        (defun centaur-tabs-buffer-groups ()
+          "Use as few groups as possible."
+          (list (cond ((string-equal "*" (substring (buffer-name) 0 1))
+                       (cond ((string-equal "eglot" (downcase (substring (buffer-name) 1 6)))
+                              "Eglot")
+                             (t
+                              "Tools")))
+                      ((string-equal "magit" (downcase (substring (buffer-name) 0 5)))
+                       "Magit")
+                      (t
+                       "Default"))))
+        (centaur-tabs-group-by-projectile-project);KLUDGE This is actually a bugfix
+        :bind
+        (("C-<left>" . centaur-tabs-backward)
+         ("C-<right>" . centaur-tabs-forward))
+        :hook
+        ((org-src-mode . centaur-tabs-local-mode)
+         (calendar-mode . centaur-tabs-local-mode))))
 #+end_src
 
 *** install icons for use in org, modelines, and tabs
@@ -236,7 +247,7 @@ spacemacs.
       :init (doom-modeline-mode 1)
       :config
       (set-face-attribute 'mode-line    nil :background "#232")       ;; These two have only background
-      (set-face-attribute 'mode-line-inactive nil :background "#232")
+      (set-face-attribute 'mode-line-inactive nil :background "#111")
       ;;(set-face-attribute 'doom-modeline nil :foreground "#fff") ;; This is default default
       ;;(set-face-attribute 'doom-modeline-emphasis nil :foreground "#fff")
       (set-face-attribute 'doom-modeline-buffer-file nil :foreground "#fff") ;; Saved filename
@@ -440,7 +451,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-cc" 'org-capture)
     (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
     ;;(setq org-directory "~/init/org")
-    (setq org-default-notes-file "~/init/org/Capture.org")
+    (setq org-default-notes-file "~/init/org/vec.org")
     (setq org-agenda-files (list my-org-dir))
     (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
     (setq org-hide-emphasis-markers t)
@@ -940,11 +951,13 @@ Below mode is intended to be used to highlight interesting stuff in innovus/etc 
 #+begin_src emacs-lisp
   (defun ek-hi-set ()
     (interactive)
-    (hi-lock-mode -1)
+    ;;(hi-lock-mode -1) ;;disable the mode
     (hi-lock-mode)
-    (highlight-lines-matching-regexp "^\\(**WARN:\\).*$" 'hi-green-b)
-    ;(highlight-lines-matching-regexp "^\\(#WARNING\\).*$" 'hi-red-b)
-    (highlight-lines-matching-regexp "^\\(**ERR\\).*$" 'hi-red-b)
+    (unhighlight-regexp ".*")
+    (highlight-lines-matching-regexp "^**WARN:.*$" 'hi-green-b)
+    ;;(highlight-lines-matching-regexp "^\\(#WARNING\\).*$" 'hi-red-b)
+    (highlight-lines-matching-regexp "^**ERR.*$" 'hi-red-b)
+    (highlight-lines-matching-regexp "^ *Slack:=.*$" 'hi-red-b)
     )
   (global-set-key (kbd "<f5>") 'ek-hi-set)
 

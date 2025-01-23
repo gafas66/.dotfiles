@@ -44,6 +44,8 @@ alias vnc='vncserver -nolisten local -geometry 3840x2160'
 #alias  w='cd /home/EPI/project/EUPILOT/VEC/usr/esk/pnr_innovus/micro_tile_pcie_7p5T_r06_v2'
 alias  w='source /home/kofoed/bin/w'
 
+alias space="cd ~/;mv .emacs.d .emacs.d2;mv .emacs.spm .emacs.d;emacs -mm;mv .emacs.d .emacs.spm;mv .emacs.d2 .emacs.d"
+
 # Filter verilog files to single lines to easily grep
 fver="sed 's^//.*^&;^'"              # ';' at end of comments (remove instead?)
 fver="$fver | sed 's/^module/;&/'"   # Create newlnes for modules

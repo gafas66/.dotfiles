@@ -172,8 +172,8 @@ Use centaur tabs when version is 27 or newer
 
         (centaur-tabs-change-fonts "arial" 120)
         (setq c/s/bg "#8b4513" c/u/bg "#696969") ;; saddle brown #8b4513
-        (set-face-attribute 'centaur-tabs-selected nil :foreground "#000" :background c/s/bg)
-        (set-face-attribute 'centaur-tabs-selected-modified nil :foreground "#000" :background c/s/bg)
+        (set-face-attribute 'centaur-tabs-selected nil :foreground "fff" :background c/s/bg)
+        (set-face-attribute 'centaur-tabs-selected-modified nil :foreground "#fff" :background c/s/bg)
         ;;(setq centaur-tabs-set-modified-marker t) ;; Colors will indicate
         (set-face-attribute 'centaur-tabs-unselected nil :foreground "#fff" :background c/u/bg)
         ;;(set-face-attribute 'centaur-tabs-unselected-modified nil :foreground "#322")
@@ -838,7 +838,8 @@ Lets try us start using magit to check in stuff more continuously from
 emacs.
 
 #+begin_src emacs-lisp
-  (use-package magit)
+  (when (< 28 emacs-major-version)
+    (use-package magit))
 #+end_src
 * Other settings
 ** Various toggle settings

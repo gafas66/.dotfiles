@@ -45,6 +45,8 @@ What is our terminal?
 
 Here we need some locally downloaded stuff, nerd-icons, org-roam etc
 
+** ELPA
+
 There are version issues around v26/27 versus gpg keys. These are
 needed for downloading packages, and have recently (3-4 years)
 expired, so recent emacs versions may not have the most recent keys.
@@ -74,8 +76,32 @@ Find a way to refresh only when its a week since last time
 How about creating a file inside elpa, and do (f-touch) on this every refresh?
 
 #+begin_src emacs-lisp
-  ;(package-refresh-contents)
+  (unless package-archive-contents
+    (package-refresh-contents))
 #+end_src
+
+** straight.el setup
+
+Straight includes use-package, so next section is not neeted?
+
+#+begin_src emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name
+          "straight/repos/straight.el/bootstrap.el"
+          (or (bound-and-true-p straight-base-dir)
+              user-emacs-directory)))
+        (bootstrap-version 7))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+end_src
+** use-package setup
 
 Will use use-package, apparently "straight" is an alternative to this.
 :ensure t is absolutely required, but can be made global.

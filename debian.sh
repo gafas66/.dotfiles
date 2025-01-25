@@ -2,7 +2,7 @@
 # This is base install for debian VM
 
 # Not always default
-apt -y install git gitk ruby leiningen emacs
+apt -y install git gitk emacs
 
 # Needed for installing guest additions on vbox
 apt -y install build-essential dkms linux-headers-$(uname -r)
@@ -16,5 +16,9 @@ sh ./VBoxLinuxAdditions.run
 # edit settings.org to refresh packages
 
 emacs # to download all packages
+
+# Note these install java & stuff so above is minimal
+
+apt -y install leiningen ruby
 
 ################################################################################

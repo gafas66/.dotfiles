@@ -2,7 +2,7 @@
 # This is base install for debian VM
 
 # Not always default
-apt -y install git gitk emacs
+apt -y install git gitk emacs zip unzip tree htop ruby
 
 # Needed for installing guest additions on vbox
 apt -y install build-essential dkms linux-headers-$(uname -r)
@@ -19,14 +19,8 @@ emacs # to download all packages
 
 # JDK-8 which seems to work for robocode
 
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-
-add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-
-apt update && sudo apt-get install adoptopenjdk-8-hotspot
+echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/debian-unstable.list
 
 # Note these install java & stuff so above is minimal
-
-apt -y install leiningen ruby
 
 ################################################################################

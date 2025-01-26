@@ -1,6 +1,6 @@
 ################################################################################
 
-echo "Setting up links to top dotfiles (.alias etc)"
+echo "# Setting up links to top dotfiles (.alias etc)"
 
 ln -s ~/.dotfiles/.alias ~/.
 mv -f ~/.bashrc ~/.bashrc_original ;ln -s ~/.dotfiles/.bashrc ~/.
@@ -12,4 +12,7 @@ ln -s ~/.dotfiles/init.el ~/.emacs.d/.
 ln -s ~/.dotfiles/lisp ~/.emacs.d/.
 echo "" > ~/.emcacs.d/custom-vars.el
 
-echo "NB! ~/init needs to be cloned as org files are there"
+source ~/.alias_local
+cd ~/ && git clone https:gafas66:$token@github.com/gafas66/init
+
+echo "# All files + init set up"

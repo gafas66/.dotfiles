@@ -17,6 +17,14 @@ sh ./VBoxLinuxAdditions.run
 
 emacs # to download all packages
 
+# JDK-8 which seems to work for robocode
+
+wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
+
+add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+
+apt update && sudo apt-get install adoptopenjdk-8-hotspot
+
 # Note these install java & stuff so above is minimal
 
 apt -y install leiningen ruby

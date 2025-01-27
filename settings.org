@@ -103,6 +103,11 @@ Straight includes use-package, so next section is not neeted?
 #+end_src
 ** use-package setup
 
+#+begin_src emacs-lisp
+;;    (use-package straight
+;;      :custom
+;;      (straight-use-package-by-default t))
+#+end_src
 Will use use-package, apparently "straight" is an alternative to this.
 :ensure t is absolutely required, but can be made global.
 
@@ -113,9 +118,7 @@ Will use use-package, apparently "straight" is an alternative to this.
 #+end_src
 
 * Installing packages
-#+begin_example
-(use-package eglot)
-#+end_example
+
 ** Programming and Code completion
 
 Let;s start using eglot [2025-01-03 Fri]
@@ -141,6 +144,14 @@ Even disabled corfu causes issues, dont trust :disabled
         ;(global-set-key (kbd "<tab>") #'indent)
         (setq company-tooltip-align-annotations t)
         (add-hook 'after-init-hook 'global-company-mode))
+#+end_src
+
+Now testing out flycheck
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :config
+    (global-flycheck-mode))
 #+end_src
 
 ** Presentation fonts/colors/tabs/themes

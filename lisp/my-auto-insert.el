@@ -1,6 +1,6 @@
 ;;----------------------------------------------------------------------------------------------------------------------
 ;; Created: Friday, September 24 2010
-;; Time-stamp: <2020-11-05 23:08:07 erik>
+;; Time-stamp: <2025-01-27 23:39:37 erik>
 ;; Author: Erik KOFOED
 ;;
 ;; Description:
@@ -47,7 +47,7 @@
 	 "#! /usr/bin/env perl\n"
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
-	 "# Author: " (user-full-name) ", " user-company
+	 "# Author: " (user-full-name) ", " user-company "\n"
 	 "use strict;\n"
 	 "use diagnostics;\n\n"
 	 _ "\n"
@@ -57,7 +57,7 @@
 	 "#! /bin/csh\n"
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
-	 "# Author: " (user-full-name) ", " user-company
+	 "# Author: " (user-full-name) ", " user-company "\n"
 	 "# Description:\n# " _ "\n"
 	 my-footer)
 	(("\\.sh\\'" . "Bourne Shell")
@@ -66,22 +66,22 @@
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
 	 "# Time-stamp: <>\n"
-	 "# Author: " (user-full-name) ", " user-company
+	 "# Author: " (user-full-name) ", " user-company "\n"
 	 "# Description:\n# " _ "\n"
 	 my-footer)
 	(("\\.el\\'" . "Emacs lisp file")
 	 nil
 	 ";;------------------------------------------------------------------------------\n"
 	 ";; Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
-	 ";; Author: "(user-full-name) ", " user-company
-	 ";; Description:\n;; " _ "\n"
+	 ";; Author: "(user-full-name) ", " user-company "\n"
+	 ";; Description:\n;;\n\n" _ "\n"
 	 my-footer2)
 	((tcl-mode . "tcl shell")
 	 nil
 	 "#! /usr/bin/env tclsh\n"
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
-	 "# Author: "(user-full-name) ", " user-company
+	 "# Author: "(user-full-name) ", " user-company "\n"
 	 "# Description:\n#\n" _ "\n"
 	 my-footer)
 	((ruby-mode . "Ruby mode")
@@ -89,14 +89,14 @@
 	 "#! /usr/bin/env ruby\n"
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
-	 "# Author: "(user-full-name) ", " user-company
+	 "# Author: "(user-full-name) ", " user-company "\n"
 	 "# Description:\n# " _ "\n"
 	 my-footer)
 	((makefile-mode . "Makefile mode")
 	 nil
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
-	 "# Author: "(user-full-name) ", " user-company
+	 "# Author: "(user-full-name) ", " user-company "\n"
 	 "# Description:\n# " _ "\n"
 	 my-footer)
 	((makefile-gmake-mode . "GNUMakefile mode")
@@ -104,7 +104,7 @@
 	 "################################################################################\n"
 	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
 	 "# Time-stamp: <>\n"
-	 "# Author: "(user-full-name) ", " user-company
+	 "# Author: "(user-full-name) ", " user-company "\n"
 	 "# Description:\n# " _ "\n"
 	 my-footer)))
 

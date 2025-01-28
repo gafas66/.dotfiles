@@ -146,6 +146,13 @@ Even disabled corfu causes issues, dont trust :disabled
         (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
 
+Company-box may make company look prettier:
+
+#+begin_src emacs-lisp
+    (use-package company-box
+      :hook (company-mode . company-box-mode))
+#+end_src
+
 Now testing out flycheck
 
 #+begin_src emacs-lisp
@@ -459,6 +466,16 @@ Trying consult to see how good it is ..
     (completion-in-region-function #'consult-completion-in-region)
     :config
     (recentf-mode t))
+#+end_src
+
+*** What-key - show keys and meanings
+
+Show key options:
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (which-key-mode))
 #+end_src
 
 ** Org mode setup (and org-babel)

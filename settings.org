@@ -149,8 +149,8 @@ Even disabled corfu causes issues, dont trust :disabled
 Company-box may make company look prettier:
 
 #+begin_src emacs-lisp
-    (use-package company-box
-      :hook (company-mode . company-box-mode))
+  (use-package company-box
+    :hook ((company-mode . company-box-mode)))
 #+end_src
 
 Now testing out flycheck
@@ -920,7 +920,7 @@ emacs.
   ;; Stop any ui dialogs
   (setq use-dialog-box nil)
   (global-auto-revert-mode 1)
-  (setq global-auto-revert-non-file-buffers t)
+  (setq global-auto-revert-non-file-buffers nil)
 #+end_src
 
 ** Emacs shell setup

@@ -121,29 +121,33 @@ Will use use-package, apparently "straight" is an alternative to this.
 
 ** Programming and Code completion
 
-Let;s start using eglot [2025-01-03 Fri]
+Let;s start using eglot [2025-01-03 Fri] <- Does not work well with flycheck
 
 #+begin_src emacs-lisp
-  ;(use-package project) ; Workaround - eglot needs?
-  ;(require 'project)
-  (use-package eglot
-    :hook
-    ((clojure-mode . eglot-ensure)
-     (lisp-mode . eglot-ensure)))
-
+;;  (use-package eglot
+;;    :hook
+;;    ((clojure-mode . eglot-ensure)
+;;     (lisp-mode . eglot-ensure)))
 #+end_src
 
 Code completion has two main alternatives, company and corfu, trying both.
 Even disabled corfu causes issues, dont trust :disabled
 
 #+begin_src emacs-lisp
-  (use-package cider)
-  (use-package company
-        :config
-        ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-        ;(global-set-key (kbd "<tab>") #'indent)
-        (setq company-tooltip-align-annotations t)
-        (add-hook 'after-init-hook 'global-company-mode))
+      (use-package cider)
+      (use-package lsp-mode
+        :hook
+        ((clojure-mode . lsp)
+         (bash-mode . lsp)))
+        ;;(mapcar (lambda (m) (list (concat m "-mode . lsp")))
+        ;;        '("clojure" "bash" "tcl"))
+      (use-package lsp-treemacs)
+      (use-package company
+            :config
+            ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+            ;(global-set-key (kbd "<tab>") #'indent)
+            (setq company-tooltip-align-annotations t)
+            (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
 
 Company-box may make company look prettier:

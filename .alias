@@ -32,7 +32,7 @@ alias gc='git commit -a -m "todo;general"'
 #alias gph='git push'
 alias gpr='git config --get remote.origin.url'
 alias gu='cd ../c2*;git pull;cd -;cd ../vec*;git pull;cd -;cd ../pci*;git pull ;cd -'
-
+alias gall='cd ~/.dotfiles;gpu;cd -;cd ~/init;gpu;cd -;cd ~/Prj/rcode;gpu;cd -'
 # Fraunhofer
 #alias cadence="/home/bur/bin/cds/cadence"
 alias lic_in_use="/home/bur/bin/cds/cadence lic_in_use"

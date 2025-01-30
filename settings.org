@@ -141,7 +141,7 @@ Even disabled corfu causes issues, dont trust :disabled
          (bash-mode . lsp)))
         ;;(mapcar (lambda (m) (list (concat m "-mode . lsp")))
         ;;        '("clojure" "bash" "tcl"))
-      (use-package lsp-treemacs)
+      ;;(use-package lsp-treemacs)
       (use-package company
             :config
             ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
@@ -303,6 +303,12 @@ spacemacs.
       ;;(set-face-attribute 'mode-line-active nil :foreground "#fff") ;; Not used
       ;;(set-face-attribute 'mode-line-buffer-id nil :background "#fff")
       ))
+#+end_src
+
+Display time in 24h format in modeline
+#+begin_src emacs-lisp
+  (setq display-time-24hr-format t)
+  (display-time-mode 1)
 #+end_src
 
 *** Coloring of keywords and marking random text + fic

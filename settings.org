@@ -134,20 +134,21 @@ Code completion has two main alternatives, company and corfu, trying both.
 Even disabled corfu causes issues, dont trust :disabled
 
 #+begin_src emacs-lisp
-      (use-package cider)
-      (use-package lsp-mode
-        :hook
-        ((clojure-mode . lsp)
-         (bash-mode . lsp)))
-        ;;(mapcar (lambda (m) (list (concat m "-mode . lsp")))
-        ;;        '("clojure" "bash" "tcl"))
-      ;;(use-package lsp-treemacs)
-      (use-package company
-            :config
-            ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-            ;(global-set-key (kbd "<tab>") #'indent)
-            (setq company-tooltip-align-annotations t)
-            (add-hook 'after-init-hook 'global-company-mode))
+        (use-package cider)
+        (use-package lsp-mode
+          ;;:hook
+          ;;((clojure-mode . lsp)
+          ;; (bash-mode . lsp))
+          )
+          ;;(mapcar (lambda (m) (list (concat m "-mode . lsp")))
+          ;;        '("clojure" "bash" "tcl"))
+        ;;(use-package lsp-treemacs)
+        (use-package company
+              :config
+              ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+              ;(global-set-key (kbd "<tab>") #'indent)
+              (setq company-tooltip-align-annotations t)
+              (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
 
 Company-box may make company look prettier:

@@ -124,38 +124,63 @@ Will use use-package, apparently "straight" is an alternative to this.
 Let;s start using eglot [2025-01-03 Fri] <- Does not work well with flycheck
 
 #+begin_src emacs-lisp
-;;  (use-package eglot
-;;    :hook
-;;    ((clojure-mode . eglot-ensure)
-;;     (lisp-mode . eglot-ensure)))
+  (use-package eglot
+    :hook
+    ((clojure-mode . eglot-ensure)
+     (lisp-mode . eglot-ensure)))
 #+end_src
 
 Code completion has two main alternatives, company and corfu, trying both.
 Even disabled corfu causes issues, dont trust :disabled
 
 #+begin_src emacs-lisp
-        (use-package cider)
-        (use-package lsp-mode
-          ;;:hook
-          ;;((clojure-mode . lsp)
-          ;; (bash-mode . lsp))
-          )
-          ;;(mapcar (lambda (m) (list (concat m "-mode . lsp")))
-          ;;        '("clojure" "bash" "tcl"))
-        ;;(use-package lsp-treemacs)
-        (use-package company
-              :config
-              ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-              ;(global-set-key (kbd "<tab>") #'indent)
-              (setq company-tooltip-align-annotations t)
-              (add-hook 'after-init-hook 'global-company-mode))
+    (use-package cider)
+    ;;(use-package lsp-mode
+    ;;  :hook
+    ;;  ((clojure-mode . lsp)
+    ;;   (bash-mode . lsp))
+    ;;  ;;:config
+    ;;  ;;(setq lsp-enable-symbol-highlighting    t
+    ;;  ;;      lsp-ui-doc-enable                 t
+    ;;  ;;      lsp-ui-doc-show-with-cursor       t
+    ;;  ;;      lsp-ui-doc-show-with-mouse        t
+    ;;  ;;      lsp-lens-enable                   t
+    ;;  ;;      lsp-headerline-breadcrumb-enable  t
+    ;;  ;;      lsp-ui-sideline-enable            t
+    ;;  ;;      lsp-ui-sideline-show-code-actions t
+    ;;  ;;      lsp-ui-sideline-show-hover        t
+    ;;  ;;      lsp-ui-sideline-show-diagnostics  t
+    ;;  ;;      lsp-modeline-code-actions-enable  t
+    ;;  ;;      lsp-modeline-diagnostics-enable   t
+    ;;  ;;      lsp-diagnostics-provider :none
+    ;;  ;;      lsp-eldoc-enable-hover            t
+    ;;  ;;      lsp-signature-auto-activate       t
+    ;;  ;;      lsp-completion-provider :none
+    ;;  ;;      lsp-completion-show-kind          t
+    ;;  ;;      )
+    ;;  )
+    ;;(mapcar (lambda (m) (list (concat m "-mode . lsp")))
+    ;;        '("clojure" "bash" "tcl"))
+    ;;(use-package lsp-treemacs)
+    (use-package company
+          :config
+          ;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+          ;(global-set-key (kbd "<tab>") #'indent)
+          (setq company-tooltip-align-annotations t)
+          (add-hook 'after-init-hook 'global-company-mode))
 #+end_src
 
-Company-box may make company look prettier:
+Company-box may make company look prettier?
+Atm, removes icons, and add nothing !
+
+Quickhelp seems an alternative?
 
 #+begin_src emacs-lisp
-  (use-package company-box
-    :hook ((company-mode . company-box-mode)))
+  ;;(use-package company-box
+  ;;  :hook (company-mode . company-box-mode))
+  (use-package company-quickhelp
+    :config
+    (company-quickhelp-mode))
 #+end_src
 
 Now testing out flycheck

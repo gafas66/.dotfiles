@@ -100,21 +100,10 @@ Straight includes use-package, so next section is not neeted?
         (goto-char (point-max))
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
-#+end_src
-** use-package setup
 
-#+begin_src emacs-lisp
-;;    (use-package straight
-;;      :custom
-;;      (straight-use-package-by-default t))
-#+end_src
-Will use use-package, apparently "straight" is an alternative to this.
-:ensure t is absolutely required, but can be made global.
-
-#+begin_src emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
+  (straight-use-package 'use-package)
   (setq use-package-always-ensure t)
+  (setq straight-use-package-by-default t)
 #+end_src
 
 * Installing packages
@@ -520,7 +509,7 @@ Show key options:
 Perhaps use :bind to improve readability below?
 
 #+begin_src emacs-lisp
-  (use-package org
+  (use-package org :straight nil
     :pin gnu
     :config
     (setq org-log-done 'time)

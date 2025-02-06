@@ -1,4 +1,5 @@
-;;------------------------------------------------------------------------------
+;;; package --- early-init
+;;; Commentary:
 ;; Created: Monday, January 27 2025
 ;; Author: Erik Kofoed, ESK
 ;; Description:

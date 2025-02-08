@@ -44,6 +44,7 @@ fi
 [[ -z ${INSIDE_EMACS+x} ]] || export TERM=$x && unset x
 
 # EAT SHELL INTEGRATION
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && export EAT_SHELL_INTEGRATION_DIR=~/.emacs.d/straight/repos/eat/integration
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash" && echo "# EAT shell integration active"
 
 #PROMPT_DIRTRIM=1

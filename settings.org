@@ -917,8 +917,7 @@ Lets try us start using magit to check in stuff more continuously from
 emacs.
 
 #+begin_src emacs-lisp
-  (when (< 28 emacs-major-version)
-    (use-package magit))
+  (use-package magit)
 #+end_src
 * Other settings
 ** Various toggle settings

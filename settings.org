@@ -486,7 +486,7 @@ Perhaps use :bind to improve readability below?
     (setq org-return-follows-link t)
     (add-hook 'org-mode-hook 'org-indent-mode)
     (add-hook 'org-mode-hook 'org-indent-mode)
-    (add-hook 'org-mode-hook 'visual-fill-column-mode 1)
+    ;;(add-hook 'org-mode-hook 'visual-fill-column-mode 1)
     (add-hook 'org-agenda-mode-hook 'hl-line-mode)
     (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
     (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
@@ -715,22 +715,32 @@ For presentations (to html also?)
                  (lambda ()
                    (org-present-big)
                    (org-display-inline-images)
-                   (org-present-hide-cursor)
+                   ;;(org-present-hide-cursor)
                    (org-present-read-only)
-                   (visual-fill-column-mode 1)))
+                   (visual-fill-column-mode 1)
+  		 ;; Tweak font sizes
+  		 (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
+  						    (header-line (:height 4.0) variable-pitch)
+  						    (org-document-title (:height 1.75) org-document-title)
+  						    (org-code (:height 1.55) org-code)
+  						    (org-verbatim (:height 1.55) org-verbatim)
+  						    (org-block (:height 1.25) org-block)
+  						    (org-block-begin-line (:height 0.7) org-block)))))
        (add-hook 'org-present-mode-quit-hook
                  (lambda ()
                    (org-present-small)
                    (org-remove-inline-images)
-                   (org-present-show-cursor)
+                   ;;(org-present-show-cursor)
                    (org-present-read-write)
-                   (visual-fill-column-mode 0)))))
+                   (visual-fill-column-mode 0)
+  		 ;; Reset font customizations
+  		 (setq-local face-remapping-alist '((default variable-pitch default)))))))
 #+end_src
 
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :config
-    (setq visual-fill-column 200
+    (setq visual-fill-column 110
           visual-fill-column-center-text t))
 #+end_src
 *** Org drill

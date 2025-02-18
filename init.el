@@ -8,6 +8,9 @@
 ;(add-hook 'kill-emacs-query-functions
 ;          'custom-prompt-customize-unsaved-options)
 
+(message "Starting up org-mode init file")
+(setq my-org-dir "~/init/org")
+
 (org-babel-load-file "~/.dotfiles/settings.org")
 
 ; End of file

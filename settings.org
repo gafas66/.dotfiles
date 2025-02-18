@@ -43,68 +43,8 @@ What is our terminal?
 #+end_src
 * Setting up ELPA package system
 
-Here we need some locally downloaded stuff, nerd-icons, org-roam etc
-
-** ELPA
-
-There are version issues around v26/27 versus gpg keys. These are
-needed for downloading packages, and have recently (3-4 years)
-expired, so recent emacs versions may not have the most recent keys.
-
-The algorithm priority is a workaround.
-                        
-For package-check-signature, 'allow-unsigned is the default, but this
-does not always work.
-
-#+begin_src emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/lisp") ; NOTE My local lisps
-
-  (require 'package)
-
-  (when (< emacs-major-version 27)
-    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")         ; NOTE w/o creates no "gnu", just gnupg
-    (require 'gnu-elpa-keyring-update)                             ; NOTE Now accepts gnu archives
-    (add-to-list 'package-archives '("nongnu" . "http://elpa.nongnu.org/nongnu/") t))
-
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (setq package-check-signature nil)
-
-  (package-initialize)
-#+end_src
-
-Find a way to refresh only when its a week since last time
-How about creating a file inside elpa, and do (f-touch) on this every refresh?
-
-#+begin_src emacs-lisp
-  (unless package-archive-contents
-    (package-refresh-contents))
-#+end_src
-
-** straight.el setup
-
-Straight includes use-package, so next section is not neeted?
-
-#+begin_src emacs-lisp
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name
-          "straight/repos/straight.el/bootstrap.el"
-          (or (bound-and-true-p straight-base-dir)
-              user-emacs-directory)))
-        (bootstrap-version 7))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  (straight-use-package 'use-package)
-  (setq use-package-always-ensure t)
-  (setq straight-use-package-by-default t)
-#+end_src
+This is moved to early-init.el file, so we can have org properly
+installed before babel-loading this file.
 
 * Installing packages
 
@@ -545,7 +485,8 @@ Perhaps use :bind to improve readability below?
     (setq org-log-done 'time)
     (setq org-return-follows-link t)
     (add-hook 'org-mode-hook 'org-indent-mode)
-    (add-hook 'org-mode-hook 'hl-line-mode)
+    (add-hook 'org-mode-hook 'org-indent-mode)
+    (add-hook 'org-mode-hook 'visual-fill-column-mode 1)
     (add-hook 'org-agenda-mode-hook 'hl-line-mode)
     (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
     (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
@@ -575,7 +516,7 @@ Perhaps use :bind to improve readability below?
 Limit how many headlines  are available for refile
 
 #+begin_src emacs-lisp
-  (setq org-refile-targets '(("vec.org" :maxlevel . 1)
+  (setq org-refile-targets '(("vec.org"  :maxlevel . 1)
                              ("home.org" :maxlevel . 2)))
 #+end_src
 *** Babel setup - various programming languages inside org mode
@@ -767,30 +708,37 @@ emacs, or installed in unix.
 For presentations (to html also?)
 
 #+begin_src emacs-lisp
-      (use-package org-present)
-      (eval-after-load "org-present"
-        '(progn
-           (add-hook 'org-present-mode-hook
-                     (lambda ()
-                       (org-present-big)
-                       (org-display-inline-images)
-                       (org-present-hide-cursor)
-                       (org-present-read-only)
-                       (visual-fill-column-mode 1)))
-           (add-hook 'org-present-mode-quit-hook
-                     (lambda ()
-                       (org-present-small)
-                       (org-remove-inline-images)
-                       (org-present-show-cursor)
-                       (org-present-read-write)
-                       (visual-fill-column-mode 0)))))
+  (use-package org-present)
+  (eval-after-load "org-present"
+    '(progn
+       (add-hook 'org-present-mode-hook
+                 (lambda ()
+                   (org-present-big)
+                   (org-display-inline-images)
+                   (org-present-hide-cursor)
+                   (org-present-read-only)
+                   (visual-fill-column-mode 1)))
+       (add-hook 'org-present-mode-quit-hook
+                 (lambda ()
+                   (org-present-small)
+                   (org-remove-inline-images)
+                   (org-present-show-cursor)
+                   (org-present-read-write)
+                   (visual-fill-column-mode 0)))))
 #+end_src
 
 #+begin_src emacs-lisp
-        (use-package visual-fill-column
-          :config
-          (setq visual-fill-column 110
-                visual-fill-column-center-text t))
+  (use-package visual-fill-column
+    :config
+    (setq visual-fill-column 200
+          visual-fill-column-center-text t))
+#+end_src
+*** Org drill
+
+Apparently useful for training slides
+
+#+begin_src emacs-lisp
+  (use-package org-drill)
 #+end_src
 *** Journal setup
 

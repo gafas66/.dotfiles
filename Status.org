@@ -1,0 +1,17 @@
+* Presentation test of org-mode
+
+** Current status of VEC
+
+- C2C ok, reasonable timing / drc
+- PCIE ditto
+- ddr avaiting updates, internal known timing issues
+- IO - unknown
+- vtile internal DRC issues, cannot meet 1 GHz
+- Top level, channel routing issues, vpu to c2c, and cpu to ddr
+
+* Upcoming
+
+- Initiate contact with RacyIC for delivery top gds
+- Get overview missing deliveries
+- Finish and park c2c/picie/io/ddr3
+  

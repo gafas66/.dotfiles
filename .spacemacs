@@ -43,7 +43,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      ;; git
      ;; helm
-     ;; lsp
+     lsp
      ;; markdown
      multiple-cursors
      org
@@ -52,11 +52,11 @@ This function should only modify configuration layer settings."
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking ;; Flycheck & co
-     ;; auto-completion ;; company & co
-     ;; compleseus      ;; vertico & co (alternatice to helm)
-     ;; ivy             ;; Third alternative to help/vertico
+     auto-completion ;; company & co
+     compleseus      ;; vertico & co (alternatice to helm)
+     ivy             ;; Third alternative to help/vertico
      ;; templates       ;; provides template via yasnippets
-     tabs            ;; centaur tabs
+     ;;tabs            ;; centaur tabs
      ;; unicode-fonts   ;; More fonts?
      ;; version-control
      treemacs)

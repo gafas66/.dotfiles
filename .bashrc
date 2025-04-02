@@ -9,7 +9,7 @@
 # Use dsc009 as main machine over dsc005 - alternative should be dsc001 or so
 # NOTE Be very careful with the sequence of || and && here !
 
-[[ $(uname -n) == "dsc005" ]] && [[ ! -z ${INSIDE_EMACS+x} ]] && ssh dsc009 # This is login shell, unlike eat-shell
+[[ $(uname -n) == "dsc005" ]] && [[ ! -z ${INSIDE_EMACS+x} ]] && ssh dsc001 # This is login shell, unlike eat-shell
 
 # Lets see if we're in SSH, coming from dsc005
 #if [[ ${SSH_CLIENT+x} ]] ;then

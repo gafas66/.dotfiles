@@ -1002,6 +1002,12 @@ Normal (non-eat) emacs shell (not eshell)
 
 ** Dumb terminals
 
+Fix for missing meta key on debian 12
+
+#+begin_src emacs-lisp
+    (setq x-alt-keysym 'meta)
+#+end_src
+
 This is for putty on windows 10
 putty: "dumb"
 debian, rocky,xterm: "eterm-color"
@@ -1101,7 +1107,7 @@ Setup text resolution based on what we can figure out about the current system.
           (t nil)))
 #+end_src
 
-* Setting up default windows
+* Setting up default windows and start server
 
 #+begin_src emacs-lisp
   (org-agenda-list)
@@ -1120,6 +1126,11 @@ Setup text resolution based on what we can figure out about the current system.
     ;;(find-file "~/.dotfiles/settings.org"))
     )
 #+end_src
+
+#+begin_src emacs-lisp
+  (server-start)
+#+end_src
+
 * Testing stuff and temporary commands/keys
 
 Candidates for keys are

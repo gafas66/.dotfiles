@@ -1069,6 +1069,10 @@ Testing:
 Below mode is intended to be used to highlight interesting stuff in innovus/etc log files
 
 #+begin_src emacs-lisp
+  (setq undo-outer-limit 1e12)
+#+end_src
+
+#+begin_src emacs-lisp
   (defun ek-hi-set ()
     (interactive)
     ;;(hi-lock-mode -1) ;;disable the mode

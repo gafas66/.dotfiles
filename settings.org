@@ -285,6 +285,14 @@ Using treemacs for now. Apparently a package called projectile might be useful.
            ("M-o" . ace-window)))
 #+end_src
 
+Show changes compared to git version in file
+
+#+begin_src emacs-lisp
+  (use-package diff-hl)
+    :init
+    (global-diff-hl-mode))
+#+end_src
+
 ** Movement and selection - vertico, helm and ido
 *** Helm and ido
 
@@ -509,7 +517,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-cc" 'org-capture)
     (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
     ;;(setq org-directory "~/init/org")
-    (setq org-default-notes-file "~/init/org/vec.org")
+    (setq org-default-notes-file "~/init/org/tasks.org")
     (setq org-agenda-files (list my-org-dir))
     (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
     (setq org-hide-emphasis-markers t)
@@ -529,8 +537,8 @@ Perhaps use :bind to improve readability below?
 Limit how many headlines  are available for refile
 
 #+begin_src emacs-lisp
-  (setq org-refile-targets '(("vec.org"  :maxlevel . 1)
-                             ("home.org" :maxlevel . 2)))
+  (setq org-refile-targets '(("tasks.org"  :maxlevel . 1)
+                             ("home.org"   :maxlevel . 2)))
 #+end_src
 *** Babel setup - various programming languages inside org mode
 
@@ -1070,6 +1078,12 @@ Below mode is intended to be used to highlight interesting stuff in innovus/etc 
 
 #+begin_src emacs-lisp
   (setq undo-outer-limit 1e12)
+
+  (defun esk/new-scratch-buffer-in-org-mode ()
+    (interactive)
+    (switch-to-buffer (generate-new-buffer-name "*temp*"))
+    (org-mode))
+  (bind-key "<f7>" 'esk/new-scratch-buffer-in-org-mode)
 #+end_src
 
 #+begin_src emacs-lisp

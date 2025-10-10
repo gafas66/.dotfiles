@@ -288,7 +288,7 @@ Using treemacs for now. Apparently a package called projectile might be useful.
 Show changes compared to git version in file
 
 #+begin_src emacs-lisp
-  (use-package diff-hl)
+  (use-package diff-hl
     :init
     (global-diff-hl-mode))
 #+end_src

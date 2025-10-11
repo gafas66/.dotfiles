@@ -9,25 +9,26 @@
 
 ;; As we use babel to load init-file, org has to be loaded first
 ;; Disable package.el in favour of straight.el
-(setq package-enable-at-startup nil)
+;;(setq package-enable-at-startup nil)
+;;(setq package-enable-at-startup nil)
 
 ;; Get ORG-MODE
 (add-to-list 'load-path "~/.emacs.d/lisp") ; NOTE My local lisps
 
-(require 'package)
+;;(require 'package)
 
 (when (< emacs-major-version 27)
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")         ; NOTE w/o creates no "gnu", just gnupg
   (require 'gnu-elpa-keyring-update)                             ; NOTE Now accepts gnu archives
 )
-(add-to-list 'package-archives '("nongnu" . "http://elpa.nongnu.org/nongnu/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(setq package-check-signature nil)
+;;(add-to-list 'package-archives '("nongnu" . "http://elpa.nongnu.org/nongnu/") t)
+;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;;(setq package-check-signature nil)
 
-(package-initialize)
-
-(unless package-archive-contents
-  (package-refresh-contents))
+;;(package-initialize)
+;;
+;;(unless package-archive-contents
+;;  (package-refresh-contents))
 
 ;; SETUP STRAIGHT
 
@@ -48,8 +49,9 @@
     (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-(setq use-package-always-ensure t)
+;;(setq use-package-always-ensure t)
 (setq straight-use-package-by-default t)
+;;(setq package-enable-at-startup nil) ;; Adviced at startup
 
 ;; START ORG - correct version
 (use-package org) ;; Remainder in main settup.org file

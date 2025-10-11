@@ -2,7 +2,7 @@
 # This is base install for debian VM
 
 # Not always default
-apt -y install git gitk emacs zip unzip tree htop ruby ripgrep
+apt -y install git gitk emacs zip unzip tree htop ruby ripgrep curl
 
 sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)
 

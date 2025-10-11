@@ -81,7 +81,7 @@ installed before babel-loading this file.
       :config
       (company-quickhelp-mode))
 
-    (use-package flycheck :ensure t
+    (use-package flycheck
       :config
       (global-flycheck-mode)))
 #+end_src
@@ -89,7 +89,12 @@ installed before babel-loading this file.
 *** Now make some kind of choice of completion
 
 #+begin_src emacs-lisp
-  (ek/company)
+  ;;(ek/company)
+  (setq treesit-language-source-alist
+        '((cpp  "https://github.com/tree-sitter/tree-sitter-cpp")
+  	(c    "https://github.com/tree-sitter/tree-sitter-c")
+  	(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+  	))
 #+end_src
 ** Presentation fonts/colors/tabs/themes
 *** Installing a theme collection
@@ -101,7 +106,7 @@ Color-theme-modern has many different themes.
 
 #+begin_src emacs-lisp
   (when (window-system)
-    (use-package color-theme-modern :ensure t))
+    (use-package color-theme-modern))
 #+end_src
 
 Personal setup for the default(!) emacs colors
@@ -245,10 +250,11 @@ etc. Markerpen is manually downloaded.
 #+begin_src emacs-lisp
   (require 'markerpen nil :noerror)
 
-  (use-package fic-mode :ensure t)
+  (use-package fic-mode)
   (setq p-modes '(tcl-mode-hook ruby-mode-hook perl-mode-hook cperl-mode-hook emacs-lisp-mode-hook python-mode-hook))
   (mapcar (lambda (mode) (add-hook mode 'fic-mode)) p-modes)
   (setq fic-highlighted-words '("FIXME" "TODO" "NOTE" "KLUDGE" "BUG"))
+  (set-face-attribute 'fic-face nil :foreground "red" :background "yellow")
 #+end_src
 
 Testing out line-reminder package - test at work failed!
@@ -376,12 +382,11 @@ Using only vertico for completion - simpler than the above
       (vertico-mode))
     (use-package marginalia
       :after vertico
-      :ensure t
       :custom (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
       :init
       (marginalia-mode))
     (vertico-reverse-mode)
-    ;;(use-package vertico-reverse :after vertico :ensure nil)
+    ;;(use-package vertico-reverse :after vertico)
     ;;(use-package vertico-multiform-commands)
     )
   (use-package savehist
@@ -441,7 +446,6 @@ Trying consult to see how good it is ..
     (minibuffer-depth-indicate-mode 1)
   ;;;; Extra Completion Functions
     (use-package consult
-      :ensure t
       :after vertico
       :bind (("C-x b"       . consult-buffer)
              ("C-x C-k C-k" . consult-kmacro)
@@ -475,12 +479,12 @@ Trying consult to see how good it is ..
 
 *** What-key - show keys and meanings
 
-Show key options:
+Show key options this is included from emacs version 30
 
 #+begin_src emacs-lisp
-  (use-package which-key
-    :config
-    (which-key-mode))
+  (if (< emacs-major-version 30)
+      (use-package which-key))
+  (which-key-mode)
 #+end_src
 
 *** Select helm or vertico system
@@ -501,7 +505,7 @@ Perhaps use :bind to improve readability below?
 
 #+begin_src emacs-lisp
   (use-package org :straight nil
-    :pin gnu
+    ;;:pin gnu
     :config
     (setq org-log-done 'time)
     (setq org-return-follows-link t)
@@ -704,7 +708,7 @@ emacs, or installed in unix.
 #+begin_src emacs-lisp
   (when (> emacs-major-version 28)
     ;;(require 'emacsql nil :noerror)
-    (use-package emacsql :ensure t)
+    (use-package emacsql)
     ;;(use-package emacsql-sqlite)
     (use-package org-roam
       :init

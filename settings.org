@@ -718,9 +718,6 @@ emacs, or installed in unix.
         :custom
         (org-roam-directory ek/roamnotes)
         (org-roam-completion-everywhere t)
-        (org-roam-dailies-capture-templates
-         '(("d" "default" entry "* %<%I:%M %p>: %?"
-  	  :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
         :bind (("C-c n l" . org-roam-buffer-toggle)
   	     ("C-c n f" . org-roam-node-find)
   	     ("C-c n i" . org-roam-node-insert)
@@ -733,6 +730,11 @@ emacs, or installed in unix.
         ("C-c n d" . org-roam-dailies-map)
         :config
         (require 'org-roam-dailies) ;; Ensure the keymap is available
+        (setq org-roam-dailies-capture-templates
+  	    '(("d" "default" entry
+  	       "* %?"
+  	       :target (file+head "%<%Y-%m-%d>.org"
+  				  "#+title: %<%Y-%m-%d>\n"))))
         (org-roam-db-autosync-mode)))
 #+end_src
 

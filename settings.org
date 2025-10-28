@@ -490,7 +490,7 @@ Show key options this is included from emacs version 30
 *** Select helm or vertico system
 
 #+begin_src emacs-lisp
-  (if nil
+  (if t
       (ek/helm)
     (progn
       (ek/vertico)
@@ -521,7 +521,7 @@ Perhaps use :bind to improve readability below?
     (define-key global-map "\C-cc" 'org-capture)
     (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
     ;;(setq org-directory "~/init/org")
-    (setq org-default-notes-file "~/init/org/tasks.org")
+    (setq org-default-notes-file "/home/kofoed/init/org/tasks.org")
     (setq org-agenda-files (list my-org-dir))
     (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
     (setq org-hide-emphasis-markers t)
@@ -652,18 +652,14 @@ Here are templates for capturing tasks for December 2024, focused on VEC project
   (setq outline-minor-mode-cycle t)
 
   (setq org-capture-templates
-        '(("t" "General task"       entry (file+regexp org-default-notes-file "Tasks")            "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ;;("c" "C2C task"           entry (file+headline "~/init/org/vec.org" "C2C tasks" )     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ;;("p" "PCIE task"          entry (file+headline "~/init/org/vec.org" "PCIE tasks")     "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ;;("v" "VEC top-level task" entry (file+regexp "~/init/org/vec.org" "VEC Top.*" )       "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ;;("e" "Emacs task"         entry (file+headline "~/init/org/home.org" "Emacs Tasks")   "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ;;("l" "Clojure task"       entry (file+headline "~/init/org/home.org" "Clojure Tasks") "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+        '(
+  	("t" "General task"       entry (file+headline org-default-notes-file "Tasks")            "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
           ("j" "Journal (C-o)"        entry (file+olp+datetree "~/init/org/journal.org")          "* %?\nEntered on %U\n%i\n  %a")
           ))
 
   (global-set-key "\C-o" (lambda () (interactive) (execute-kbd-macro (read-kbd-macro "C-c c j"))))
   (global-set-key (kbd "C-=") (lambda () (interactive) (find-file "~/init/org/journal.org")))
-  
+
   (setq org-agenda-custom-commands
         '(("u" "Untagged tasks" tags-todo "-{.*}")))
                                           ;	("d" "Daily Agenda"

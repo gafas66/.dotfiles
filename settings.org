@@ -490,7 +490,7 @@ Show key options this is included from emacs version 30
 *** Select helm or vertico system
 
 #+begin_src emacs-lisp
-  (if t
+  (if nil
       (ek/helm)
     (progn
       (ek/vertico)

@@ -251,7 +251,8 @@ etc. Markerpen is manually downloaded.
   (require 'markerpen nil :noerror)
 
   (use-package fic-mode)
-  (setq p-modes '(tcl-mode-hook ruby-mode-hook perl-mode-hook cperl-mode-hook emacs-lisp-mode-hook python-mode-hook))
+  (setq p-modes '(sh-mode-hook tcl-mode-hook ruby-mode-hook perl-mode-hook
+  			     cperl-mode-hook emacs-lisp-mode-hook python-mode-hook))
   (mapcar (lambda (mode) (add-hook mode 'fic-mode)) p-modes)
   (setq fic-highlighted-words '("FIXME" "TODO" "NOTE" "KLUDGE" "BUG"))
   (set-face-attribute 'fic-face nil :foreground "red" :background "yellow")

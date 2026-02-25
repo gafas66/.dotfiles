@@ -21,6 +21,17 @@ sudo apt -y install build-essential dkms linux-headers-$(uname -r)
 # Install piVpn for wireguard server and wireguard
 sudo curl -L https://install.pivpn.io | bash
 
-sudo apt install wireguard wireguard-tools -y
+sudo apt install wireguard wireguard-tools resolvconf -y
+
+# Enable user remote login even after reboot
+loginctl enable-linger
+
+# Install Samba file sharing
+sudo apt install samba samba-common-bin smbclient cifs-utils -y
+
+# NOTE RPI cannot drive many external HDD
+# Install other (most likely) file systems ExFat
+#sudo apt install exfat-fuse -y
+# Install NTFS (was not on OS 23-feb-26
 
 ################################################################################

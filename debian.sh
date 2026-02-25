@@ -2,22 +2,22 @@
 # This is base install for debian VM
 
 # Not always default
-apt -y install git gitk emacs zip unzip tree htop ruby ripgrep curl
+sudo apt -y install git gitk emacs zip unzip tree htop ruby ripgrep curl x11-utils
 
 sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)
 
 curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install
 chmod +x install
-./install
+sudo ./install
 
  # Needed for installing guest additions on vbox
-apt -y install build-essential dkms linux-headers-$(uname -r)
+sudo apt -y install build-essential dkms linux-headers-$(uname -r)
 
 # then open graphic file browser to click on guest-add cdrom to mount it
 
 # cd to mounted cd
 #cd ..
-sh ./VBoxLinuxAdditions.run
+#sh ./VBoxLinuxAdditions.run
 
 # edit settings.org to refresh packages
 

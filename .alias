@@ -55,5 +55,9 @@ fver="$fver | sed 's/$/;/'"          # re-insert ';' at end
 fver="$fver | sed 's/^ *//'"         # Remove leading space on lines
 alias fver=$fver
 
+# IP Tools and stuff
+alias myip="ip -4 -brief a"
+alias mydns="dig +short myip.opendns.com @resolver1.opendns.com"
+
 # End of file
 ################################################################################

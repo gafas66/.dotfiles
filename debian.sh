@@ -25,7 +25,7 @@ emacs # to download all packages
 
 # JDK-8 which seems to work for robocode
 
-echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/debian-unstable.list
+#echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/debian-unstable.list
 
 # Note these install java & stuff so above is minimal
 

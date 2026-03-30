@@ -1,6 +1,6 @@
 ;;----------------------------------------------------------------------------------------------------------------------
 ;; Created: Friday, September 24 2010
-;; Time-stamp: <2025-01-27 23:39:37 erik>
+;; Time-stamp: <2026-03-19 14:48:24 kofoed>
 ;; Author: Erik KOFOED
 ;;
 ;; Description:
@@ -20,9 +20,10 @@
 
 (setq auto-insert-query nil) ;; don't ask, just do it.
 
-(setq user-company "ESK")
-(if (file-exists-p "/projects/ASIC/ridge/") (setq user-company "Synaptics\n\n"))
-(if (file-exists-p "/proj/ARTPEC7") (setq user-company "Renesas\n\n"))
+(setq user-company "ESK\n\n")
+(if (file-exists-p "/projects/ASIC/ridge/")     (setq user-company "Synaptics\n\n"))
+(if (file-exists-p "/proj/ARTPEC7")             (setq user-company "Renesas\n\n"))
+(if (file-exists-p "/home/icdaproj01/bcdc_wcc") (setq user-company "Fraunhofer IIS\n\n"))
 
 (setq my-footer
       "\n\n# End of file
@@ -50,6 +51,14 @@
 	 "# Author: " (user-full-name) ", " user-company "\n"
 	 "use strict;\n"
 	 "use diagnostics;\n\n"
+	 _ "\n"
+	 my-footer)
+	((python-mode . "Python Program")
+	 nil
+	 "#! /usr/bin/env python3\n"
+	 "################################################################################\n"
+	 "# Created: " (insert (format-time-string "%A, %B %e %Y" (current-time))) "\n"
+	 "# Author: " (user-full-name) ", " user-company "\n\n"
 	 _ "\n"
 	 my-footer)
 	(("\\.csh\\'" . "C Shell")

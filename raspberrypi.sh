@@ -1,6 +1,6 @@
 ################################################################################
 # This is base install for Raspberry Pi OS
-# Safe to call always
+# Safe to call always, I think
 
 sudo apt update
 sudo apt upgrade -y

@@ -280,6 +280,12 @@ easier.
     (define-key eat-semi-char-mode-map (kbd "M-0") 'treemacs-select-window)
     (define-key eat-semi-char-mode-map (kbd "M-a")
       (lambda () (interactive) (switch-to-buffer "*Org Agenda*"))))
+  (setq my-re (regexp-opt '("MEDIA") 'words))
+  (add-hook 'eat-mode
+  	  (lambda ()
+  	    (font-lock-add-keywords nil
+  				    '((my-re 1
+  				       font-lock-warning-face t)))))
 #+end_src
 
 ** Project management

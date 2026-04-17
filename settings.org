@@ -511,36 +511,37 @@ Show key options this is included from emacs version 30
 Perhaps use :bind to improve readability below?
 
 #+begin_src emacs-lisp
-  (use-package org :straight nil
-    ;;:pin gnu
-    :config
-    (setq org-log-done 'time)
-    (setq org-return-follows-link t)
-    (add-hook 'org-mode-hook 'org-indent-mode)
-    (add-hook 'org-mode-hook 'org-indent-mode)
-    ;;(add-hook 'org-mode-hook 'visual-fill-column-mode 1)
-    (add-hook 'org-agenda-mode-hook 'hl-line-mode)
-    (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
-    (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
-    (define-key org-mode-map (kbd "C-,") 'hydra-comma/body)
-    (define-key global-map "\C-cl" 'org-store-link)
-    (define-key global-map "\C-ca" 'org-agenda)
-    (define-key global-map "\C-cc" 'org-capture)
-    (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
-    ;;(setq org-directory "~/init/org")
-    (setq org-default-notes-file "/home/kofoed/init/org/tasks.org")
-    (setq org-agenda-files (list my-org-dir))
-    (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
-    (setq org-hide-emphasis-markers t)
-    (setq org-agenda-window-setup 'current-window)
-    (setq org-agenda-restore-windows-after-quit t)
-    (setq org-agenda-skip-scheduled-if-done t)
-    ;;(setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
-    )
-  (setq org-refile-targets '((nil :maxlevel . 9)
-                             (org-agenda-files :maxlevel . 9)))
-  (setq org-todo-keywords
-        '((sequence "TODO" "IN-PROGRESS" "|" "CANCELLED" "DONE")))
+    (use-package org :straight nil
+      ;;:pin gnu
+      :config
+      (setq org-log-done 'time)
+      (setq org-return-follows-link t)
+      (add-hook 'org-mode-hook 'org-indent-mode)
+      (add-hook 'org-mode-hook 'org-indent-mode)
+      ;;(add-hook 'org-mode-hook 'visual-fill-column-mode 1)
+      (add-hook 'org-agenda-mode-hook 'hl-line-mode)
+      (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
+      (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
+      (define-key org-mode-map (kbd "C-,") 'hydra-comma/body)
+      (define-key global-map "\C-cl" 'org-store-link)
+      (define-key global-map "\C-ca" 'org-agenda)
+      (define-key global-map "\C-cc" 'org-capture)
+      (define-key org-mode-map (kbd "C-c z") #'org-toggle-link-display)
+      (global-set-key (kbd "M-a") (lambda () (interactive) (switch-to-buffer "*Org Agenda*")))
+      ;;(setq org-directory "~/init/org")
+      (setq org-default-notes-file "/home/kofoed/init/org/tasks.org")
+      (setq org-agenda-files (list my-org-dir))
+      (define-key org-mode-map (kbd "C-c C-g C-r") 'org-shiftmetaright)
+      (setq org-hide-emphasis-markers t)
+      (setq org-agenda-window-setup 'current-window)
+      (setq org-agenda-restore-windows-after-quit t)
+      (setq org-agenda-skip-scheduled-if-done t)
+      ;;(setq org-agenda-skip-function-global '(org-agenda-skip-entry-if 'todo 'done))
+      )
+    (setq org-refile-targets '((nil :maxlevel . 9)
+                               (org-agenda-files :maxlevel . 9)))
+    (setq org-todo-keywords
+          '((sequence "TODO" "IN-PROGRESS" "|" "CANCELLED" "DONE")))
 #+end_src
 
 *** Refile targets and depth

@@ -1,6 +1,6 @@
 ;;----------------------------------------------------------------------------------------------------------------------
 ;; Created: Friday, September 24 2010
-;; Time-stamp: <2026-03-19 14:48:24 kofoed>
+;; Time-stamp: <2026-04-24 10:37:09 kofoed>
 ;; Author: Erik KOFOED
 ;;
 ;; Description:
@@ -43,7 +43,7 @@
 
 (setq auto-insert-alist
       '(
-	((cperl-mode . "Perl Program")
+	((perl-mode . "Perl Program")
 	 nil
 	 "#! /usr/bin/env perl\n"
 	 "################################################################################\n"

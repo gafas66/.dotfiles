@@ -112,17 +112,17 @@ Color-theme-modern has many different themes.
 Personal setup for the default(!) emacs colors
 
 #+begin_src emacs-lisp
-  (cond ((< 20 ncolors)
-         (set-face-attribute 'default                nil :foreground "#DAA520" :background "#001") ;; goldenrod
-         (set-face-attribute 'org-level-2            nil :foreground "#FFd700" :background "#001") ;; gold
-         (set-face-attribute 'org-block              nil :background "#14171B")
-         (set-face-attribute 'org-date               nil :inherit 'help-key-binding :underline nil)
-         (set-face-attribute 'highlight              nil :background "#033") ;; cyan - low intensity
-         (set-face-attribute 'font-lock-string-face  nil :foreground "#ff0") ;; yellow
-         (set-face-attribute 'font-lock-comment-face nil :foreground "#cd5c5c")) ;; indian red
-        ((= 8 ncolors) nil) ;; To setup xterm w/8 colors if needed
-        ((display-grayscale-p) nil)
-        (t nil))
+;;;  (cond ((< 20 ncolors)
+;;;         (set-face-attribute 'default                nil :foreground "#DAA520" :background "#001") ;; goldenrod
+;;;         (set-face-attribute 'org-level-2            nil :foreground "#FFd700" :background "#001") ;; gold
+;;;         (set-face-attribute 'org-block              nil :background "#14171B")
+;;;         (set-face-attribute 'org-date               nil :inherit 'help-key-binding :underline nil)
+;;;         (set-face-attribute 'highlight              nil :background "#033") ;; cyan - low intensity
+;;;         (set-face-attribute 'font-lock-string-face  nil :foreground "#ff0") ;; yellow
+;;;         (set-face-attribute 'font-lock-comment-face nil :foreground "#cd5c5c")) ;; indian red
+;;;        ((= 8 ncolors) nil) ;; To setup xterm w/8 colors if needed
+;;;        ((display-grayscale-p) nil)
+;;;        (t nil))
 #+end_src
 *** Select tab system - centaur on newer emacs versions
 
@@ -886,6 +886,9 @@ M-SPC works for TightVNC, but not for UltraVNC
 
 #+end_src
 
+#+begin_src emacs-lisp
+  (ek-theme 'wheat)
+#+end_src
 *** Hydra for lisp modes, emacs-lisp and clojure
 
 For these two hydras, M-SPC is the key (does it work though?)

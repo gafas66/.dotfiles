@@ -39,7 +39,7 @@ git config --global user.name  "ESK"
 if command -v module 2>&1 > /dev/null
 then
     module use /home/kofoed/modulefiles
-    module load prj/apecs
+    module load prj/metis
 fi
 [[ -z ${INSIDE_EMACS+x} ]] || export TERM=$x && unset x
 

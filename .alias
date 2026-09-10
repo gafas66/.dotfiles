@@ -44,6 +44,7 @@ alias lic_expire="/home/bur/bin/cds/cadence lic_expire"
 # 3840x2160
 # 3700x1900
 alias vnc='vncserver -nolisten local -geometry 3840x2160 -depth 24 -fp /usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb'
+alias vnchp='vncserver -nolisten local -geometry 1920x1200 -depth 24 -fp /usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb'
 #alias vnc='vncserver -nolisten local -geometry 3800x2000 -depth 24 -fp /usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/ -co /etc/X11/rgb'
 
 alias  w='source /home/kofoed/bin/w'

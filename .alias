@@ -62,7 +62,8 @@ alias fver=$fver
 
 # IP Tools and stuff
 alias myip="ip -4 -brief a"
-alias mydns="dig +short myip.opendns.com @resolver1.opendns.com"
+#alias mydns="dig +short myip.opendns.com @resolver1.opendns.com"
+alias mydns="curl https://ipinfo.io/ip"
 
 # End of file
 ################################################################################

@@ -1,0 +1,5 @@
+FROM python:trixie
+
+RUN useradd -s /bin/bash erik \
+    && echo "erik:linda1234" | chpasswd \
+    && usermod -aG sudo erik \

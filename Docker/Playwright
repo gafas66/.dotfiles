@@ -1,0 +1,16 @@
+# -*- dockerfile -*-
+
+FROM python
+
+#RUN apt-get update -yq \
+#    && apt-get install nodejs npm -yq \
+#    && apt-get clean -y
+
+RUN pip install pytest-playwright
+RUN playwright install-deps && playwright install
+
+# Start sshd daemon
+CMD ["/usr/sbin/sshd", "-D"]
+
+# End
+################################################################################

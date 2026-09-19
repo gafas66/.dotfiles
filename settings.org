@@ -54,6 +54,7 @@ installed before babel-loading this file.
 
 #+begin_src emacs-lisp
   (use-package cider)
+  (use-package dockerfile-mode)
 
   (defun ek/company ()
     ;;(use-package eglot
@@ -96,7 +97,7 @@ installed before babel-loading this file.
   	(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
   	))
 #+end_src
-** Presentation fonts/colors/tabs/themes
+* Presentation fonts/colors/tabs/themes
 *** Installing a theme collection
 
 Using goldenrod as default for now, selecting some with C-c h via

@@ -1,0 +1,29 @@
+# -*- dockerfile -*-
+
+# python 3.14.7 and Debian 13 (trixie), has gpg, git, unzip, tk, venv
+FROM python:trixie
+
+RUN apt-get update -yq \
+    && apt-get install sudo openssh-server gitk x11-utils -yq \
+    && apt-get install emacs tree htop btop ripgrep -yq \
+    && apt-get clean -y
+
+# Minimal debian does not have all locales set up
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_UK -c -f UTF-8 -A /usr/share/locale/locale.alias en_UK.UTF-8
+ENV LANG en_UK.utf8
+
+# Add user and enable x11 through ssh
+RUN useradd -m -s /bin/bash erik \
+    &&  echo "erik:linda1234" | chpasswd \
+    &&  usermod -aG sudo erik \
+    && echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config \
+    && echo "X11Forwarding yes"      >> /etc/ssh/sshd_config \
+    && echo "X11DisplayOffset 10"    >> /etc/ssh/sshd_config \
+    && echo "X11UseLocalhost yes"    >> /etc/ssh/sshd_config
+
+# Start sshd daemon
+CMD ["/usr/sbin/sshd", "-D"]
+
+# End
+################################################################################

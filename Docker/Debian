@@ -4,7 +4,7 @@
 FROM debian:trixie
 
 RUN apt-get update -yq \
-    && apt-get install sudo openssh-server \
+    && apt-get install sudo openssh-server -yq \
     && apt-get clean -y
 
 # Minimal debian does not have all locales set up

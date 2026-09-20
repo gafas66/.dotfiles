@@ -1,0 +1,13 @@
+# -*- dockerfile -*-
+
+FROM python
+
+RUN apt-get update -yq \
+    && apt-get install msmtp -yq \
+    && apt-get clean -y
+
+# Start sshd daemon
+CMD ["/usr/sbin/sshd", "-D"]
+
+# End
+################################################################################

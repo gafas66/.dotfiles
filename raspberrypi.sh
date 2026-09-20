@@ -8,16 +8,16 @@ sudo apt upgrade -y
 # Not always default
 
 sudo apt -y install git gitk emacs zip unzip tree htop btop ruby ripgrep curl x11-utils
-sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)
+#sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)
 
 # BABASHKA
-curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install
-chmod +x install
-sudo ./install
-rm install
+#curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install
+#chmod +x install
+#sudo ./install
+#rm install
 
  # Needed for installing guest additions on vbox & wireguard on RPI-OS
-sudo apt -y install build-essential dkms linux-headers-$(uname -r)
+#sudo apt -y install build-essential dkms linux-headers-$(uname -r)
 
 # Install piVpn for wireguard server and wireguard
 sudo curl -L https://install.pivpn.io | bash
@@ -29,6 +29,9 @@ loginctl enable-linger
 
 # Install Samba file sharing
 sudo apt install samba samba-common-bin smbclient cifs-utils -y
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+fc-cache -fv
 
 # NOTE RPI cannot drive many external HDD
 # Install other (most likely) file systems ExFat

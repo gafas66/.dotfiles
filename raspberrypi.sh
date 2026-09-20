@@ -30,6 +30,8 @@ loginctl enable-linger
 # Install Samba file sharing
 sudo apt install samba samba-common-bin smbclient cifs-utils -y
 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+
 # NOTE RPI cannot drive many external HDD
 # Install other (most likely) file systems ExFat
 #sudo apt install exfat-fuse -y

@@ -297,6 +297,14 @@ Using treemacs for now. Apparently a package called projectile might be useful.
   (use-package treemacs
     :bind (("M-0" . treemacs-select-window)
            ("M-o" . ace-window)))
+  ;;(add-to-list 'treemacs-ignored-file-predicates
+  ;;	     (lambda (file _)
+  ;;	       (string-equal "svg"
+  ;;			     (file-name-extension file))))
+  ;;(add-to-list 'treemacs-ignored-file-predicates
+  ;;	     (lambda (file _)
+  ;;	       (string-equal "log"
+  ;;			     (file-name-extension file))))
 #+end_src
 
 Show changes compared to git version in file
@@ -888,7 +896,7 @@ M-SPC works for TightVNC, but not for UltraVNC
 #+end_src
 
 #+begin_src emacs-lisp
-  (ek-theme 'wheat)
+  (ek-theme 'goldenrod)
 #+end_src
 *** Hydra for lisp modes, emacs-lisp and clojure
 

@@ -15,10 +15,11 @@ RUN useradd -s /bin/bash erik \
     && echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config \
     && echo "X11Forwarding yes"      >> /etc/ssh/sshd_config \
     && echo "X11DisplayOffset 10"    >> /etc/ssh/sshd_config \
-    && echo "X11UseLocalhost yes"    >> /etc/ssh/sshd_config
+    && echo "X11UseLocalhost yes"    >> /etc/ssh/sshd_config \
+    && echo "AddressFamily inet"     >> /etc/ssh/sshd_config
 
 RUN apt-get install libfltk1.3-dev -yq
-RUN apt-get install libtirprc-dev -yq
+RUN apt-get install libtirpc-dev -yq
 
 ## Minimal debian does not have all locales set up
 #RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \

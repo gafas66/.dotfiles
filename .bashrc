@@ -57,3 +57,6 @@ PS1="\h\s \[\033[0;32m\]${BRANCH}\[\033[0m\] \w\n$ ";'
 
 # End
 ################################################################################
+export PATH=/home/erik/bin:/home/erik/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin
+export PLAYERPATH="/usr/local/lib"
+export LD_LIBRARY_PATH=:/usr/local/lib

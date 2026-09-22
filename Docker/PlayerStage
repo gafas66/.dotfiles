@@ -8,39 +8,24 @@ RUN apt-get update -yq \
     && apt-get install openssh-server sudo -yq \
     && apt-get clean -y
 
-RUN apt-get install libntirpc-dev -yq
-RUN apt-get install libpng-dev libjpeg-dev libxxf86vm1 libxxf86vm-dev libxi-dev -yq
-RUN apt-get install libxrandr-dev libfltk1.3-dev -yq
-RUN apt-get install mesa-common-dev mesa-utils-extra libgl1-mesa-dev libglapi-mesa -yq
-RUN apt-get install freeglut3-dev libltdl-dev libglu1-mesa-dev -yq
-RUN apt-get install autotools-dev cpp libboost-dev  libboost-thread-dev -yq
-RUN apt-get install libltdl7 libgnomecanvas2-0 -yq
-RUN apt-get install libgtk2.0-dev libtool swig libgsl-dev -yq
-
-# Minimal debian does not have all locales set up
-RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
-    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG=en_US.utf8
-
 # Add user and enable x11 through ssh
-RUN useradd -s /bin/bash demo_10g \
-    && echo "demo_10g:demo_10g" | chpasswd \
-    && usermod -aG sudo demo_10g \
+RUN useradd -s /bin/bash erik \
+    && echo "erik:erik" | chpasswd \
+    && usermod -aG sudo erik \
     && echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config \
     && echo "X11Forwarding yes"      >> /etc/ssh/sshd_config \
     && echo "X11DisplayOffset 10"    >> /etc/ssh/sshd_config \
     && echo "X11UseLocalhost yes"    >> /etc/ssh/sshd_config
 
-################################################################################
-# Experimental installs
+RUN apt-get install libfltk1.3-dev -yq
+RUN apt-get install libtirprc-dev -yq
+
+## Minimal debian does not have all locales set up
+#RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+#    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+#ENV LANG=en_US.utf8
 
 
-#ADD . /app
-#WORKDIR /app
-
-#RUN make stage
-
-#RUN make player
 
 # Start sshd daemon
 CMD ["/usr/sbin/sshd", "-D"]

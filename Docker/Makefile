@@ -5,7 +5,6 @@
 
 CM = CMakeLists.txt
 
-FIX = 
 player:
 	git clone https://github.com/playerproject/player.git
 	export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
@@ -23,6 +22,9 @@ player:
 	find . -type f -exec grep -l "IF (NOT PYTH" {} \; |\
 	xargs -I {} sed -i '/IF (NOT PYTH/,/ENDIF/d' {}
 
+	find . -type f -exec grep -l "PYTHONINTERP_FOUND" {} \; |\
+	xargs -I {} sed -i 's/PYTHONINTERP_FOUND/TRUE/' {}
+	
 	mkdir build
 	cd build
 	cmake ../

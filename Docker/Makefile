@@ -5,20 +5,32 @@
 
 CM = CMakeLists.txt
 
+FIX = 
 player:
 	git clone https://github.com/playerproject/player.git
 	export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 	cd player
+
 	sed -i '1s/^/set (CMAKE_CXX_STANDARD_REQUIRED ON)\n/' ${CM}
 	sed -i '1s/^/set (CMAKE_CXX_STANDARD 11)\n/'          ${CM}
+
+	find . -type f -exec grep -il findpythoninterp {} \; |\
+	xargs -I {} sed -i 's/FindPythonInterp/FindPython3/' {}
+
+	find . -type f -exec grep -il findpythonlibs {} \; |\
+	xargs -I {} sed -i 's/FindPythonLibs/FindPython3/' {}
+
+	find . -type f -exec grep -l "IF (NOT PYTH" {} \; |\
+	xargs -I {} sed -i '/IF (NOT PYTH/,/ENDIF/d' {}
+
 	mkdir build
 	cd build
 	cmake ../
 	make
-	sudo make install
-	echo 'export PATH=${PATH}:/usr/local/bin' >> ~/.bashrc
-	echo 'export PLAYERPATH="/usr/local/lib"' >> ~/.bashrc
-	echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib' >> ~/.bashrc
+	make install
+	echo 'export PATH=${PATH}:/usr/local/bin'                       >> /etc/profile
+	echo 'export PLAYERPATH="/usr/local/lib"'                       >> /etc/profile
+	echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib' >> /etc/profile
 
 stage:
 	git clone https://github.com/rtv/Stage.git

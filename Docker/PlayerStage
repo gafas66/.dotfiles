@@ -9,6 +9,7 @@ RUN apt-get update -yq \
     && apt-get clean -y
 
 RUN apt-get install emacs x11-utils ruby -yq
+RUN apt-get install iputils-ping iputils-tracepath iproute2 -yq
 
 # Add user and enable x11 through ssh
 RUN useradd -s /bin/bash erik \

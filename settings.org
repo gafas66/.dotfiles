@@ -55,6 +55,7 @@ installed before babel-loading this file.
 #+begin_src emacs-lisp
   (use-package cider)
   (use-package dockerfile-mode)
+  (use-package cmake-mode)
 
   (defun ek/company ()
     ;;(use-package eglot

@@ -3,7 +3,7 @@
 # Created: Saturday, October  3 2026
 # Author: , ESK
 
-import os,subprocess,shlex,re
+import os,subprocess,shlex,re, platform
 from tabulate import tabulate
 
 info = []
@@ -11,7 +11,7 @@ info = []
 def get_output(cmd):
     args   = shlex.split(cmd)
     p      = subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    return str(p.communicate()[0])
+    return str(p.communicate()[0]).strip()
     
 def get_pi_version():
     result = get_output('cat /proc/device-tree/model')
@@ -30,11 +30,18 @@ def get_kernel_version():
     res = get_output("uname -r")
     m = re.search(r"'(.*)\\n",res)
     info.append(["Kernel",m.group(1)])
-    return None
+def get_opsys_version():
+    res = get_output("grep DEBIAN_VER /etc/os-release")
+    m = re.search(r"'(.*)\\n",res)
+    info.append(["Kernel",m.group(1)])
+    
 get_kernel_version()
+get_opsys_version()
+info.append([ "Python",platform.python_version() ])
+info.append([ "System",platform.release() ])
+info.append([ "Release",platform.release() ])
 
 print(tabulate(info,tablefmt="grid"))
-print(get_output("uname -r"))
 
 # End of file
 ################################################################################

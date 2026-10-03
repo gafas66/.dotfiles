@@ -1,16 +1,16 @@
 services:
-    webserver:
-        hostname: py_trixie
-        container_name: my_web
-        build:
-            dockerfile: Dockerfile
-            context: ./
-        ports:
-            - 80:80
-            - 2227:22
-        volumes:
-            - home:/home/erik
+  webserver:
+    hostname: py_trixie
+    container_name: my_web
+    build:
+      dockerfile: Dockerfile
+      context: ./
+      ports:
+        - 80:80
+        - 2227:22
+      volumes:
+        - home:/home/erik
 volumes:
-    home:
-        external: true
-        name: home
+  home:
+    external: true
+    name: home

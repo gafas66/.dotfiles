@@ -1,0 +1,44 @@
+#! /usr/bin/env python3
+################################################################################
+# Created: Saturday, October  3 2026
+# Author: , ESK
+
+import os,subprocess,shlex,re
+from tabulate import tabulate
+
+info = []
+
+def get_output(cmd):
+    args   = shlex.split(cmd)
+    p      = subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    return str(p.communicate()[0])
+    
+def get_pi_version():
+    result = get_output('cat /proc/device-tree/model')
+    m      = re.search(r"'(.*)\\x",result)
+    result = m.group(1) if m else None
+    return result
+
+try:
+    pi_version = get_pi_version()
+except:
+    pi_version = None
+
+info.append(["Pi Version",pi_version])
+################################################################################
+def get_kernel_version():
+    res = get_output("uname -r")
+    m = re.search(r"'(.*)\\n",res)
+    info.append(["Kernel",m.group(1)])
+    return None
+get_kernel_version()
+
+print(tabulate(info,tablefmt="grid"))
+print(get_output("uname -r"))
+
+# End of file
+################################################################################
+# Local Variables:
+# comment-column: 60
+# End:
+################################################################################

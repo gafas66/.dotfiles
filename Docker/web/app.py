@@ -12,6 +12,10 @@ app = Flask(__name__)
 def hello_world():
     return routines.main_entry()
 
+@app.route('/handle_post',methods=['post'])
+def main_post():
+    return routines.main_post()
+
 @app.route('/files')
 def show_files():
     ##return "This was supposed to be another page"

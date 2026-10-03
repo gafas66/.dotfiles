@@ -3,6 +3,11 @@
     <title>Trial of template</title>
   </head>
   <body>
-    <a href="http://localhost:5000/files">Show files</a>
+    <a href="{{ url_for('show_files') }}">Show files</a>
+    <div>
+      <form method="post" action="{{ url_for('main_post') }}">
+	<input type="submit" value="Launch">
+      </form>
+    </div>
   </body>
 </html>

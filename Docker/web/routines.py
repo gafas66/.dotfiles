@@ -4,27 +4,25 @@
 # Author: , ESK
 
 from flask import render_template
-from flask_table import Table, Col
 import os
-
-class ItemTable(Table):
-    name = Col('Name')
-    description = Col('Description')
-################################################################################
+from tabulate import tabulate
 
 def main_entry():
     return render_template('main.html')
 
+def main_post():
+    return "This is the current result"
+
 ################################################################################
 def index_entry():
-    text = []
+    table = []
     for _,_,files in os.walk("."):
         for file in files:
-            text.append( {"name": file,"description": "Just another file"} )
-        break
-    table = ItemTable(text)
-    return render_template("files.html")
+            table.append( [file,"Just another file"] )
+    table = tabulate(table,tablefmt="html")
+    return render_template("files.html",table=table)
 
+    
 # End of file
 ################################################################################
 # Local Variables:

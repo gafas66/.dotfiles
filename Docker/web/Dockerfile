@@ -1,7 +1,7 @@
 # -*- dockerfile -*-
 
 FROM python:trixie
-RUN pip install flask gunicorn tabulate
+RUN pip install flask gunicorn tabulate ruff flake8 pylint pyright mypy types-tabulate
 
 RUN apt-get update -yq \
     && apt-get install emacs x11-utils openssh-server sudo -yq \

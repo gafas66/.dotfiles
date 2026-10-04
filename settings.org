@@ -64,19 +64,20 @@ installed before babel-loading this file.
     ;;  ((clojure-mode . eglot-ensure)
     ;;   (lisp-mode . eglot-ensure)))
     (use-package company
-          :config
-          ;;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-  	;;(define-key company-active-map (kbd "M-/") #'company-complete)
-  	;;(define-key company-active-map (kbd "TAB") #'company-complete-common-or-cycle)
-  	;;efine-key company-active-map (kbd "M-.") #'company-show-location)
-  	;;efine-key company-active-map (kbd "RET") nil)
-    	;;efine-key company-active-map (kbd "<backtab>")
-  	;;(lambda ()
-  	;;  (interactive)
-  	;;  (company-complete-common-or-cycle -1)))
-  	;;(global-set-key (kbd "<tab>") #'indent)
-          (setq company-tooltip-align-annotations t)
-          (global-company-mode))
+      ;; :config
+      ;;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+      ;;(define-key company-active-map (kbd "M-/") #'company-complete)
+      ;;(define-key company-active-map (kbd "TAB") #'company-complete-common-or-cycle)
+      ;;(define-key company-active-map (kbd "M-.") #'company-show-location)
+      ;;(define-key company-active-map (kbd "RET") nil)
+      ;;(dine-key company-active-map (kbd "<backtab>")
+      ;;(lambda ()
+      ;;  (interactive)
+      ;;  (company-complete-common-or-cycle -1)))
+      ;;(global-set-key (kbd "<tab>") #'indent)
+      ;;(setq company-tooltip-align-annotations t)
+      ;;(global-company-mode)
+      )
     
     (use-package company-box
       :hook (company-mode . company-box-mode))
@@ -92,12 +93,16 @@ installed before babel-loading this file.
 *** Now make some kind of choice of completion
 
 #+begin_src emacs-lisp
-  ;;(ek/company)
-  (setq treesit-language-source-alist
-        '((cpp  "https://github.com/tree-sitter/tree-sitter-cpp")
-  	(c    "https://github.com/tree-sitter/tree-sitter-c")
-  	(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-  	))
+  (ek/company)
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs)
+  ;;(setq treesit-language-source-alist
+  ;;      '(
+  ;;	(cpp    "https://github.com/tree-sitter/tree-sitter-cpp")
+  ;;	(c      "https://github.com/tree-sitter/tree-sitter-c")
+  ;;	(ruby   "https://github.com/tree-sitter/tree-sitter-ruby")
+  ;;	(python "https://github.com/tree-sitter/tree-sitter-python")
+  ;;	))
 #+end_src
 * Presentation fonts/colors/tabs/themes
 *** Installing a theme collection

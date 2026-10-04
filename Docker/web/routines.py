@@ -22,6 +22,10 @@ def index_entry():
     table = tabulate(table,tablefmt="html")
     return render_template("files.html",table=table)
 
+def test():
+    pass
+
+
     
 # End of file
 ################################################################################

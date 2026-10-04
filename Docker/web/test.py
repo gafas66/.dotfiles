@@ -17,6 +17,7 @@ for _,_,files in os.walk("."):
 print(tabulate(text,tablefmt='latex'))
 #print(tabulate(text))
 
+if os.
 # End of file
 ################################################################################
 # Local Variables:

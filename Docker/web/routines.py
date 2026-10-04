@@ -3,9 +3,11 @@
 # Created: Thursday, October  1 2026
 # Author: , ESK
 
-from flask import render_template
 import os
+
+from flask import render_template
 from tabulate import tabulate
+
 
 def main_entry():
     return render_template('main.html')
@@ -21,6 +23,10 @@ def index_entry():
             table.append( [file,"Just another file"] )
     table = tabulate(table,tablefmt="html")
     return render_template("files.html",table=table)
+
+def test():
+    pass
+
 
     
 # End of file

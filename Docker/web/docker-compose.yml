@@ -5,10 +5,10 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./
-      ports:
-        - 80:80
-        - 2227:22
-      volumes:
+    ports:
+      - 80:80
+      - 2227:22
+    volumes:
         - home:/home/erik
 volumes:
   home:

@@ -41,10 +41,12 @@ info.append([ "Python",platform.python_version() ])
 #info.append([ "System",platform.system() ])
 #info.append([ "Release",platform.uname()[0]["machine"] ])
 outer = [["System information","Other information"]]
-outer.append([tabulate(info,tablefmt="html"),"NA"])
 
-#print(tabulate(info,tablefmt="outline"))
-print(tabulate(outer,tablefmt="html"))
+format = "outline"
+
+outer.append([tabulate(info,tablefmt=format),"NA"])
+#print(tabulate(outer,tablefmt=outline))
+print(tabulate(info,tablefmt=format))
 
 # End of file
 ################################################################################

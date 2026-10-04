@@ -33,15 +33,18 @@ def get_kernel_version():
 def get_opsys_version():
     res = get_output("grep DEBIAN_VER /etc/os-release")
     m = re.search(r"'(.*)\\n",res)
-    info.append(["Kernel",m.group(1)])
+    info.append(["OS",m.group(1)])
     
 get_kernel_version()
 get_opsys_version()
 info.append([ "Python",platform.python_version() ])
-info.append([ "System",platform.release() ])
-info.append([ "Release",platform.release() ])
+#info.append([ "System",platform.system() ])
+#info.append([ "Release",platform.uname()[0]["machine"] ])
+outer = [["System information","Other information"]]
+outer.append([tabulate(info,tablefmt="html"),"NA"])
 
-print(tabulate(info,tablefmt="grid"))
+#print(tabulate(info,tablefmt="outline"))
+print(tabulate(outer,tablefmt="html"))
 
 # End of file
 ################################################################################

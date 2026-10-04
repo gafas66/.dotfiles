@@ -1,0 +1,16 @@
+services:
+  player_stage:
+    hostname: ps
+    container_name: ps
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    ports:
+      - 2225:22
+    volumes:
+      - home:/home/erik
+
+volumes:
+  home:
+    external: true
+    name: home

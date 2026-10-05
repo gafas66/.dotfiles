@@ -7,13 +7,14 @@ import os
 
 from flask import render_template
 from tabulate import tabulate
-
+import subprocess
 
 def main_entry():
     return render_template('main.html')
 
 def main_post():
-    return "This is the current result"
+    subprocess.run("touch done_this",shell=True)
+    return "This is the current result - second try"
 
 ################################################################################
 def index_entry():

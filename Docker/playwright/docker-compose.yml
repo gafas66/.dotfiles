@@ -1,0 +1,16 @@
+services:
+  playwright:
+    hostname: playw
+    container_name: playw
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    ports:
+      - 2226:22
+      - 8081:80
+    volumes:
+        - home:/home/erik
+volumes:
+  home:
+    external: true
+    name: home

@@ -1,6 +1,6 @@
 # -*- dockerfile -*-
 
-FROM python
+FROM python:trixie
 
 #RUN apt-get update -yq \
 #    && apt-get install nodejs npm -yq \

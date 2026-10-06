@@ -1,0 +1,29 @@
+# -*- dockerfile -*-
+
+FROM python:trixie
+
+RUN apt-get update -yq \
+    && apt-get install sudo openssh-server -yq \
+    && apt-get install build-essential cmake pkg-config libboost-all-dev -yq \
+    && apt-get install libgnomecanvas2-dev libglib2.0-dev libtool libltdl-dev -yq \
+    && apt-get install freeglut3-dev libxmu-dev libxi-dev libfltk1.3-dev libjpeg-dev -yq
+
+# Minimal debian does not have all locales set up
+RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG=en_US.utf8
+
+# Add user and enable x11 through ssh
+RUN useradd -s /bin/bash demo_10g \
+    && echo "demo_10g:demo_10g" | chpasswd \
+    && usermod -aG sudo demo_10g \
+    && echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config \
+    && echo "X11Forwarding yes"      >> /etc/ssh/sshd_config \
+    && echo "X11DisplayOffset 10"    >> /etc/ssh/sshd_config \
+    && echo "X11UseLocalhost yes"    >> /etc/ssh/sshd_config
+
+# Start sshd daemon
+CMD ["/usr/sbin/sshd", "-D"]
+
+# End
+################################################################################

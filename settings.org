@@ -50,7 +50,7 @@ installed before babel-loading this file.
 
 ** Programming and Code completion
 
-*** Company setup - most popular it seems
+*** Company and LSP setup - most popular it seems
 
 #+begin_src emacs-lisp
   (use-package cider)
@@ -58,42 +58,42 @@ installed before babel-loading this file.
   (use-package cmake-mode)
   (use-package yaml-mode)
 
-  (defun ek/company ()
-    ;;(use-package eglot
-    ;;  :hook
-    ;;  ((clojure-mode . eglot-ensure)
-    ;;   (lisp-mode . eglot-ensure)))
-    (use-package company
-      ;; :config
-      ;;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-      ;;(define-key company-active-map (kbd "M-/") #'company-complete)
-      ;;(define-key company-active-map (kbd "TAB") #'company-complete-common-or-cycle)
-      ;;(define-key company-active-map (kbd "M-.") #'company-show-location)
-      ;;(define-key company-active-map (kbd "RET") nil)
-      ;;(dine-key company-active-map (kbd "<backtab>")
-      ;;(lambda ()
-      ;;  (interactive)
-      ;;  (company-complete-common-or-cycle -1)))
-      ;;(global-set-key (kbd "<tab>") #'indent)
-      ;;(setq company-tooltip-align-annotations t)
-      ;;(global-company-mode)
-      )
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    )
+  (use-package lsp-ui)
+  
+  (use-package company
+    :config
+    ;;(global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+    (global-set-key (kbd "M-'") 'company-complete)
+    ;;(define-key company-active-map (kbd "M-/") 'company-complete)
+    ;;(define-key company-active-map (kbd "TAB") #'company-complete-common-or-cycle)
+    ;;(define-key company-active-map (kbd "M-.") #'company-show-location)
+    ;;(define-key company-active-map (kbd "RET") nil)
+    ;;(define-key company-active-map (kbd "<backtab>")
+    ;;(lambda ()
+    ;;  (interactive)
+    ;;  (company-complete-common-or-cycle -1)))
+    ;;(global-set-key (kbd "<tab>") #'indent)
+    ;;(setq company-tooltip-align-annotations t)
+    ;;(global-company-mode)
+    )
     
-    (use-package company-box
-      :hook (company-mode . company-box-mode))
-    (use-package company-quickhelp
-      :config
-      (company-quickhelp-mode))
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+  (use-package company-quickhelp
+    :config
+    (company-quickhelp-mode))
 
-    (use-package flycheck
-      :config
-      (global-flycheck-mode)))
+  (use-package flycheck
+    :config
+    (global-flycheck-mode))
 #+end_src
 
 *** Now make some kind of choice of completion
 
 #+begin_src emacs-lisp
-  (ek/company)
   (use-package tree-sitter)
   (use-package tree-sitter-langs)
   ;;(setq treesit-language-source-alist

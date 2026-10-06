@@ -3,6 +3,26 @@
 # Created: Wednesday, September 30 2026
 # Author: , ESK
 
+import string, random
+import cherrypy
+
+class HelloWorld(object):
+    @cherrypy.expose
+    def index(self):
+        return "Hello world"
+
+    @cherrypy.expose
+    def gen(self,length=8):
+        return ''.join(random.sample(string.hexdigits,int(length)))
+
+if __name__ == '__main__':
+    cherrypy.config.update({
+        'server.socket_host': '0.0.0.0',
+        'server.socket_port': 80,
+    })
+    cherrypy.quickstart(HelloWorld())
+
+'''
 from flask import Flask
 import routines
 
@@ -22,6 +42,7 @@ def show_files():
     return routines.index_entry()
 
 app.run(debug=True)
+'''
 
 # End of file
 ################################################################################

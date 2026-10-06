@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
       context: ./
     ports:
-      - 80:80
       - 2227:22
+      - 8080:80
     volumes:
         - home:/home/erik
 volumes:

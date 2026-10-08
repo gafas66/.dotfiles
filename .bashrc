@@ -49,6 +49,9 @@ fi
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash" && echo "# EAT shell integration active"
 
 ################################################################################
+# PATHs
+export PYTHONPATH=/home/erik/.venv/lib/python3.8/site-packages
+################################################################################
 # Prompt
 MY_PS="\h"
 # NOTE PYTHON virtual environment

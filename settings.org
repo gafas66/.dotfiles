@@ -1183,7 +1183,7 @@ Setup text resolution based on what we can figure out about the current system.
 #+end_src
 
 #+begin_src emacs-lisp
-  (server-start)
+  ;;(server-start)
 #+end_src
 
 * Testing stuff and temporary commands/keys

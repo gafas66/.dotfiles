@@ -5,8 +5,11 @@
 
 import string, random
 import cherrypy
+import sys, os
+from  subprocess import run,Popen
+from  time import sleep
 
-class HelloWorld(object):
+class HelloWorld:
     @cherrypy.expose
     def index(self):
         return "Hello world"
@@ -15,13 +18,24 @@ class HelloWorld(object):
     def gen(self,length=8):
         return ''.join(random.sample(string.hexdigits,int(length)))
 
-if __name__ == '__main__':
+if len(sys.argv) > 1:
     cherrypy.config.update({
         'server.socket_host': '0.0.0.0',
         'server.socket_port': 80,
     })
     cherrypy.quickstart(HelloWorld())
-
+    sys.exit(0)
+    
+if __name__ == '__main__':
+    try:
+        p = Popen(["python", "app.py", "--server"])
+        sleep(3)
+        run(["firefox", "http://localhost:80"])
+    finally:
+        print("Firefox is done")
+        p.terminate()
+        sys.exit(0)
+    
 '''
 from flask import Flask
 import routines

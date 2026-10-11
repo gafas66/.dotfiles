@@ -3,11 +3,14 @@
 # Created: Wednesday, September 30 2026
 # Author: , ESK
 
-import string, random
+import random
+import string
+import sys
+from subprocess import Popen, run
+from time import sleep
+
 import cherrypy
-import sys, os
-from  subprocess import run,Popen
-from  time import sleep
+
 
 class HelloWorld:
     @cherrypy.expose
@@ -23,14 +26,14 @@ if len(sys.argv) > 1:
         'server.socket_host': '0.0.0.0',
         'server.socket_port': 80,
     })
-    cherrypy.quickstart(HelloWorld())
-    sys.exit(0)
+    try: cherrypy.quickstart(HelloWorld())
+    finally: sys.exit(0) # Kill program when server stops/dies
     
 if __name__ == '__main__':
     try:
         p = Popen(["python", "app.py", "--server"])
         sleep(3)
-        run(["firefox", "http://localhost:80"])
+        run(["firefox", "http://localhost:80"],check=False)
     finally:
         print("Firefox is done")
         p.terminate()

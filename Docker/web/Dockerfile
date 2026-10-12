@@ -2,7 +2,8 @@
 
 FROM python:trixie
 RUN pip install cherrypy flask gunicorn \
-tabulate ruff flake8 pylint pyright mypy types-tabulate
+tabulate ruff flake8 pylint pyright mypy types-tabulate \
+python-language-server[all]
 
 RUN apt-get update -yq \
     && apt-get install emacs x11-utils openssh-server sudo -yq \

@@ -38,7 +38,8 @@ if __name__ == '__main__':
         print("Firefox is done")
         p.terminate()
         sys.exit(0)
-    
+
+
 '''
 from flask import Flask
 import routines

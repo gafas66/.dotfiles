@@ -1,14 +1,16 @@
 # -*- dockerfile -*-
 
 FROM python:trixie
-RUN pip install cherrypy flask gunicorn \
-tabulate ruff flake8 pylint pyright mypy types-tabulate \
-python-language-server[all]
 
 RUN apt-get update -yq \
     && apt-get install emacs x11-utils openssh-server sudo -yq \
 	&& apt-get install iproute2 iputils-ping iputils-tracepath -yq \
+	&& apt-get install python3-setuptools -yq \
 	&& apt-get clean 
+
+RUN pip install cherrypy flask gunicorn \
+tabulate ruff flake8 pylint pyright mypy types-tabulate
+
 
 # Add user and enable x11 through ssh
 RUN useradd -s /bin/bash erik \

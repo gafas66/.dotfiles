@@ -960,7 +960,8 @@ Setup standard colors
 
 #+begin_src emacs-lisp
   ;;(ek-theme 'goldenrod)
-  (set-face-attribute 'default nil :foreground "#DAA520" :background "#001") ;; goldenrod
+  ;;(set-face-attribute 'default nil :foreground "#DAA520" :background "#001") ;; goldenrod
+  (set-face-attribute 'default nil :foreground "#fff" :background "#001") ;; white
   (set-face-attribute 'font-lock-string-face  nil :foreground "#0f0")        ;; green
   (set-face-attribute 'font-lock-comment-face nil :foreground "#f00")        ;; red
 #+end_src

@@ -15,13 +15,14 @@ source ~/.alias_local
 
 # Emacs setup
 mkdir ~/.emacs.d
-ln -s ~/.dotfiles/init.el ~/.emacs.d/.
-ln -s ~/.dotfiles/early-init.el ~/.emacs.d/.
-ln -s ~/.dotfiles/lisp ~/.emacs.d/.
+for file in init.el early-init.el lisp;do
+    rm -f ~/.emacs.d/$file
+    ln -s ~/.dotfiles/$file      ~/.emacs.d/.
+done
 echo "" > ~/.emacs.d/custom-vars.el
 
-# Get private ini
-cd ~/ && git clone https://gafas66:$token@github.com/gafas66/init
+# Get private init
+[[ ! -d init ]] && git clone https://gafas66:$token@github.com/gafas66/init
 
 echo "# All files + init set up"
 

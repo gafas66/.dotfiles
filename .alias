@@ -51,15 +51,7 @@ alias  w='source /home/kofoed/bin/w'
 
 alias space="cd ~/;mv .emacs.d .emacs.d2;mv .emacs.spm .emacs.d;/usr/bin/emacs -mm;mv .emacs.d .emacs.spm;mv .emacs.d2 .emacs.d"
 alias eterm="emacs -Q -nw -l ~/.dotfiles/term.el"
-
-# Filter verilog files to single lines to easily grep
-fver="sed 's^//.*^&;^'"              # ';' at end of comments (remove instead?)
-fver="$fver | sed 's/^module/;&/'"   # Create newlnes for modules
-fver="$fver | tr '\n' ' '"           # into 1-line
-fver="$fver | tr ';' '\n'"           # split into lines on ';'
-fver="$fver | sed 's/$/;/'"          # re-insert ';' at end
-fver="$fver | sed 's/^ *//'"         # Remove leading space on lines
-alias fver=$fver
+alias emc='emacsclient -c -a ""'
 
 # IP Tools and stuff
 alias myip="ip -4 -brief a"

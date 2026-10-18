@@ -3,7 +3,11 @@
 # Created: Saturday, October  3 2026
 # Author: , ESK
 
-import os,subprocess,shlex,re, platform
+import platform
+import re
+import shlex
+import subprocess
+
 from tabulate import tabulate
 
 info = []

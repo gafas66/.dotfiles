@@ -50,6 +50,7 @@ alias vnchp='vncserver -nolisten local -geometry 1920x1200 -depth 24 -fp /usr/sh
 alias  w='source /home/kofoed/bin/w'
 
 alias space="cd ~/;mv .emacs.d .emacs.d2;mv .emacs.spm .emacs.d;/usr/bin/emacs -mm;mv .emacs.d .emacs.spm;mv .emacs.d2 .emacs.d"
+alias eterm="emacs -Q -nw -l ~/.dotfiles/term.el"
 
 # Filter verilog files to single lines to easily grep
 fver="sed 's^//.*^&;^'"              # ';' at end of comments (remove instead?)

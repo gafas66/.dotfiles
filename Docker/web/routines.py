@@ -1,19 +1,19 @@
-#! /usr/bin/env python3
 ################################################################################
 # Created: Thursday, October  1 2026
 # Author: , ESK
 
 import os
+import subprocess
 
 from flask import render_template
 from tabulate import tabulate
-import subprocess
+
 
 def main_entry():
     return render_template('main.html')
 
 def main_post():
-    subprocess.run("touch done_this",shell=True)
+    subprocess.run("touch done_this",shell=True,check=False)
     return "This is the current result - second try"
 
 ################################################################################

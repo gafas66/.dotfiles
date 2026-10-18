@@ -558,7 +558,7 @@ Show key options this is included from emacs version 30
 *** Select helm or vertico system
 
 #+begin_src emacs-lisp
-  (if nil
+  (if t
       (ek/helm)
     (progn
       (ek/vertico)
@@ -566,6 +566,15 @@ Show key options this is included from emacs version 30
       ))
   (ek/winum)
 #+end_src
+
+** Try projectile (C-c p)
+
+#+begin_src emacs-lisp
+  (use-package projectile)
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+#+end_src
+
 ** Org mode setup (and org-babel)
 *** Main setup
 
@@ -947,8 +956,13 @@ M-SPC works for TightVNC, but not for UltraVNC
 
 #+end_src
 
+Setup standard colors
+
 #+begin_src emacs-lisp
-  (ek-theme 'goldenrod)
+  ;;(ek-theme 'goldenrod)
+  (set-face-attribute 'default nil :foreground "#DAA520" :background "#001") ;; goldenrod
+  (set-face-attribute 'font-lock-string-face  nil :foreground "#0f0")        ;; green
+  (set-face-attribute 'font-lock-comment-face nil :foreground "#f00")        ;; red
 #+end_src
 *** Hydra for lisp modes, emacs-lisp and clojure
 

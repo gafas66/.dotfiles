@@ -16,15 +16,15 @@
 (bind-key "M-[ A"   'previous-line)
 (bind-key "M-[ C"   'right-char)
 (bind-key "M-[ D"   'left-char)
-
-(global-set-key (kbd "[1;5D") #'centaur-tabs-backward)     ; C- <left>
-(global-set-key (kbd "[1;5C") #'centaur-tabs-forward)      ; C- <right>
-
 (bind-key "M-[ z"   'backtab)
-(bind-key "M-[ z"   'org-shifttab org-mode-map)
+
+;;(global-set-key (kbd "[1;5D") #'centaur-tabs-backward)     ; C- <left>
+;;(global-set-key (kbd "[1;5C") #'centaur-tabs-forward)      ; C- <right>
+
+;;(bind-key "M-[ z"   'org-shifttab org-mode-map)
 
 ;; NOTE Double control keys may not be available (C-c C-,)
-(bind-key "C-c ,"   'org-insert-structure-template org-mode-map)
+;;(bind-key "C-c ,"   'org-insert-structure-template org-mode-map)
 (global-set-key (kbd "M-O Q") #'hydra-shell-stuff/body) ; [f2]
 
 (unless COLORTERM ;; assuming we have an xterm here
@@ -41,10 +41,10 @@
   (global-set-key (kbd "°") #'treemacs)                   ;M-0 (zero)
   (set-face-attribute 'help-key-binding nil :background "#000")
   ;;(set-face-attribute 'help-key-binding nil :background "#000")
-  (set-face-attribute 'centaur-tabs-default  nil
-                      :foreground "white"
-                      :background "black"
-                      )
+  ;;(set-face-attribute 'centaur-tabs-default  nil
+  ;;                    :foreground "white"
+  ;;                    :background "black"
+  ;;                    )
   )
 
 ;; End of file

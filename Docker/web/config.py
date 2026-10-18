@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 ################################################################################
 # Created: Wednesday, September 30 2026
 # Author: , ESK

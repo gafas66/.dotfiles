@@ -15,6 +15,9 @@ RUN apt-get update -yq \
 RUN pip install pytest-playwright
 RUN playwright install-deps && playwright install
 
+RUN pip install cherrypy flask gunicorn \
+tabulate ruff flake8 pylint pyright mypy types-tabulate
+
 # Add user and enable x11 through ssh
 RUN useradd -s /bin/bash erik \
     && echo "erik:erik" | chpasswd \
@@ -30,9 +33,6 @@ RUN apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 ENV LANG=en_US.utf8
-
-# Start command (overridden by compose.yml)
-CMD ["/usr/sbin/sshd","-D"]
 
 # Start sshd daemon
 CMD ["/usr/sbin/sshd", "-D"]

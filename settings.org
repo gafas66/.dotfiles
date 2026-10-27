@@ -358,6 +358,12 @@ Using treemacs for now. Apparently a package called projectile might be useful.
   ;;	     (lambda (file _)
   ;;	       (string-equal "log"
   ;;			     (file-name-extension file))))
+  (with-eval-after-load 'treemacs
+  (defun treemacs-ignore-gitignore (file _)
+    (string= file "__pycache__")
+    (string= file "INNOVUS")
+    )
+  (push #'treemacs-ignore-gitignore treemacs-ignored-file-predicates))
 #+end_src
 
 Show changes compared to git version in file

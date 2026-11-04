@@ -9,8 +9,8 @@ RUN apt-get update -yq \
 	&& apt-get clean 
 
 RUN pip install cherrypy flask gunicorn \
-tabulate ruff flake8 pylint pyright mypy types-tabulate
-
+tabulate ruff flake8 pylint pyright mypy types-tabulate \
+matplotlib
 
 # Add user and enable x11 through ssh
 RUN useradd -s /bin/bash erik \

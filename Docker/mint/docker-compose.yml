@@ -1,0 +1,16 @@
+services:
+  webserver:
+    hostname: esk_mint
+    container_name: MATE
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    ports:
+      - 2228:22
+      - 8080:80
+    volumes:
+        - home:/home/erik
+volumes:
+  home:
+    external: true
+    name: home

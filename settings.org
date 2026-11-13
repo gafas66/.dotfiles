@@ -738,8 +738,8 @@ Here are templates for capturing tasks for December 2024, focused on VEC project
 
   (setq org-capture-templates
         '(
-  	("t" "General task"       entry (file+headline org-default-notes-file "Tasks")            "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
-          ("j" "Journal (C-o)"        entry (file+olp+datetree "~/init/org/journal.org")          "* %?\nEntered on %U\n%i\n  %a")
+  	("t" "General task"                 entry (file+headline org-default-notes-file "Tasks") "* TODO %?\nSCHEDULED: %t\n  %i\n  %a")
+          ("j" "Journal (C-o) (C-= for view)" entry (file+olp+datetree "~/init/org/journal.org")   "* %?\nEntered on %U\n%i\n  %a")
           ))
 
   (global-set-key "\C-o" (lambda () (interactive) (execute-kbd-macro (read-kbd-macro "C-c c j"))))

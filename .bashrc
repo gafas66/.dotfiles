@@ -39,7 +39,7 @@ fi
 if command -v module 2>&1 > /dev/null
 then
     module use /home/kofoed/modulefiles
-    module load prj/metis
+    module load prj/apecs
 fi
 
 [[ -z ${INSIDE_EMACS+x} ]] || export TERM=$x && unset x
@@ -50,6 +50,7 @@ fi
 
 ################################################################################
 # PATHs
+export PATH=${HOME}/bin:${PATH}
 export PYTHONPATH=/home/erik/.venv/lib/python3.8/site-packages
 ################################################################################
 # Prompt

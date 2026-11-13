@@ -26,6 +26,11 @@ fi
 # Get private init
 [[ ! -d init ]] && git clone https://gafas66:$token@github.com/gafas66/init
 
+# cd/launcher
+[[ -d ~/bin ]] || mkdir ~/bin
+[[ -f ~/bin/test.py ]] && rm -f ~/bin/test.py
+ln -s ~/.dotfiles/test.py ~/bin/test.py
+
 echo "# All files + init set up"
 
 ################################################################################

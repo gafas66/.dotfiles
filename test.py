@@ -7,6 +7,7 @@ import os
 import sys
 import termios
 import tty
+from routines import check_tool_versions
 
 if os.path.exists("/home/demo_10g"):
     wdir = [
@@ -15,37 +16,49 @@ if os.path.exists("/home/demo_10g"):
     ]
 elif os.path.exists("/home/idsproj01/trusted/projects/TrEB"):
     wdir = [
-        ["cerberus07",    "/home/idsproj01/trusted/projects/TrEB/Design/Cerberus_ASIC/_cad/Digital/user/uenal/syn/chip_cerberus_22fdx_r07"],
-        ["cerbKOF",       "/home/idsproj01/trusted/projects/TrEB/Design/Cerberus_ASIC/_cad/Digital/user/kofoed/TReB"],
-        ["pattern_an",    "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/pattern_analyzer/2_pnr"],
-        ["pattern_gen",   "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/pattern_gen/2_pnr"],
-        ["git",           "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/pattern_gen/apecs_wcc_design_36"],
-        ["RC7",           "/home/EPI/project/EUPILOT/VEC/usr/esk/pnr_innovus/pcie_r08_v4/INNOVUS/WORK004_vec_top/3_calibre"],
-        ["from_WCC",      "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/from_wcc"],
-        ["ocean12",       "/home/ocean12/Design/OCEAN_22FDX_02/_cad/digital/atz/pnr_innovus/ocean12_22fdx_02_v18_2eco"],
-        ["RC6",           "/home/EPI/project/EUPILOT/VEC/usr/esk/pnr_innovus/pcie_r08_v4/INNOVUS/WORK004_vec_top/calibre_RC6"],
+        ["Pattern analyzer Synth",      "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend2/pattern_analyzer/1_syn/"],
+        ["Pattern analyzer PnR",        "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend2/pattern_analyzer/2_pnr/"],
+        ["Pattern_generator (APECS 1)", "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/pattern_gen/2_pnr\n"],
+        
+        ["cerberus07",                  "/home/idsproj01/trusted/projects/TrEB/Design/Cerberus_ASIC/_cad/Digital/user/uenal/syn/chip_cerberus_22fdx_r07"],
+        ["cerbKOF",                     "/home/idsproj01/trusted/projects/TrEB/Design/Cerberus_ASIC/_cad/Digital/user/kofoed/TReB"],
+        ["from_WCC",                    "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/from_wcc"],
+        ["ocean12",                     "/home/ocean12/Design/OCEAN_22FDX_02/_cad/digital/atz/pnr_innovus/ocean12_22fdx_02_v18_2eco"],
   ]
+#        ["RC7",           "/home/EPI/project/EUPILOT/VEC/usr/esk/pnr_innovus/pcie_r08_v4/INNOVUS/WORK004_vec_top/3_calibre"],
+#        ["RC6",           "/home/EPI/project/EUPILOT/VEC/usr/esk/pnr_innovus/pcie_r08_v4/INNOVUS/WORK004_vec_top/calibre_RC6"],
+#        ["pattern_gen",   "/home/icdaproj01/bcdc_wcc/Design/APEC_01/_cad/backend/pattern_gen/2_pnr"],
 else:
-    raise SystemError("Unknown filesystem")
+    print("Unknown filesystem - works only at FhG")
 
 l0 = max([len(arr[0]) for arr in wdir])
 
 ################################################################################
 def main():
-    if len(sys.argv) > 1:
-        print("Select:")
-        for i,d in enumerate(wdir):
-            print(f"[{i}] {d[0]:{l0}s} {d[1]}")
-    else:
-        try:
-            cmd = int(getch())
-        except ValueError:
-            print("echo No number was entered")
-            sys.exit(0)
-        if cmd < 0 or cmd > (len(wdir)-1):
-            print("echo Number out of range")
-            sys.exit(0)
-        print(f"cd {wdir[cmd][1]}")
+    if len(sys.argv) == 1:
+        print(f'''
+        Usage: {sys.argv[0]} [d1] [d2]
+        ''')
+        sys.exit(0)
+    if sys.argv[1] == "d1":    show_dirs()
+    if sys.argv[1] == "d2":    select_dir()
+    if sys.argv[1] == "tools": check_tool_versions()
+    
+def show_dirs():
+    print("Select:")
+    for i,d in enumerate(wdir):
+        print(f"[{i+1}] {d[0]:{l0}s} {d[1]}")
+
+def select_dir():
+    try:
+        cmd = int(getch())-1
+    except ValueError:
+        print("echo No number was entered")
+        sys.exit(0)
+    if cmd < 0 or cmd > (len(wdir)-1):
+        print("echo Number out of range")
+        sys.exit(0)
+    print(f"cd {wdir[cmd][1]}")
 
 ################################################################################
 def getch():
